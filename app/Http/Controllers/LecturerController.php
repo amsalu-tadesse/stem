@@ -2,18 +2,23 @@
 
 namespace App\Http\Controllers;
 
+use App\DataTables\LecturerDataTable;
 use App\Models\Lecturer;
 use App\Http\Requests\StoreLecturerRequest;
 use App\Http\Requests\UpdateLecturerRequest;
+use App\Models\AcademicLevel;
+use App\Models\Department;
 
 class LecturerController extends Controller
 {
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(LecturerDataTable $dataTable)
     {
-        //
+        $departments = Department::all();
+        $academic_levels = AcademicLevel::all();
+        return $dataTable->render('admin.lecturers.index',compact('departments','academic_levels'));
     }
 
     /**
@@ -21,7 +26,9 @@ class LecturerController extends Controller
      */
     public function create()
     {
-        //
+        $departments = Department::all();
+        $academic_levels = AcademicLevel::all();
+        return view('admin.lecturers.new',compact('departments','academic_levels'));
     }
 
     /**
@@ -29,7 +36,8 @@ class LecturerController extends Controller
      */
     public function store(StoreLecturerRequest $request)
     {
-        //
+        Lecturer::create($request->validated());
+        return redirect()->route('admin.lecturers.index')->with('success_create', 'lecturer added!');
     }
 
     /**
@@ -45,7 +53,12 @@ class LecturerController extends Controller
      */
     public function edit(Lecturer $lecturer)
     {
-        //
+        if (request()->ajax()) {
+            $response = array();
+            $response['success'] = 1;
+            $response['lecturer'] = $lecturer;
+            return response()->json($response);
+        }
     }
 
     /**
@@ -53,7 +66,9 @@ class LecturerController extends Controller
      */
     public function update(UpdateLecturerRequest $request, Lecturer $lecturer)
     {
-        //
+        $lecturer->update($request->validated());
+        $lecturer->save();
+        return response()->json(array("success" => true), 200);
     }
 
     /**
@@ -61,6 +76,10 @@ class LecturerController extends Controller
      */
     public function destroy(Lecturer $lecturer)
     {
-        //
+        if (!$lecturer->exists()) {
+            return redirect()->route('admin.lecturers.index')->with('error', 'Unautorized!');
+        }
+        $lecturer->delete();
+        return response()->json(array("success" => true), 200);
     }
 }

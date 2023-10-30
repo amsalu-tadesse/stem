@@ -11,7 +11,7 @@ class UpdateLecturerRequest extends FormRequest
      */
     public function authorize(): bool
     {
-        return false;
+        return true;
     }
 
     /**
@@ -22,7 +22,11 @@ class UpdateLecturerRequest extends FormRequest
     public function rules(): array
     {
         return [
-            //
+            'name'=>'',
+            'department'=>'',
+            'phone'=>'',
+            'email'=>'',
+            'academic_level'=>'',
         ];
     }
 }

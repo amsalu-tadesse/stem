@@ -159,4 +159,48 @@ return [
         ],
 
     ],
+    'menu_8'                 =>  [
+        'name'                 => 'Stem',
+        'menu_icon'           => 'fas fa-ellipsis-h',
+        'permissions'           => ['school-levels: list', 'schools: list', 'academic-levels: list', 'departments: list','lecturers: list','students: list','courses: list'],
+        'menu_item'            =>
+        [
+            [
+                'title'      =>  'Schools',
+                'url'        =>  'admin.schools.index',
+                'permission'   => 'schools: list'
+            ],
+            [
+                'title'      =>  'School Levels',
+                'url'        =>  'admin.school-levels.index',
+                'permission'   => 'school-levels: list'
+            ],
+            [
+                'title'      =>  'Academic Levels',
+                'url'        =>  'admin.academic-levels.index',
+                'permission'   => 'academic-levels: list'
+            ],
+            [
+                'title'      =>  'Departments',
+                'url'        =>  'admin.departments.index',
+                'permission'   => 'departments: list'
+            ],
+            [
+                'title'      =>  'Lecturers',
+                'url'        =>  'admin.lecturers.index',
+                'permission'   => 'lecturers: list'
+            ],
+            [
+                'title'      =>  'Students',
+                'url'        =>  'admin.students.index',
+                'permission'   => 'students: list'
+            ],
+            [
+                'title'      =>  'Courses',
+                'url'        =>  'admin.courses.index',
+                'permission'   => 'courses: list'
+            ],
+        ],
+
+    ],
 ];

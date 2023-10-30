@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\DataTables\SchoolDataTable;
 use App\Models\School;
 use App\Http\Requests\StoreSchoolRequest;
 use App\Http\Requests\UpdateSchoolRequest;
@@ -11,9 +12,9 @@ class SchoolController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(SchoolDataTable $dataTable)
     {
-        //
+        return $dataTable->render('admin.schools.index');
     }
 
     /**
@@ -21,7 +22,7 @@ class SchoolController extends Controller
      */
     public function create()
     {
-        //
+        return view('admin.schools.new');
     }
 
     /**
@@ -29,7 +30,8 @@ class SchoolController extends Controller
      */
     public function store(StoreSchoolRequest $request)
     {
-        //
+        School::create($request->validated());
+        return redirect()->route('admin.schools.index')->with('success_create', 'schools added!');
     }
 
     /**
@@ -45,7 +47,12 @@ class SchoolController extends Controller
      */
     public function edit(School $school)
     {
-        //
+        if (request()->ajax()) {
+            $response = array();
+            $response['success'] = 1;
+            $response['school'] = $school;
+            return response()->json($response);
+        }
     }
 
     /**
@@ -53,7 +60,9 @@ class SchoolController extends Controller
      */
     public function update(UpdateSchoolRequest $request, School $school)
     {
-        //
+        $school->update($request->validated());
+        $school->save();
+        return response()->json(array("success" => true), 200);
     }
 
     /**
@@ -61,6 +70,10 @@ class SchoolController extends Controller
      */
     public function destroy(School $school)
     {
-        //
+        if (!$school->exists()) {
+            return redirect()->route('admin.schools.index')->with('error', 'Unautorized!');
+        }
+        $school->delete();
+        return response()->json(array("success" => true), 200);
     }
 }

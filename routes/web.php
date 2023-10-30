@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\AcademicLevelController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\HelpController;
@@ -24,7 +25,13 @@ use App\Http\Controllers\CustomExceptionController;
 use App\Http\Controllers\OrganizationTypeController;
 use App\Http\Controllers\OrganizationLevelController;
 use App\Http\Controllers\Auth\ForgotPasswordController;
+use App\Http\Controllers\CourseController;
+use App\Http\Controllers\DepartmentController;
+use App\Http\Controllers\LecturerController;
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\SchoolController;
+use App\Http\Controllers\SchoolLevelController;
+use App\Http\Controllers\StudentController;
 
 /*
 |--------------------------------------------------------------------------
@@ -64,9 +71,6 @@ Route::post('/delete-all-data', [CustomExceptionController::class, 'deleteAllDat
 Route::resource('subscriptions', SubscriptionController::class);
 
 
-//for front-end to fetch descrioption
-Route::get('documents/{id}', [DocumentController::class, 'show'])->name('documents.show');
-
 
 Route::resource('contact-us', ContactUsController::class)->only('store');
 Route::middleware(['web', 'auth'])->group(function () {
@@ -80,6 +84,14 @@ Route::middleware(['web', 'auth'])->group(function () {
             Route::resource('helps', HelpController::class);
             Route::resource('emails', EmailController::class);
             Route::resource('regions', RegionController::class);
+
+            Route::resource('school-levels', SchoolLevelController::class);
+            Route::resource('schools', SchoolController::class);
+            Route::resource('academic-levels', AcademicLevelController::class);
+            Route::resource('departments', DepartmentController::class);
+            Route::resource('lecturers', LecturerController::class);
+            Route::resource('students', StudentController::class);
+            Route::resource('courses', CourseController::class);
 
             Route::resource('zones', ZoneController::class);
             Route::resource('custom-exceptions', CustomExceptionController::class);
@@ -101,9 +113,9 @@ Route::middleware(['web', 'auth'])->group(function () {
             Route::post('/change-profile', [ProfileController::class, 'changeProfile'])->name('postProfile');
             Route::get('/dashboard', [DashboardController::class, 'dashboard'])->name('dashboard');
             Route::get('/analysis', [AnalysisController::class, 'visualize'])->name('analysis');
+
+
         });
     });
 });
 
-Route::post('ckeditor/image_upload', [EditorController::class, 'upload'])->name('upload');
-Route::get('/employee/pdf', [AuditController::class, 'createPDF']);

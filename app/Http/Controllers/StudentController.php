@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\DataTables\StudentDataTable;
 use App\Models\Student;
 use App\Http\Requests\StoreStudentRequest;
 use App\Http\Requests\UpdateStudentRequest;
@@ -11,9 +12,9 @@ class StudentController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(StudentDataTable $dataTable)
     {
-        //
+        return $dataTable->render('admin.students.index');
     }
 
     /**
@@ -21,7 +22,7 @@ class StudentController extends Controller
      */
     public function create()
     {
-        //
+        return view('admin.students.new');
     }
 
     /**
@@ -29,7 +30,8 @@ class StudentController extends Controller
      */
     public function store(StoreStudentRequest $request)
     {
-        //
+        Student::create($request->validated());
+        return redirect()->route('admin.students.index')->with('success_create', 'student added!');
     }
 
     /**
@@ -45,7 +47,12 @@ class StudentController extends Controller
      */
     public function edit(Student $student)
     {
-        //
+        if (request()->ajax()) {
+            $response = array();
+            $response['success'] = 1;
+            $response['student'] = $student;
+            return response()->json($response);
+        }
     }
 
     /**
@@ -53,7 +60,9 @@ class StudentController extends Controller
      */
     public function update(UpdateStudentRequest $request, Student $student)
     {
-        //
+        $student->update($request->validated());
+        $student->save();
+        return response()->json(array("success" => true), 200);
     }
 
     /**
@@ -61,6 +70,10 @@ class StudentController extends Controller
      */
     public function destroy(Student $student)
     {
-        //
+        if (!$student->exists()) {
+            return redirect()->route('admin.students.index')->with('error', 'Unautorized!');
+        }
+        $student->delete();
+        return response()->json(array("success" => true), 200);
     }
 }

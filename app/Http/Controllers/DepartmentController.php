@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\DataTables\DepartmentDataTable;
 use App\Models\Department;
 use App\Http\Requests\StoreDepartmentRequest;
 use App\Http\Requests\UpdateDepartmentRequest;
@@ -11,9 +12,9 @@ class DepartmentController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(DepartmentDataTable $dataTable)
     {
-        //
+        return $dataTable->render('admin.departments.index');
     }
 
     /**
@@ -21,7 +22,7 @@ class DepartmentController extends Controller
      */
     public function create()
     {
-        //
+        return view('admin.departments.new');
     }
 
     /**
@@ -29,7 +30,8 @@ class DepartmentController extends Controller
      */
     public function store(StoreDepartmentRequest $request)
     {
-        //
+        Department::create($request->validated());
+        return redirect()->route('admin.departments.index')->with('success_create', 'department added!');
     }
 
     /**
@@ -45,7 +47,12 @@ class DepartmentController extends Controller
      */
     public function edit(Department $department)
     {
-        //
+        if (request()->ajax()) {
+            $response = array();
+            $response['success'] = 1;
+            $response['department'] = $department;
+            return response()->json($response);
+        }
     }
 
     /**
@@ -53,7 +60,9 @@ class DepartmentController extends Controller
      */
     public function update(UpdateDepartmentRequest $request, Department $department)
     {
-        //
+        $department->update($request->validated());
+        $department->save();
+        return response()->json(array("success" => true), 200);
     }
 
     /**
@@ -61,6 +70,10 @@ class DepartmentController extends Controller
      */
     public function destroy(Department $department)
     {
-        //
+        if (!$department->exists()) {
+            return redirect()->route('admin.departments.index')->with('error', 'Unautorized!');
+        }
+        $department->delete();
+        return response()->json(array("success" => true), 200);
     }
 }

@@ -125,6 +125,13 @@ class DatabaseSeeder extends Seeder
             'working-group',
             'zone',
             'role',
+            'school-levels',
+            'schools',
+            'departments',
+            'academic-levels',
+            'lecturers',
+            'students',
+            'courses',
         ];
         $permission_activities = [
             'list',

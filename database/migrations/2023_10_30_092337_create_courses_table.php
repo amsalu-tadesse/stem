@@ -14,8 +14,8 @@ return new class extends Migration
         Schema::create('courses', function (Blueprint $table) {
             $table->id();
             $table->string('name');
-            $table->string('lecturer_hr_per_week');
-            $table->string('lb_hr_per_week');
+            $table->string('lecture_hr_per_week');
+            $table->string('lab_hr_per_week');
             $table->foreignId('created_by')->nullable()->constrained('users');
             $table->foreignId('updated_by')->nullable()->constrained('users');
             $table->softDeletes();

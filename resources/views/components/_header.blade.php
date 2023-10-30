@@ -43,7 +43,7 @@
 
         <ul class="navbar-nav ml-auto">
              <li class="nav-item d-none d-sm-inline-block">
-                <p class="nav-link">Ethipian Electronic Public Private Dialogue Platform </p>
+                <p class="nav-link">Stem</p>
             </li>
         </ul>
 
