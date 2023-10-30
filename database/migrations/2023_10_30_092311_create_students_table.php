@@ -11,12 +11,13 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('progress_comments', function (Blueprint $table) {
+        Schema::create('students', function (Blueprint $table) {
             $table->id();
-            $table->string('file');
-            $table->text('comment');
-            $table->foreignId('issue')->constrained('issues');
-            $table->foreignId('commented_by')->constrained('users');
+            $table->string('name');
+            $table->string('age');
+            $table->string('sex');
+            $table->string('grade');
+            $table->foreignId('school')->constrained('schools');
             $table->foreignId('created_by')->nullable()->constrained('users');
             $table->foreignId('updated_by')->nullable()->constrained('users');
             $table->softDeletes();
@@ -29,6 +30,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('progress_commentes');
+        Schema::dropIfExists('students');
     }
 };

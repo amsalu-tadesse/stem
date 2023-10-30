@@ -11,17 +11,15 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('working_groups', function (Blueprint $table) {
+        Schema::create('course_students', function (Blueprint $table) {
             $table->id();
-            $table->string('name');
-            $table->text('description');
-            $table->foreignId('organization_level_id')->constrained('organization_levels');
-            $table->foreignId('current_secretariat')->nullable()->constrained('users');
+            $table->foreignId('course')->constrained('courses');
+            $table->foreignId('student')->constrained('students');
+            $table->foreignId('academic_session')->constrained('academic_sessions');
+            $table->string('mark');
+            $table->boolean('pass');
             $table->foreignId('created_by')->nullable()->constrained('users');
             $table->foreignId('updated_by')->nullable()->constrained('users');
-            $table->foreignId('region_id')->nullable()->constrained('regions');
-            $table->foreignId('zone_id')->nullable()->constrained('zones');
-            $table->boolean('status')->default(0);
             $table->softDeletes();
             $table->timestamps();
         });
@@ -32,6 +30,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('working_groups');
+        Schema::dropIfExists('course_students');
     }
 };

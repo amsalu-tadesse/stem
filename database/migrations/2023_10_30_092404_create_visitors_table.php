@@ -11,11 +11,14 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('kpis', function (Blueprint $table) {
+        Schema::create('visitors', function (Blueprint $table) {
             $table->id();
-            $table->string('name');
-            $table->double('weight')->nullable();
-            $table->text('description');
+            $table->string('organization_name');
+            $table->string('visitor_count');
+            $table->string('responsible_person');
+            $table->string('phone');
+            $table->string('email');
+            $table->string('visiting_hr');
             $table->foreignId('created_by')->nullable()->constrained('users');
             $table->foreignId('updated_by')->nullable()->constrained('users');
             $table->softDeletes();
@@ -28,6 +31,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('kpis');
+        Schema::dropIfExists('visitors');
     }
 };

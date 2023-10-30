@@ -11,11 +11,13 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('issue_documents', function (Blueprint $table) {
+        Schema::create('courses', function (Blueprint $table) {
             $table->id();
-            $table->string('file_name')->nullable();
-            $table->foreignId('file_category_id')->nullable()->constrained('file_categories');
-            $table->foreignId('issue_id')->nullable()->constrained('issues');
+            $table->string('name');
+            $table->string('lecturer_hr_per_week');
+            $table->string('lb_hr_per_week');
+            $table->foreignId('created_by')->nullable()->constrained('users');
+            $table->foreignId('updated_by')->nullable()->constrained('users');
             $table->softDeletes();
             $table->timestamps();
         });
@@ -26,6 +28,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('issue_documents');
+        Schema::dropIfExists('courses');
     }
 };

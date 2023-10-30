@@ -559,311 +559,7 @@ class DatabaseSeeder extends Seeder
 
 
 
-        $working_groups = [
 
-            [
-                'name' => 'EED Regional Platforms',
-                'description' => 'Only the federal governmen.',
-                'organization_level_id' => 1,
-
-            ],
-            [
-                'name' => 'Tamrit committees',
-                'description' => 'Operations management',
-                'organization_level_id' => 2,
-
-            ],
-            [
-                'name' => 'Digital Economy Working Group(CIPE)',
-                'description' => 'Operations management.',
-                'organization_level_id' => 1,
-
-            ],
-            [
-                'name' => 'MOI Agri- Industry',
-                'description' => 'Operations management ',
-                'organization_level_id' => 1,
-
-            ],
-        ];
-
-        foreach ($working_groups as $working_group) {
-
-            \App\Models\WorkingGroup::factory()->create(
-                [
-                    'name' => $working_group['name'],
-                    'organization_level_id' => $working_group['organization_level_id'],
-                    'description' => $working_group['description'],
-                    'current_secretariat' => 1,
-                    'created_by' => 1,
-                    'updated_by' => 1,
-                ]
-            );
-        }
-        $kpis = [
-
-            [
-                'name' => 'New',
-                'weight' => '0',
-                'description' => 'Newly created Issue',
-            ],
-            [
-                'name' => 'Requested',
-                'weight' => '0',
-                'description' => 'Issue Requested to the responsible body',
-            ],
-            [
-                'name' => 'Rejected',
-                'weight' => '0',
-                'description' => 'Issue Rejected By body',
-            ],
-            [
-                'name' => 'Accepted By ECSSA',
-                'weight' => '5',
-                'description' => '...',
-            ],
-            [
-                'name' => 'Presented to working groups for consideration',
-                'weight' => '15',
-                'description' => 'Presented to working groups for consideration',
-            ],
-            [
-                'name' => 'Proposal accepted by working group for design and preparation',
-                'weight' => '30',
-                'description' => 'Operations management ',
-            ],
-            [
-                'name' => 'Full proposal endorsed by working group and presented to the secretariat',
-                'weight' => '50',
-                'description' => '...',
-            ],
-            [
-                'name' => 'Proposed reform presented to the committee',
-                'weight' => '65',
-                'description' => '...',
-            ],
-            [
-                'name' => 'Reform enacted',
-                'weight' => '80',
-                'description' => '...',
-            ],
-            [
-                'name' => 'Ministry or government agencies prepares implementation',
-                'weight' => '90',
-                'description' => '...',
-            ],
-            [
-                'name' => 'Reform implemented',
-                'weight' => '100',
-                'description' => '...',
-            ]
-        ];
-
-        foreach ($kpis as $kpi) {
-
-            \App\Models\Kpi::factory()->create(
-                [
-                    'name' => $kpi['name'],
-                    'description' => $kpi['description'],
-                    'weight' => $kpi['weight'],
-                    'created_by' => 1,
-                    'updated_by' => 1,
-                ]
-            );
-        }
-
-
-        $issues = [
-
-            [
-                'title' => 'Privacy and data protection',
-                'description' => 'The collection, storage, and use of personal data by private companies are often a subject of concern for the public. Discussions may revolve around ensuring adequate safeguards, transparency, and accountability in handling sensitive information',
-                'responsible_institution' => 3,
-                'responsible_person' => 1,
-                'kpi' => 1,
-                'issue_level' => 2,
-
-                'private_benefit' => 'Only the, federal, government',
-                'public_benefit' => 'Only the, federal, government',
-                'created_by' => 1,
-                'updated_by' => 1,
-            ],
-            [
-                'title' => 'Cybersecurity',
-                'description' => 'With increasing reliance on digital technologies, cybersecurity is a major issue. Public-private discussions may focus on collaboration to strengthen defenses against cyber threats, sharing information on vulnerabilities, and developing coordinated response strategies.',
-                'responsible_institution' => 3,
-                'responsible_person' => 1,
-                'kpi' => 2,
-                'issue_level' => 1,
-
-                'private_benefit' => 'Only the, federal, government',
-                'public_benefit' => 'Only the, federal, government',                'created_by' => 1,
-                'updated_by' => 1,
-            ],
-            [
-                'title' => 'Economic inequality',
-                'description' => 'Disparities in wealth and income distribution can be a contentious topic. Public-private discussions may explore ways to address economic inequality, such as through initiatives promoting inclusive growth, social welfare programs, and equitable access to opportunities.',
-                'responsible_institution' => 4,
-                'responsible_person' => 1,
-                'kpi' => 3,
-                'issue_level' => 1,
-
-                'private_benefit' => 'Only the, federal, government',
-                'public_benefit' => 'Only the, federal, government',                'created_by' => 1,
-                'updated_by' => 1,
-            ],
-            [
-                'title' => 'Environmental sustainability',
-                'description' => 'Discussions on environmental issues often involve both the public and private sectors. Topics can range from addressing climate change and reducing carbon emissions to sustainable resource management and corporate responsibility for environmental impact.',
-                'responsible_institution' => 5,
-                'responsible_person' => 1,
-                'kpi' => 4,
-                'issue_level' => 1,
-
-                'private_benefit' => 'Only the, federal, government',
-                'public_benefit' => 'Only the, federal, government',                'created_by' => 1,
-                'updated_by' => 1,
-            ],
-            [
-                'title' => 'Ethical considerations',
-                'description' => 'Public-private discussions may delve into ethical concerns related to business practices, such as fair trade, labor rights, supply chain transparency, and responsible AI development. The dialogue may aim to establish standards and guidelines for ethical conduct.',
-                'responsible_institution' => 6,
-                'responsible_person' => 1,
-                'kpi' => 5,
-                'issue_level' => 1,
-
-                'private_benefit' => 'Only the, federal, government',
-                'public_benefit' => 'Only the, federal, government',                'created_by' => 1,
-                'updated_by' => 1,
-            ],
-            [
-                'title' => 'Regulation and governance',
-                'description' => 'Balancing the need for regulation with fostering innovation is a common point of discussion. Public and private stakeholders may engage in dialogue on issues like regulatory frameworks, intellectual property rights, antitrust measures, and ensuring a level playing field.',
-                'responsible_institution' => 7,
-                'responsible_person' => 1,
-                'kpi' => 6,
-                'issue_level' => 2,
-
-                'private_benefit' => 'Only the, federal, government',
-                'public_benefit' => 'Only the, federal, government',                'created_by' => 1,
-                'updated_by' => 1,
-            ],
-            [
-                'title' => 'Infrastructure development',
-                'description' => 'Collaborative discussions often center around infrastructure projects, including transportation, energy, and telecommunications. Topics may include financing models, public-private partnerships, and ensuring accessibility and affordability for the general public.',
-                'responsible_institution' => 8,
-                'responsible_person' => 1,
-                'kpi' => 6,
-                'issue_level' => 1,
-
-                'private_benefit' => 'Only the, federal, government',
-                'public_benefit' => 'Only the, federal, government',                'created_by' => 1,
-                'updated_by' => 1,
-            ],
-            [
-                'title' => 'Social impact and corporate social responsibility',
-                'description' => 'Public-private discussions frequently address the role of businesses in society. Topics may involve philanthropy, community development, sustainable business practices, and the alignment of corporate goals with social needs.',
-                'responsible_institution' => 9,
-                'responsible_person' => 1,
-                'kpi' => 7,
-                'issue_level' => 1,
-
-                'private_benefit' => 'Only the, federal, government',
-                'public_benefit' => 'Only the, federal, government',                'created_by' => 1,
-                'updated_by' => 1,
-            ],
-            [
-                'title' => 'Healthcare access and affordability',
-                'description' => 'Discussions on healthcare often touch upon ensuring affordable and accessible healthcare services, addressing healthcare disparities, and collaborating on research and development efforts.',
-                'responsible_institution' => 10,
-                'responsible_person' => 1,
-                'kpi' => 5,
-                'issue_level' => 1,
-
-                'private_benefit' => 'Only the, federal, government',
-                'public_benefit' => 'Only the, federal, government',                'created_by' => 1,
-                'updated_by' => 1,
-            ],
-            [
-                'title' => 'Education and skills development',
-                'description' => 'Public-private discussions may focus on improving education systems, bridging skills gaps, and promoting lifelong learning. Topics can include partnerships for vocational training, digital literacy initiatives, and addressing educational inequalities.',
-                'responsible_institution' => 11,
-                'responsible_person' => 1,
-                'kpi' => 4,
-                'issue_level' => 3,
-                'private_benefit' => 'Only the, federal, government',
-                'public_benefit' => 'Only the, federal, government',                'created_by' => 1,
-                'updated_by' => 1,
-            ],
-        ];
-
-        foreach ($issues as $issue) {
-
-            \App\Models\Issue::factory()->create(
-                [
-                    'title' => $issue['title'],
-                    'description' => $issue['description'],
-                    'responsible_institution' => $issue['responsible_institution'],
-                    'responsible_person' => $issue['responsible_person'],
-                    'kpi' => $issue['kpi'],
-                    'issue_level' => $issue['issue_level'],
-                    'private_benefit' => $issue['private_benefit'],
-                    'public_benefit' => $issue['public_benefit'],
-                    'start_date' => '2023-08-03 07:54:09',
-                    'end_date' => '2023-08-03 07:54:09',
-                    'created_by' => 1,
-                    'updated_by' => 1,
-                ]
-            );
-        }
-
-
-        $events =[
-            [
-                'topic' => 'Meeting With GIZ',
-                'description' => 'Description for Event 1',
-                'address' => '123 Main St, City',
-                'start_date' => now()->addHours(2),
-                'end_date' => now()->addHours(3),
-                'status' => 1,
-                'issue_id' => 1,
-            ],
-           [
-                'topic' => 'Event 2',
-                'description' => 'Description for Event 2',
-                'address' => '456 Elm St, Town',
-                'start_date' => now()->addHours(3),
-                'end_date' => now()->addHours(4),
-                'status' => 1,
-                'issue_id' => 2,
-            ],
-            [
-                'topic' => 'Event 3',
-                'description' => 'Description for Event 2',
-                'address' => '456 Elm St, Town',
-                'start_date' => now()->addHours(4),
-                'end_date' => now()->addHours(5),
-                'status' => 1,
-                'issue_id' => 3,
-            ],
-
-        ];
-
-        foreach ($events as $event) {
-
-            \App\Models\Event::factory()->create(
-                [
-                    'topic' => $event['topic'],
-                    'description' => $event['description'],
-                    'address' => $event['address'],
-                    'start_date' => $event['start_date'],
-                    'end_date' => $event['end_date'],
-                    'status' => $event['status'],
-                    'issue_id' => $event['issue_id'],
-                    'link' => 'https://teams.microsoft.com/l/meetup-join/19%3ameeting_ZGI2YWRkM2ItMjAzZi00MTBiLTk3NzQtZjg2MTIzNjc0NGU2%40thread.v2/0?context=%7b%22Tid%22%3a%225bbab28c-def3-4604-8822-5e707da8dba8%22%2c%22Oid%22%3a%22a28b62e9-7442-4526-bc04-bb082f18b9ec%22%7d'
-                ]
-            );
-        }
 
         $settings = [
 
@@ -1375,24 +1071,56 @@ Enhanced security: Electronic portals can implement robust security measures to 
             $user->organization_id = $k + 1;
             $user->save();
         }
-        $file_categories = [
-            ['name' => 'Policies'],
-            ['name' => 'Strategies'],
-            ['name' => 'Annual plan '],
-            ['name' => 'Reports'],
-            ['name' => 'Proclamation'],
-            ['name' => 'Regulations'],
-            ['name' => 'Directories'],
-            ['name' => 'Standards'],
-            ['name' => 'Manuals'],
-            ['name' => 'Application Forms'],
-
+        $academic_levels = [
+            [
+                'type' => 0,
+                'name' => 'Assistatnt Lectures',
+                'price' => '150',
+            ],
+            [
+                'type' => 0,
+                'name' => 'Lecturer',
+                'price' => '165',
+            ],
+            [
+                'type' => 0,
+                'name' => 'Assistant proffesor',
+                'price' => '200',
+            ],
+            [
+                'type' => 0,
+                'name' => 'Full Professor',
+                'price' => '200',
+            ],
+            [
+                'type' => 1,
+                'name' => 'ARA',
+                'price' => '100',
+            ],
+            [
+                'type' => 1,
+                'name' => 'SARA',
+                'price' => '100',
+            ],
+            [
+                'type' => 1,
+                'name' => 'CARA1',
+                'price' => '100',
+            ],
+            [
+                'type' => 1,
+                'name' => 'CARA2',
+                'price' => '100',
+            ],
         ];
-        foreach ($file_categories as $category) {
 
-            \App\Models\FileCategory::factory()->create(
+        foreach ($academic_levels as $academic_level) {
+
+            \App\Models\AcademicLevel::factory()->create(
                 [
-                    'name' => $category['name'],
+                    'type' => $academic_level['type'],
+                    'name' => $academic_level['name'],
+                    'price' => $academic_level['price'],
                 ]
             );
         }

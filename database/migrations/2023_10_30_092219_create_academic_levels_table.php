@@ -11,14 +11,14 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('documents', function (Blueprint $table) {
+        Schema::create('academic_levels', function (Blueprint $table) {
             $table->id();
-            $table->string('file_name')->nullable();
-            $table->text('description')->nullable();
-            $table->foreignId('issue')->constrained('issues');
-            $table->foreignId('file_category_id')->nullable()->constrained('file_categories');
-            $table->foreignId('kpi')->constrained('kpis');
+            $table->boolean('type');
+            $table->string('name');
+            $table->string('price');
             $table->foreignId('created_by')->nullable()->constrained('users');
+            $table->foreignId('updated_by')->nullable()->constrained('users');
+            $table->softDeletes();
             $table->timestamps();
         });
     }
@@ -28,6 +28,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('documents');
+        Schema::dropIfExists('academic_levels');
     }
 };

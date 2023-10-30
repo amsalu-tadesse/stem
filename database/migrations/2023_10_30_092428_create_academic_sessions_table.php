@@ -11,11 +11,13 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('issue_working_groups', function (Blueprint $table) {
+        Schema::create('academic_sessions', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('issue_id')->constrained('issues');
-            $table->foreignId('working_group_id')->constrained('working_groups');
-            $table->longText('assigned_message')->nullable();
+            $table->string('academic_year');
+            $table->dateTime('start_date');
+            $table->dateTime('end_date');
+            $table->string('week_type');
+            $table->integer('status');
             $table->foreignId('created_by')->nullable()->constrained('users');
             $table->foreignId('updated_by')->nullable()->constrained('users');
             $table->softDeletes();
@@ -28,6 +30,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('issue_working_groups');
+        Schema::dropIfExists('academic_sessions');
     }
 };

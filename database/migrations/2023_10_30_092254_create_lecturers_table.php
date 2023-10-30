@@ -11,20 +11,17 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('events', function (Blueprint $table) {
+        Schema::create('lecturers', function (Blueprint $table) {
             $table->id();
-            $table->string('topic');
-            $table->string('link', 500)->nullable();
-            $table->text('description');
-            $table->text('address');
-            $table->datetime('start_date');
-            $table->datetime('end_date');
-            $table->boolean('status');
-            $table->foreignId('issue_id')->nullable()->constrained('issues');
+            $table->string('name');
+            $table->foreignId('department')->constrained('departments');
+            $table->foreignId('academic_level')->constrained('academic_levels');
+            $table->string('phone');
+            $table->string('email');
             $table->foreignId('created_by')->nullable()->constrained('users');
             $table->foreignId('updated_by')->nullable()->constrained('users');
-            $table->timestamps();
             $table->softDeletes();
+            $table->timestamps();
         });
     }
 
@@ -33,6 +30,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('events');
+        Schema::dropIfExists('lecturers');
     }
 };
