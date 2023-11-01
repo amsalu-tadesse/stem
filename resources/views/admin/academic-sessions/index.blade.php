@@ -56,9 +56,8 @@
             }
 
         });
-    </script>
-    <script>
-        //delete user
+
+        //delete row
         function delete_row(element, user_id) {
             var url = "{{ route('admin.academic-sessions.destroy', ':id') }}";
             url = url.replace(':id', user_id);
@@ -187,6 +186,25 @@
             });
 
         });
+    </script>
+    <script type='text/javascript'>
+        $(function() {
+            $('#start_date').datetimepicker({
+                pickTime: false
+            });
+            $('#end_date').datetimepicker({
+                pickTime: false
+            });
+        });
+
+        $(document).ready(function() {
+            $("#academic_year").datepicker({
+                format: "yyyy",
+                viewMode: "years",
+                minViewMode: "years",
+                autoclose: true
+            });
+        })
     </script>
     @endpush
     <!-- Custom Js contents -->

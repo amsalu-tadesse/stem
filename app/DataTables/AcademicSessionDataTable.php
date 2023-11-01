@@ -9,8 +9,7 @@ use Yajra\DataTables\EloquentDataTable;
 use Yajra\DataTables\Html\Builder as HtmlBuilder;
 use Yajra\DataTables\Html\Column;
 use Yajra\DataTables\Services\DataTable;
-
-use function Termwind\render;
+use Carbon\Carbon;
 
 class AcademicSessionDataTable extends DataTable
 {
@@ -27,33 +26,38 @@ class AcademicSessionDataTable extends DataTable
             ->addColumn('no', function () use (&$index_column) {
                 return ++$index_column;
             })->addColumn('academic_year', function ($academic_session) {
-               
                 return '<a href="' . route('admin.academic-sessions.show', $academic_session->id) . '">' . $academic_session->academic_year . '</a>';
-                
-            })
-            ->addColumn('week_type', function ($academic_session) {
+            })->addColumn('week_type', function ($academic_session) {
                 if ($academic_session->week_type == 1) {
                     return "Weekend";
                 } else if ($academic_session->week_type == 0) {
                     return "Weekes";
                 }
+            }) ->addColumn('status', function ($academic_session) {
+
+                $dateToCheck = Carbon::parse($academic_session->end_date); 
+                $isDatePassed = $dateToCheck->isPast();
+                if ($isDatePassed) {
+                    return '<button class="btn btn-danger btn-sm">Closed</button>';
+                } else {
+                    return '<button class="btn btn-success btn-sm">Open</button>';
+                }
+                
+                // return view('components.action-buttons-for-custom-exception-status', [
+                //     'row_id' => $academic_session->id,
+                //     'status' => $academic_session->status,
+                // ]);
             })
-            ->addColumn('status', function ($academic_session) {
-                return view('components.action-buttons-for-custom-exception-status', [
-                    'row_id' => $academic_session->id,
-                    'status' => $academic_session->status,
-                ]);
-            })
-            ->addColumn('action', function ($shool) {
+            ->addColumn('action', function ($academic_session) {
                 return view('components.action-buttons', [
-                    'row_id' => $shool->id,
+                    'row_id' => $academic_session->id,
                     'permission_delete' => 'academic-sessions: delete',
                     'permission_edit' => 'academic-sessions: edit',
                     'permission_view' => 'academic-sessions: view',
                 ]);
             })
 
-            ->rawColumns(['no', 'action']);
+            ->rawColumns(['no','academic_year','status', 'action']);
     }
 
     /**
@@ -83,7 +87,7 @@ class AcademicSessionDataTable extends DataTable
     public function html(): HtmlBuilder
     {
         return $this->builder()
-            ->setTableId('academic_sessions-table')
+            ->setTableId('academic-sessions-table')
             ->columns($this->getColumns())
             ->orderBy(6)
             ->minifiedAjax()

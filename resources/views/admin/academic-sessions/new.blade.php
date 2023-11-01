@@ -12,15 +12,16 @@
                 <div class="col-md-6">
                     <div class="form-group">
                         <label>Academic Year</label>
-                        <input type="text" class="form-control" name="datepicker" id="datepicker" />
+                        <input type="text" class="form-control" name="academic_year" id="academic_year" />
                     </div>
                     <div class="form-group">
                         <label>Start Date</label>
-                        <div class="input-group date" id="start_date" data-target-input="nearest">
-                            <div class="input-group-append" data-target="#start_date">
+                        <div class="input-append input-group">
+                            <div class="input-group-append" data-target="#end_date">
                                 <div class="input-group-text"><i class="fa fa-calendar"></i></div>
                             </div>
-                            <input type="text" name="start_date" class="form-control datetimepicker-input" data-target="#start_date" data-toggle="datetimepicker">
+                            <input id="start_date" name="start_date" class="form-control" data-provide="datepicker" data-date-format="yyyy-mm-dd" type="text">
+
                         </div>
                     </div>
                 </div>
@@ -35,13 +36,15 @@
                     </div>
                     <div class="form-group">
                         <label>End Date</label>
-                        <div class="input-group date" id="end_date" data-target-input="nearest">
+                        <div class="input-append input-group">
                             <div class="input-group-append" data-target="#end_date">
                                 <div class="input-group-text"><i class="fa fa-calendar"></i></div>
                             </div>
-                            <input type="text" name="end_date" class="form-control datetimepicker-input" data-target="#end_date" data-toggle="datetimepicker">
+                            <input id="end_date" name="end_date" class="form-control" data-provide="datepicker" data-date-format="yyyy-mm-dd" type="text">
+
                         </div>
                     </div>
+
                 </div>
 
             </div>
@@ -55,34 +58,18 @@
     </div>
 
     @push('scripts')
-    <script>
-        $('#start_date').datetimepicker({
-            format: 'YYYY-MM-DD HH:MM:SS',
-            icons: {
-                time: 'far fa-clock'
-            },
-            buttons: {
-                showClear: true,
-                showClose: true,
-            }
-
+    <script type='text/javascript'>
+        $(function() {
+            $('#start_date').datetimepicker({
+                pickTime: false
+            });
+            $('#end_date').datetimepicker({
+                pickTime: false
+            });
         });
-        
-        $('#end_date').datetimepicker({
-            format: 'YYYY-MM-DD HH:MM:SS',
-            icons: {
-                time: 'far fa-clock'
-            },
-            buttons: {
-                showClear: true,
-                showClose: true,
-            }
 
-        });
-    </script>
-    <script>
         $(document).ready(function() {
-            $("#datepicker").datepicker({
+            $("#academic_year").datepicker({
                 format: "yyyy",
                 viewMode: "years",
                 minViewMode: "years",
@@ -90,23 +77,7 @@
             });
         })
     </script>
-    <style>
-.daterangepicker .drp-calendar {
-    background-color: #f0f0f0 !important; 
-    color: #333 !important; 
-}
 
-.daterangepicker input[name="daterangepicker_start"] {
-    background-color: #f0f0f0 !important; 
-    color: #333 !important; 
-}
-
-.daterangepicker input[name="daterangepicker_end"] {
-    background-color: #f0f0f0 !important; 
-    color: #333 !important; 
-}
-
-    </style>
     @endpush
-   
+
 </x-layout>
