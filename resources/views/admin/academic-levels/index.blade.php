@@ -9,7 +9,7 @@
             <div class="col">
                 <div style="display: flex; justify-content:flex-end">
                     <div>
-                        @can('region: create')
+                        @can('academic-levels: create')
                         <a href="{{route('admin.academic-levels.create') }}">
                             <button type="button" class="btn btn-primary">Add New Academic Level</button>
                         </a>
@@ -98,7 +98,7 @@
         }
 
         if ( @json(session('success_create')) ) {
-            toastr.success('You have successfuly added a new Region.')
+            toastr.success('You have successfuly added a new Academic Level.')
         }
 
 

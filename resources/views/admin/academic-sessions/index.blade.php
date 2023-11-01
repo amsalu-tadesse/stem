@@ -1,14 +1,17 @@
 <x-layout>
-    <x-breadcrump title="Schools List" parent="Schools" child="List" />
+    <!-- Content Header (Page header) -->
+    <x-breadcrump title="Academic Sessions List" parent="Academic Sessions" child="List" />
+    <!-- /.content-header -->
 
+    <!-- /.content-Main -->
     <div class="card">
         <div class="card-header">
             <div class="col">
                 <div style="display: flex; justify-content:flex-end">
                     <div>
-                        @can('schools: create')
-                        <a href="{{route('admin.schools.create') }}">
-                            <button type="button" class="btn btn-primary">Add New School</button>
+                        @can('academic-sessions: create')
+                        <a href="{{route('admin.academic-sessions.create') }}">
+                            <button type="button" class="btn btn-primary">Add New Academic Session</button>
                         </a>
                         @endcan
                     </div>
@@ -24,19 +27,40 @@
     </div>
     <!-- /.card -->
     <!-- /#updateModal -->
-    <x-partials.school_modal :school_levels="$school_levels" />
+    <x-partials.academic_session_modal />
     <!-- /#updateModal -->
     <!-- /.content -->
     <!-- Custom Js contents -->
     @push('scripts')
     {{ $dataTable->scripts(attributes: ['type' => 'module']) }}
     <script>
-        $('.school_level_select2').select2();
+        $('#start_date').datetimepicker({
+            format: 'YYYY-MM-DD 00:00:00',
+            icons: {
+                time: 'far fa-clock'
+            },
+            buttons: {
+                showClear: true,
+                showClose: true,
+            }
+
+        });
+        $('#end_date').datetimepicker({
+            format: 'YYYY-MM-DD 00:00:00',
+            icons: {
+                time: 'far fa-clock'
+            },
+            buttons: {
+                showClear: true,
+                showClose: true,
+            }
+
+        });
     </script>
     <script>
         //delete user
         function delete_row(element, user_id) {
-            var url = "{{ route('admin.schools.destroy', ':id') }}";
+            var url = "{{ route('admin.academic-sessions.destroy', ':id') }}";
             url = url.replace(':id', user_id);
             console.log(url);
 
@@ -68,7 +92,7 @@
                         success: function(data) {
                             console.log(data);
                             if (data.success) {
-                                window.LaravelDataTables["schools-table"].ajax.reload();
+                                window.LaravelDataTables["academic-sessions-table"].ajax.reload();
                             }
                         },
                         error: function(error) {
@@ -98,15 +122,15 @@
         }
 
         if (@json(session('success_create'))) {
-            toastr.success('You have successfuly added a new School.')
+            toastr.success('You have successfuly added a new academic Session.')
         }
 
 
         $(document).ready(function() {
             // Update record popup
-            $('#schools-table').on('click', '#update_row', function() {
+            $('#academic-sessions-table').on('click', '#update_row', function() {
                 var row_id = $(this).data('row_id');
-                var url = "{{ route('admin.schools.edit', ':id') }}";
+                var url = "{{ route('admin.academic-sessions.edit', ':id') }}";
                 url = url.replace(':id', row_id);
 
                 // AJAX request
@@ -117,17 +141,13 @@
                     success: function(response) {
                         console.log('success');
                         if (response.success == 1) {
-                            var school = response.school;
+                            var academic_session = response.academic_session;
                             console.log(response);
-                            $('#school_id').val(school.id);
-                            $('#name').val(school.name);
-                            $('#address').val(school.address);
-                            if (school.school_level)
-                                    $('.school_level_select2').val(school
-                                        .school_level).trigger({
-                                        type: "change",
-                                        user: "program-agent",
-                                    });
+                            $('#academic_session_id').val(academic_session.id);
+                            $('#academic_year').val(academic_session.academic_year);
+                            $('#start_date').val(academic_session.start_date);
+                            $('#end_date').val(academic_session.end_date);
+                            $('#week_type').val(academic_session.week_type);
                             $('#update_modal').modal('show');
 
                         } else {
@@ -139,12 +159,12 @@
         });
 
 
-        $('#school_update_form').on('submit', function(e) {
+        $('#academic_session_update_form').on('submit', function(e) {
             e.preventDefault();
             form_data = $(this).serialize();
-            row_id = $('#school_id', $(this)).val()
+            row_id = $('#academic_session_id', $(this)).val()
             console.log(row_id);
-            var url = "{{ route('admin.schools.update', ':id') }}";
+            var url = "{{ route('admin.academic-sessions.update', ':id') }}";
             url = url.replace(':id', row_id);
 
             // AJAX request
@@ -157,8 +177,8 @@
                     if (data.success) {
                         console.log(data);
                         $('#update_modal').modal('toggle');
-                        window.LaravelDataTables["schools-table"].ajax.reload();
-                        toastr.success('You have successfuly updated a school.')
+                        window.LaravelDataTables["academic-sessions-table"].ajax.reload();
+                        toastr.success('You have successfuly updated a Academic Session.')
                     }
                 },
                 error: function(error) {

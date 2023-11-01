@@ -29,6 +29,16 @@ class StudentDataTable extends DataTable
             ->addColumn('no', function () use(&$index_column){
                 return ++$index_column;
             })
+
+            //school Name
+            ->addColumn('schoolname', function ($student) {
+                return $student?->schoolname;
+            })->orderColumn('schoolname', function ($query, $order) {
+                $query->orderBy('schools.name', $order);
+            })->filterColumn('schoolname', function ($query, $keyword) {
+                $query->where('schools.name', 'LIKE', "%{$keyword}%");
+            })
+
             ->addColumn('action', function ($student) {
                 return view('components.action-buttons', [
                     'row_id' => $student->id,
@@ -37,6 +47,11 @@ class StudentDataTable extends DataTable
                      'permission_view'=>'students: view',
                 ]);
             })
+             ->filter(function ($query) {
+                if (request()->has('school_filter') and request()->filled('school_filter')) {
+                    $query->whereIn('school', request('school_filter'));
+                }
+            }, true)
             ->rawColumns(['no', 'action']);
     }
 
@@ -48,12 +63,9 @@ class StudentDataTable extends DataTable
      */
     public function query(Student $model): QueryBuilder
     {
-        // return $model->newQuery();
-        return $model::select([
-            'id',
-            'name',
-            'created_at'
-        ]);
+
+        return $model::leftjoin('schools', 'school', '=', 'schools.id')
+        ->select(['students.id', 'students.name as name','students.age as age','students.grade as grade', 'students.sex as sex','students.created_at',  'schools.name as schoolname']);
     }
 
     /**
@@ -66,8 +78,14 @@ class StudentDataTable extends DataTable
         return $this->builder()
             ->setTableId('students-table')
             ->columns($this->getColumns())
-            ->orderBy(3)
-            ->minifiedAjax()
+            ->orderBy(7)
+            // ->minifiedAjax()
+            ->ajax([
+                'url' => route('admin.students.index'), 
+                'data' => 'function(d) {
+                    d.school_filter = $("#school_filter").val();
+                }',
+            ])
             ->selectStyleSingle()
             ->dom("<'row'<'col-sm-12 col-md-2'l><'col-sm-12 col-md-6'B>
                            <'col-sm-12 col-md-4'f>><'row'<'col-sm-12'tr>>
@@ -128,6 +146,10 @@ class StudentDataTable extends DataTable
                 ->addClass('text-center')
                 ->orderable(false),
             Column::make('name'),
+            Column::make('age'),
+            Column::make('sex'),
+            Column::make('grade'),
+            Column::make('schoolname')->title('School'),
             Column::computed('action')
                 ->exportable(false)
                 ->printable(true)

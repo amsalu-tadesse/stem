@@ -18,6 +18,7 @@ return new class extends Migration
             $table->string('sex');
             $table->string('grade');
             $table->foreignId('school')->constrained('schools');
+            $table->foreignId('academic_session')->constrained('academic_sessions');
             $table->foreignId('created_by')->nullable()->constrained('users');
             $table->foreignId('updated_by')->nullable()->constrained('users');
             $table->softDeletes();

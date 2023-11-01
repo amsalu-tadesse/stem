@@ -2,11 +2,11 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\CourseStudent;
-use App\Http\Requests\StoreCourseStudentRequest;
-use App\Http\Requests\UpdateCourseStudentRequest;
+use App\Models\Instructor_course;
+use App\Http\Requests\StoreInstructor_courseRequest;
+use App\Http\Requests\UpdateInstructor_courseRequest;
 
-class CourseStudentController extends Controller
+class InstructorCourseController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -27,7 +27,7 @@ class CourseStudentController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(StoreCourseStudentRequest $request)
+    public function store(StoreInstructor_courseRequest $request)
     {
         //
     }
@@ -35,7 +35,7 @@ class CourseStudentController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(CourseStudent $courseStudent)
+    public function show(Instructor_course $instructor_course)
     {
         //
     }
@@ -43,7 +43,7 @@ class CourseStudentController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(CourseStudent $courseStudent)
+    public function edit(Instructor_course $instructor_course)
     {
         //
     }
@@ -51,7 +51,7 @@ class CourseStudentController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(UpdateCourseStudentRequest $request, CourseStudent $courseStudent)
+    public function update(UpdateInstructor_courseRequest $request, Instructor_course $instructor_course)
     {
         //
     }
@@ -59,7 +59,7 @@ class CourseStudentController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(CourseStudent $courseStudent)
+    public function destroy(Instructor_course $instructor_course)
     {
         //
     }

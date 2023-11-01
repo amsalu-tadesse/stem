@@ -6,6 +6,7 @@ use App\DataTables\SchoolDataTable;
 use App\Models\School;
 use App\Http\Requests\StoreSchoolRequest;
 use App\Http\Requests\UpdateSchoolRequest;
+use App\Models\SchoolLevel;
 
 class SchoolController extends Controller
 {
@@ -14,7 +15,8 @@ class SchoolController extends Controller
      */
     public function index(SchoolDataTable $dataTable)
     {
-        return $dataTable->render('admin.schools.index');
+        $school_levels = SchoolLevel::all();
+        return $dataTable->render('admin.schools.index',compact('school_levels'));
     }
 
     /**
@@ -22,7 +24,8 @@ class SchoolController extends Controller
      */
     public function create()
     {
-        return view('admin.schools.new');
+        $school_levels = SchoolLevel::all();
+        return view('admin.schools.new',compact('school_levels'));
     }
 
     /**

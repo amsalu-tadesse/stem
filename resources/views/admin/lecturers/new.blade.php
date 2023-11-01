@@ -1,9 +1,9 @@
 <x-layout>
-    <x-breadcrump title="Add New Lecture" parent="Lecture" child="Add New Lecture" />
+    <x-breadcrump title="Add New Lecturer" parent="Lecturer" child="Add New Lecturer" />
 
     <div class="card card-info">
         <div class="card-header">
-            <h3 class="card-title">Add Lecture Form</h3>
+            <h3 class="card-title">Add Lecturer Form</h3>
         </div>
 
         <form id="lecturer_form" method="POST" action="{{ route('admin.lecturers.store') }}">

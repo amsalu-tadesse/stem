@@ -6,7 +6,7 @@
             <div class="col">
                 <div style="display: flex; justify-content:flex-end">
                     <div>
-                        @can('region: create')
+                        @can('courses: create')
                         <a href="{{route('admin.courses.create') }}">
                             <button type="button" class="btn btn-primary">Add New Course</button>
                         </a>

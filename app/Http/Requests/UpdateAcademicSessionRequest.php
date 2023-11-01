@@ -11,7 +11,7 @@ class UpdateAcademicSessionRequest extends FormRequest
      */
     public function authorize(): bool
     {
-        return false;
+        return true;
     }
 
     /**
@@ -22,7 +22,11 @@ class UpdateAcademicSessionRequest extends FormRequest
     public function rules(): array
     {
         return [
-            //
+            'academic_year'=>'',
+            'start_date'=>'',
+            'end_date'=>'',
+            'week_type'=>'',
+            'status'=>'',
         ];
     }
 }

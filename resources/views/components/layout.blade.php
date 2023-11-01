@@ -44,7 +44,10 @@
     <!-- Toastr -->
     <link rel="stylesheet" href="{{ asset('assets/plugins/toastr/toastr.min.css') }}">
 
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.2.0/css/datepicker.min.css" rel="stylesheet">
     <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/daterangepicker@3.1.0/daterangepicker.css" />
+
+
 
     @stack('css')
 
@@ -146,6 +149,10 @@
     <script src="https://cdn.amcharts.com/lib/5/percent.js"></script>
     <script src="https://cdn.amcharts.com/lib/5/themes/Animated.js"></script>
 
+    <!-- select only year -->
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.2.0/js/bootstrap-datepicker.min.js">
+    </script>
 
     <!-- Custom Javascript -->
     <script>

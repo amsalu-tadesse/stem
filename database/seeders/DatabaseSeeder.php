@@ -132,6 +132,7 @@ class DatabaseSeeder extends Seeder
             'lecturers',
             'students',
             'courses',
+            'academic-sessions',
         ];
         $permission_activities = [
             'list',
@@ -1131,5 +1132,15 @@ Enhanced security: Electronic portals can implement robust security measures to 
                 ]
             );
         }
+        $school_levels = [
+            [
+                'name' => 'High School',
+                'description' => 'High School',
+            ],
+            [
+                'name' => 'Preparatory',
+                'description' => 'Preparatory',
+            ],
+        ];
     }
 }

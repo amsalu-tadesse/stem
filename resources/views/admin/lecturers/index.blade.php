@@ -6,7 +6,7 @@
             <div class="col">
                 <div style="display: flex; justify-content:flex-end">
                     <div>
-                        @can('region: create')
+                        @can('lecturers: create')
                         <a href="{{route('admin.lecturers.create') }}">
                             <button type="button" class="btn btn-primary">Add New Lecturer</button>
                         </a>
@@ -124,7 +124,22 @@
                             $('#name').val(lecturer.name);
                             $('#phone').val(lecturer.phone);
                             $('#email').val(lecturer.email);
-                            $('#academic_level').val(lecturer.academic_level);
+
+                            // selected department
+                            if (lecturer.department)
+                                    $('.department_select2').val(lecturer
+                                        .department).trigger({
+                                        type: "change",
+                                        user: "program-agent",
+                                    });
+                                    // selected academic level
+                            if (lecturer.academic_level)
+                                    $('.academic_level_select2').val(lecturer
+                                        .academic_level).trigger({
+                                        type: "change",
+                                        user: "program-agent",
+                                    });
+
                             $('#update_modal').modal('show');
 
                         } else {

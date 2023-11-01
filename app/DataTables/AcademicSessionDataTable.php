@@ -3,15 +3,16 @@
 namespace App\DataTables;
 
 use App\Constants\Constants;
-use App\Models\Lecturer;
+use App\Models\AcademicSession;
 use Illuminate\Database\Eloquent\Builder as QueryBuilder;
 use Yajra\DataTables\EloquentDataTable;
 use Yajra\DataTables\Html\Builder as HtmlBuilder;
 use Yajra\DataTables\Html\Column;
 use Yajra\DataTables\Services\DataTable;
 
+use function Termwind\render;
 
-class LecturerDataTable extends DataTable
+class AcademicSessionDataTable extends DataTable
 {
     /**
      * Build DataTable class.
@@ -23,48 +24,55 @@ class LecturerDataTable extends DataTable
     {
         $index_column = 0;
         return (new EloquentDataTable($query))
-            ->addColumn('no', function () use(&$index_column){
+            ->addColumn('no', function () use (&$index_column) {
                 return ++$index_column;
+            })->addColumn('academic_year', function ($academic_session) {
+               
+                return '<a href="' . route('admin.academic-sessions.show', $academic_session->id) . '">' . $academic_session->academic_year . '</a>';
+                
             })
-
-             //Department Name
-             ->addColumn('departmentname', function ($student) {
-                return $student?->departmentname;
-            })->orderColumn('departmentname', function ($query, $order) {
-                $query->orderBy('departments.name', $order);
-            })->filterColumn('departmentname', function ($query, $keyword) {
-                $query->where('departments.name', 'LIKE', "%{$keyword}%");
+            ->addColumn('week_type', function ($academic_session) {
+                if ($academic_session->week_type == 1) {
+                    return "Weekend";
+                } else if ($academic_session->week_type == 0) {
+                    return "Weekes";
+                }
             })
-
-            //Academic Name
-             ->addColumn('academiclevelname', function ($student) {
-                return $student?->academiclevelname;
-            })->orderColumn('academiclevelname', function ($query, $order) {
-                $query->orderBy('academic_levels.name', $order);
-            })->filterColumn('academiclevelname', function ($query, $keyword) {
-                $query->where('academic_levels.name', 'LIKE', "%{$keyword}%");
-            })
-            ->addColumn('action', function ($lecturer) {
-                return view('components.action-buttons', [
-                    'row_id' => $lecturer->id,
-                    'permission_delete'=>'lecturers: delete',
-                     'permission_edit'=>'lecturers: edit',
-                     'permission_view'=>'lecturers: view',
+            ->addColumn('status', function ($academic_session) {
+                return view('components.action-buttons-for-custom-exception-status', [
+                    'row_id' => $academic_session->id,
+                    'status' => $academic_session->status,
                 ]);
             })
+            ->addColumn('action', function ($shool) {
+                return view('components.action-buttons', [
+                    'row_id' => $shool->id,
+                    'permission_delete' => 'academic-sessions: delete',
+                    'permission_edit' => 'academic-sessions: edit',
+                    'permission_view' => 'academic-sessions: view',
+                ]);
+            })
+
             ->rawColumns(['no', 'action']);
     }
 
     /**
      * Get query source of dataTable.
      *
-     * @param \App\Models\Lecturer $model
+     * @param \App\Models\School $model
      * @return \Illuminate\Database\Eloquent\Builder
      */
-    public function query(Lecturer $model): QueryBuilder
+    public function query(AcademicSession $model): QueryBuilder
     {
-        return $model::leftjoin('academic_levels', 'academic_level', '=', 'academic_levels.id')->leftjoin('departments', 'department', '=', 'departments.id')
-        ->select(['lecturers.id', 'lecturers.name as name','lecturers.phone as phone','lecturers.email as email', 'departments.name as departmentname','lecturers.created_at',  'academic_levels.name as academiclevelname']);
+        return $model::select([
+            'id',
+            'academic_year',
+            'start_date',
+            'end_date',
+            'week_type',
+            'status',
+            'created_at',
+        ]);
     }
 
     /**
@@ -75,9 +83,9 @@ class LecturerDataTable extends DataTable
     public function html(): HtmlBuilder
     {
         return $this->builder()
-            ->setTableId('lecturers-table')
+            ->setTableId('academic_sessions-table')
             ->columns($this->getColumns())
-            ->orderBy(7)
+            ->orderBy(6)
             ->minifiedAjax()
             ->selectStyleSingle()
             ->dom("<'row'<'col-sm-12 col-md-2'l><'col-sm-12 col-md-6'B>
@@ -138,11 +146,11 @@ class LecturerDataTable extends DataTable
                 ->exportable(false)
                 ->addClass('text-center')
                 ->orderable(false),
-            Column::make('name'),
-            Column::make('phone'),
-            Column::make('email'),
-            Column::make('departmentname')->title('Department'),
-            Column::make('academiclevelname')->title('Academic Level'),
+            Column::make('academic_year'),
+            Column::make('start_date'),
+            Column::make('end_date'),
+            Column::make('week_type'),
+            Column::make('status'),
             Column::computed('action')
                 ->exportable(false)
                 ->printable(true)
@@ -159,6 +167,6 @@ class LecturerDataTable extends DataTable
      */
     protected function filename(): string
     {
-        return 'Lecturers' . date('YmdHis');
+        return 'AcademicSessions' . date('YmdHis');
     }
 }
