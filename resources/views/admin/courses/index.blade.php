@@ -31,7 +31,7 @@
     @push('scripts')
     {{ $dataTable->scripts(attributes: ['type' => 'module']) }}
     <script>
-        //delete user
+        //delete row
         function delete_row(element, user_id) {
             var url = "{{ route('admin.courses.destroy', ':id') }}";
             url = url.replace(':id', user_id);

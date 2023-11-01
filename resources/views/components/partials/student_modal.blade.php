@@ -55,9 +55,9 @@
                                 <label for="academic_session">Academic Session</label>
                                 <select id='academic_session' class="academic_session_select2 select2 form-control" name="academic_session" data-placeholder="Pick academic_session" data-dropdown-css-class="select2-blue">
                                     <option value="none" selected disabled>Select a academic_session</option>
-                                    @foreach ($academic_sessions as $academic session)
+                                    @foreach ($academic_sessions as $academic_session)
                                     <option value="{{ $academic_session->id }}" {{ old('academic_session') == $academic_session->id ? 'selected' : '' }}>
-                                        {{ $academic_session->name }}
+                                        {{ $academic_session->academic_year }}
                                     </option>
                                     @endforeach
                                 </select>

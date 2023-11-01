@@ -26,6 +26,12 @@ class AcademicLevelDataTable extends DataTable
         return (new EloquentDataTable($query))
             ->addColumn('no', function () use(&$index_column){
                 return ++$index_column;
+            })->addColumn('type', function ($academic_level) {
+                if ($academic_level->type == 1) {
+                    return "Lecture";
+                } else if ($academic_level->type == 0) {
+                    return "Lab";
+                }
             })
             ->addColumn('action', function ($academic_level) {
                 return view('components.action-buttons', [
@@ -51,6 +57,7 @@ class AcademicLevelDataTable extends DataTable
             'id',
             'name',
             'price',
+            'type',
             'created_at'
         ]);
     }
@@ -65,7 +72,7 @@ class AcademicLevelDataTable extends DataTable
         return $this->builder()
             ->setTableId('academic-levels-table')
             ->columns($this->getColumns())
-            ->orderBy(4)
+            ->orderBy(5)
             ->minifiedAjax()
             ->selectStyleSingle()
             ->dom("<'row'<'col-sm-12 col-md-2'l><'col-sm-12 col-md-6'B>
@@ -128,6 +135,7 @@ class AcademicLevelDataTable extends DataTable
                 ->orderable(false),
             Column::make('name'),
             Column::make('price'),
+            Column::make('type'),
             Column::computed('action')
                 ->exportable(false)
                 ->printable(true)

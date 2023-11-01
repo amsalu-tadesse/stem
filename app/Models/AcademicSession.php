@@ -23,4 +23,9 @@ class AcademicSession extends Model
             'created_at'
         ]);
     }
+
+    public function students()
+    {
+        return $this->hasMany(Student::class, 'academic_session');
+    }
 }

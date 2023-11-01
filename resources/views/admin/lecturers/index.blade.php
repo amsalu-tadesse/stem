@@ -35,7 +35,7 @@
         $('.department_select2').select2();
     </script>
     <script>
-        //delete user
+        //delete row
         function delete_row(element, user_id) {
             var url = "{{ route('admin.lecturers.destroy', ':id') }}";
             url = url.replace(':id', user_id);
