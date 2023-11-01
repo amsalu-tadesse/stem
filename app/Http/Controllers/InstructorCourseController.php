@@ -2,18 +2,21 @@
 
 namespace App\Http\Controllers;
 
+use App\DataTables\InstructerCourseDataTable;
 use App\Models\Instructor_course;
 use App\Http\Requests\StoreInstructor_courseRequest;
 use App\Http\Requests\UpdateInstructor_courseRequest;
+use App\Models\InstructorCourse;
 
 class InstructorCourseController extends Controller
 {
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(InstructerCourseDataTable $dataTable)
     {
-        //
+          return $dataTable->render("admin.instructer-courses.index");
+        
     }
 
     /**
@@ -35,7 +38,7 @@ class InstructorCourseController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(Instructor_course $instructor_course)
+    public function show(InstructorCourse $instructor_course)
     {
         //
     }
@@ -43,7 +46,7 @@ class InstructorCourseController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(Instructor_course $instructor_course)
+    public function edit(InstructorCourse $instructor_course)
     {
         //
     }
@@ -51,7 +54,7 @@ class InstructorCourseController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(UpdateInstructor_courseRequest $request, Instructor_course $instructor_course)
+    public function update(UpdateInstructor_courseRequest $request, InstructorCourse $instructor_course)
     {
         //
     }
@@ -59,7 +62,7 @@ class InstructorCourseController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Instructor_course $instructor_course)
+    public function destroy(InstructorCourse $instructor_course)
     {
         //
     }
