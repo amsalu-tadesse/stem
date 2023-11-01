@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\AcademicLevelController;
+use App\Http\Controllers\AcademicSessionController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\HelpController;
@@ -92,6 +93,7 @@ Route::middleware(['web', 'auth'])->group(function () {
             Route::resource('lecturers', LecturerController::class);
             Route::resource('students', StudentController::class);
             Route::resource('courses', CourseController::class);
+            Route::resource('academic-sessions', AcademicSessionController::class);
 
             Route::resource('zones', ZoneController::class);
             Route::resource('custom-exceptions', CustomExceptionController::class);

@@ -17,10 +17,14 @@ class Student extends Model
     public function getActivitylogOptions(): LogOptions
     {
         return LogOptions::defaults()
-        ->logOnly([
-            'name',
-            'created_by',
-            'created_at'
-        ]);
+            ->logOnly([
+                'name',
+                'created_by',
+                'created_at'
+            ]);
+    }
+    public function school()
+    {
+        return $this->belongsTo(School::class);
     }
 }

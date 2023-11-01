@@ -27,6 +27,14 @@ class SchoolDataTable extends DataTable
             ->addColumn('no', function () use(&$index_column){
                 return ++$index_column;
             })
+              //Department Name
+              ->addColumn('schoollevelname', function ($student) {
+                return $student?->schoollevelname;
+            })->orderColumn('schoollevelname', function ($query, $order) {
+                $query->orderBy('school_levels.name', $order);
+            })->filterColumn('schoollevelname', function ($query, $keyword) {
+                $query->where('school_levels.name', 'LIKE', "%{$keyword}%");
+            })
             ->addColumn('action', function ($shool) {
                 return view('components.action-buttons', [
                     'row_id' => $shool->id,
@@ -35,6 +43,7 @@ class SchoolDataTable extends DataTable
                      'permission_view'=>'schools: view',
                 ]);
             })
+
             ->rawColumns(['no', 'action']);
     }
 
@@ -46,12 +55,8 @@ class SchoolDataTable extends DataTable
      */
     public function query(School $model): QueryBuilder
     {
-        // return $model->newQuery();
-        return $model::select([
-            'id',
-            'name',
-            'created_at'
-        ]);
+        return $model::leftjoin('school_levels', 'school_level', '=', 'school_levels.id')
+        ->select(['schools.id', 'schools.name as name','schools.created_at',  'school_levels.name as schoollevelname']);
     }
 
     /**
@@ -64,7 +69,7 @@ class SchoolDataTable extends DataTable
         return $this->builder()
             ->setTableId('schools-table')
             ->columns($this->getColumns())
-            ->orderBy(3)
+            ->orderBy(4)
             ->minifiedAjax()
             ->selectStyleSingle()
             ->dom("<'row'<'col-sm-12 col-md-2'l><'col-sm-12 col-md-6'B>
@@ -126,6 +131,7 @@ class SchoolDataTable extends DataTable
                 ->addClass('text-center')
                 ->orderable(false),
             Column::make('name'),
+            Column::make('schoollevelname')->title('School Level'),
             Column::computed('action')
                 ->exportable(false)
                 ->printable(true)

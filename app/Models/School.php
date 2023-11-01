@@ -23,4 +23,8 @@ class School extends Model
             'created_at'
         ]);
     }
+    public function schoolLevel()
+    {
+        return $this->belongsTo(SchoolLevel::class);
+    }
 }

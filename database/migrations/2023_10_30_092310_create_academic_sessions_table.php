@@ -11,13 +11,13 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('course_students', function (Blueprint $table) {
+        Schema::create('academic_sessions', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('course')->constrained('courses');
-            $table->foreignId('student')->constrained('students');
-            $table->foreignId('academic_session')->constrained('academic_sessions');
-            $table->string('mark');
-            $table->boolean('pass');
+            $table->string('academic_year');
+            $table->dateTime('start_date');
+            $table->dateTime('end_date');
+            $table->integer('week_type');
+            $table->integer('status')->nullable();
             $table->foreignId('created_by')->nullable()->constrained('users');
             $table->foreignId('updated_by')->nullable()->constrained('users');
             $table->softDeletes();
@@ -30,6 +30,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('course_students');
+        Schema::dropIfExists('academic_sessions');
     }
 };

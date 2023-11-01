@@ -23,4 +23,8 @@ class Lecturer extends Model
             'created_at'
         ]);
     }
+    public function academicLevel()
+    {
+        return $this->belongsTo(AcademicLevel::class);
+    }
 }

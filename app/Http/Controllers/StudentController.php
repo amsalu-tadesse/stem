@@ -6,6 +6,8 @@ use App\DataTables\StudentDataTable;
 use App\Models\Student;
 use App\Http\Requests\StoreStudentRequest;
 use App\Http\Requests\UpdateStudentRequest;
+use App\Models\AcademicSession;
+use App\Models\School;
 
 class StudentController extends Controller
 {
@@ -14,7 +16,9 @@ class StudentController extends Controller
      */
     public function index(StudentDataTable $dataTable)
     {
-        return $dataTable->render('admin.students.index');
+        $schools = School::all();
+        $academic_sessions = AcademicSession::all();
+        return $dataTable->render('admin.students.index',compact('schools','academic_sessions'));
     }
 
     /**
@@ -22,7 +26,9 @@ class StudentController extends Controller
      */
     public function create()
     {
-        return view('admin.students.new');
+        $schools = School::all();
+        $academic_sessions = AcademicSession::all();
+        return view('admin.students.new',compact('schools','academic_sessions'));
     }
 
     /**
