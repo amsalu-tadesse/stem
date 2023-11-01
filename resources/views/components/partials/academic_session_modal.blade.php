@@ -17,20 +17,22 @@
                     <div class="card-body row">
                         <div class="col-md-6">
                             <div class="form-group">
-                                <x-partials.input-form title="Academic Year" name="academic_year" type="input" />
+                                <label>Academic Year</label>
+                                <input type="text" class="form-control" name="academic_year" id="academic_year" />
                             </div>
                             <div class="form-group">
                                 <label>Start Date</label>
-                                <div class="input-group date" id="start_date" data-target-input="nearest">
-                                    <div class="input-group-append" data-target="#start_date">
+                                <div class="input-append input-group">
+                                    <div class="input-group-append" data-target="#end_date">
                                         <div class="input-group-text"><i class="fa fa-calendar"></i></div>
                                     </div>
-                                    <input type="text" name="start_date" class="form-control datetimepicker-input" data-target="#start_date" data-toggle="datetimepicker">
+                                    <input id="start_date" name="start_date" class="form-control" data-provide="datepicker" data-date-format="yyyy-mm-dd" type="text">
+
                                 </div>
                             </div>
                         </div>
                         <div class="col-md-6">
-                        <div class="form-group">
+                            <div class="form-group">
                                 <label for="week_type">Week Type</label>
                                 <select id='week_type' class="form-control" name="week_type">
                                     <option value="">Select Week Type</option>
@@ -40,13 +42,15 @@
                             </div>
                             <div class="form-group">
                                 <label>End Date</label>
-                                <div class="input-group date" id="end_date" data-target-input="nearest">
+                                <div class="input-append input-group">
                                     <div class="input-group-append" data-target="#end_date">
                                         <div class="input-group-text"><i class="fa fa-calendar"></i></div>
                                     </div>
-                                    <input type="text" name="end_date" class="form-control datetimepicker-input" data-target="#end_date" data-toggle="datetimepicker">
+                                    <input id="end_date" name="end_date" class="form-control" data-provide="datepicker" data-date-format="yyyy-mm-dd" type="text">
+
                                 </div>
                             </div>
+
                         </div>
 
                     </div>

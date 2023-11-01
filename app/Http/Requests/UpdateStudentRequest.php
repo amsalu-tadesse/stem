@@ -27,6 +27,7 @@ class UpdateStudentRequest extends FormRequest
             'sex'=>'',
             'grade'=>'',
             'school'=>'',
+            'academic_session'=>'',
         ];
     }
 }

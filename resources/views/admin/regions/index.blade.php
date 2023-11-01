@@ -39,7 +39,7 @@
         });
     </script>
     <script>
-        //delete user
+        //delete row
         function delete_user(element, user_id) {
             var url = "{{ route('admin.regions.destroy', ':id') }}";
             url = url.replace(':id', user_id);

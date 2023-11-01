@@ -45,16 +45,16 @@
                     </div>
                     <div class="form-group">
                         <label for="academic_session">Academic Session</label>
-                        <select id='academic_session' class="academic_session_select2 select2 form-control" name="academic_session" data-placeholder="Pick academic_session" data-dropdown-css-class="select2-blue">
+                        <select id='academic_session' class="academic_session_select2 select2 form-control" name="academic_session" data-placeholder="Pick academic session" data-dropdown-css-class="select2-blue">
                             <option value="none" selected disabled>Select a academic session</option>
                             @foreach ($academic_sessions as $academic_session)
                             <option value="{{ $academic_session->id }}" {{ old('academic_session') == $academic_session->id ? 'selected' : '' }}>
-                                {{ $academic_session->name }}
+                                {{ $academic_session->academic_year }}
                             </option>
                             @endforeach
                         </select>
                         @error('academic_session')
-                        <span class="invalid-feedback d-block">academic_session not selected</span>
+                        <span class="invalid-feedback d-block">academic session not selected</span>
                         @enderror
                     </div>
                 </div>
