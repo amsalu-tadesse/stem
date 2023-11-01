@@ -7,6 +7,7 @@ use App\Models\Instructor_course;
 use App\Http\Requests\StoreInstructor_courseRequest;
 use App\Http\Requests\UpdateInstructor_courseRequest;
 use App\Models\InstructorCourse;
+use App\Models\Course;
 
 class InstructorCourseController extends Controller
 {
@@ -14,8 +15,9 @@ class InstructorCourseController extends Controller
      * Display a listing of the resource.
      */
     public function index(InstructerCourseDataTable $dataTable)
-    {
-          return $dataTable->render("admin.instructer-courses.index");
+    {  
+          $courses=Course::all();
+          return $dataTable->render("admin.instructer-courses.index",compact("courses"));
         
     }
 

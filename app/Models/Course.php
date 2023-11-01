@@ -23,4 +23,10 @@ class Course extends Model
             'created_at'
         ]);
     }
+
+    public function lecture()
+    {
+        return $this->belongsToMany(Lecturer::class, 'instructor_courses', 'course_id', 'lecturer_id');
+    }
+    
 }

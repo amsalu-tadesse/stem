@@ -4,7 +4,6 @@ namespace App\DataTables;
 
 use App\Constants\Constants;
 use App\Models\Department;
-use App\Models\Instructor_course;
 use App\Models\InstructorCourse;
 use App\Models\School;
 use Illuminate\Database\Eloquent\Builder as QueryBuilder;
@@ -30,15 +29,8 @@ class InstructerCourseDataTable extends DataTable
             ->addColumn('no', function () use (&$index_column) {
                 return ++$index_column;
             })
-            ->addColumn('action', function ($department) {
-                return view('components.action-buttons', [
-                    'row_id' => $department->id,
-                    'permission_delete' => 'instructor-course: delete',
-                    'permission_edit' => 'instructor-course: edit',
-                    'permission_view' => 'instructor-course: view',
-                ]);
-            })
-            ->rawColumns(['no', 'action']);
+           
+            ->rawColumns(['no']);
     }
 
     /**
@@ -49,12 +41,13 @@ class InstructerCourseDataTable extends DataTable
      */
     public function query(InstructorCourse $model): QueryBuilder
     {
-        // return $model->newQuery();
-      
-        return $model::leftjoin('lecturers', 'lecture_id', '=', 'lecturers.id')
-        ->leftjoin('courses', 'course_id', '=', 'courses.id')
-            ->select(['intructor_courses.id', 'intructor_courses.created_at', 'lectures.name as lecture_name',  'courses.name AS course_name']);
+        
+        
+        return $model::leftJoin('lecturers', 'lecturer_id', '=', 'lecturers.id')
+            ->leftJoin('courses', 'course_id', '=', 'courses.id')
+            ->select(['instructor_courses.id', 'instructor_courses.created_at', 'lecturers.name as lecturer_name',  'courses.name AS course_name','courses.lecture_hr_per_week AS lecture_hr_per_week']);
     }
+    
 
     /**
      * Optional method if you want to use html builder.
@@ -64,9 +57,9 @@ class InstructerCourseDataTable extends DataTable
     public function html(): HtmlBuilder
     {
         return $this->builder()
-            ->setTableId('departments-table')
+            ->setTableId('instructor-course-table')
             ->columns($this->getColumns())
-            ->orderBy(5)
+            ->orderBy(3)
             ->minifiedAjax()
             ->selectStyleSingle()
             ->dom("<'row'<'col-sm-12 col-md-2'l><'col-sm-12 col-md-6'B>
@@ -129,12 +122,7 @@ class InstructerCourseDataTable extends DataTable
                 ->orderable(false),
             Column::make('course_name')->title("course"),
             Column::make('lecturer_name')->title("Instructor"),
-          
-            Column::computed('action')
-                ->exportable(false)
-                ->printable(true)
-                ->addClass('text-center')
-                ->orderable(false),
+            Column::make('lecture_hr_per_week')->title("Lecture Hour"),
             Column::make('created_at')->visible(false)
         ];
     }
