@@ -133,6 +133,7 @@ class DatabaseSeeder extends Seeder
             'students',
             'courses',
             'academic-sessions',
+            'visitor'
         ];
         $permission_activities = [
             'list',
