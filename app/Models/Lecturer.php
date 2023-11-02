@@ -27,4 +27,10 @@ class Lecturer extends Model
     {
         return $this->belongsTo(AcademicLevel::class);
     }
+
+    public function course()
+    {
+        return $this->belongsToMany(Course::class, 'instructor_courses', 'lecturer_id', 'course_id');
+    }
+    
 }
