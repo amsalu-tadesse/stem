@@ -49,7 +49,7 @@ class StudentDataTable extends DataTable
             })
              ->filter(function ($query) {
                 if (request()->has('school_filter') and request()->filled('school_filter')) {
-                    $query->whereIn('school', request('school_filter'));
+                    $query->whereIn('school_id', request('school_filter'));
                 }
             }, true)
             ->rawColumns(['no', 'action']);
@@ -64,7 +64,7 @@ class StudentDataTable extends DataTable
     public function query(Student $model): QueryBuilder
     {
 
-        return $model::leftjoin('schools', 'school', '=', 'schools.id')
+        return $model::leftjoin('schools', 'school_id', '=', 'schools.id')
         ->select(['students.id', 'students.name as name','students.age as age','students.grade as grade', 'students.sex as sex','students.created_at',  'schools.name as schoolname']);
     }
 

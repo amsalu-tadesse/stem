@@ -2,11 +2,13 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\InstructorCourse;
+use App\Http\Requests\StoreInstructorCourseRequest;
+use App\Http\Requests\UpdateInstructorCourseRequest;
 use App\DataTables\InstructerCourseDataTable;
 use App\Models\Instructor_course;
 use App\Http\Requests\StoreInstructor_courseRequest;
 use App\Http\Requests\UpdateInstructor_courseRequest;
-use App\Models\InstructorCourse;
 use App\Models\Course;
 
 class InstructorCourseController extends Controller
@@ -15,10 +17,10 @@ class InstructorCourseController extends Controller
      * Display a listing of the resource.
      */
     public function index(InstructerCourseDataTable $dataTable)
-    {  
+    {
           $courses=Course::all();
           return $dataTable->render("admin.instructer-courses.index",compact("courses"));
-        
+
     }
 
     /**
@@ -26,21 +28,24 @@ class InstructorCourseController extends Controller
      */
     public function create()
     {
-        //
+
     }
 
     /**
      * Store a newly created resource in storage.
      */
-    public function store(StoreInstructor_courseRequest $request)
+    public function store(StoreInstructorCourseRequest $request)
     {
-        //
+        if (request()->ajax()) {
+            InstructorCourse::create($request->validated());
+            return response()->json(array("success" => true), 200);
+        }
     }
 
     /**
      * Display the specified resource.
      */
-    public function show(InstructorCourse $instructor_course)
+    public function show(InstructorCourse $instructorCourse)
     {
         //
     }
@@ -48,7 +53,7 @@ class InstructorCourseController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(InstructorCourse $instructor_course)
+    public function edit(InstructorCourse $instructorCourse)
     {
         //
     }
@@ -56,7 +61,7 @@ class InstructorCourseController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(UpdateInstructor_courseRequest $request, InstructorCourse $instructor_course)
+    public function update(UpdateInstructorCourseRequest $request, InstructorCourse $instructorCourse)
     {
         //
     }
@@ -64,7 +69,7 @@ class InstructorCourseController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(InstructorCourse $instructor_course)
+    public function destroy(InstructorCourse $instructorCourse)
     {
         //
     }

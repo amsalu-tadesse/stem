@@ -24,9 +24,13 @@ class Course extends Model
         ]);
     }
 
+    public function instructorCourses()
+    {
+        return $this->hasMany(InstructorCourse::class);
+    }
     public function lecture()
     {
         return $this->belongsToMany(Lecturer::class, 'instructor_courses', 'course_id', 'lecturer_id');
     }
-    
+
 }

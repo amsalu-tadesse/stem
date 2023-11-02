@@ -28,4 +28,10 @@ class AcademicSession extends Model
     {
         return $this->hasMany(Student::class, 'academic_session');
     }
+
+    public function courses()
+    {
+        return $this->hasMany(InstructorCourse::class, 'academic_session_id')->with('course');
+    }
+
 }

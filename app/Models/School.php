@@ -27,5 +27,4 @@ class School extends Model
     {
         return $this->belongsTo(SchoolLevel::class);
     }
-
 }
