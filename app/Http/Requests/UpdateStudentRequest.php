@@ -26,7 +26,7 @@ class UpdateStudentRequest extends FormRequest
             'age'=>'',
             'sex'=>'',
             'grade'=>'',
-            'school'=>'',
+            'school_id'=>'',
             'academic_session'=>'',
         ];
     }

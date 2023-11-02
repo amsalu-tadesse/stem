@@ -162,7 +162,7 @@ return [
     'menu_8'                 =>  [
         'name'                 => 'Stem',
         'menu_icon'           => 'fas fa-ellipsis-h',
-        'permissions'           => ['school-levels: list', 'schools: list', 'academic-levels: list', 'departments: list','lecturers: list','students: list','courses: list','academic-sessions: list', 'visitor: list'],
+        'permissions'           => ['school-levels: list', 'schools: list', 'academic-levels: list', 'departments: list', 'lecturers: list', 'students: list', 'courses: list', 'academic-sessions: list', 'instructer-courses:list', 'visitor: list'],
         'menu_item'            =>
         [
             [
@@ -204,6 +204,11 @@ return [
                 'title'      =>  'Academic Sessions',
                 'url'        =>  'admin.academic-sessions.index',
                 'permission'   => 'courses: list'
+            ],
+            [
+                'title'      =>  'Payroll',
+                'url'        =>  'admin.instructer-courses.index',
+                'permission'   => 'instructer-courses: list'
             ],
             [
                 'title'      =>  'Visitors',

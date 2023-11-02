@@ -27,7 +27,16 @@ class AcademicSessionDataTable extends DataTable
                 return ++$index_column;
             })->addColumn('academic_year', function ($academic_session) {
                 return '<a href="' . route('admin.academic-sessions.show', $academic_session->id) . '">' . $academic_session->academic_year . '</a>';
-            })->addColumn('week_type', function ($academic_session) {
+            })->addColumn('start_date', function ($academic_session) {
+                $carbonDate = Carbon::parse($academic_session->start_date);
+                $formattedDate = $carbonDate->format('Y-m-d');
+                return $formattedDate;
+            })->addColumn('end_date', function ($academic_session) {
+                $carbonDate = Carbon::parse($academic_session->end_date);
+                $formattedDate = $carbonDate->format('Y-m-d');
+                return $formattedDate;
+            })
+             ->addColumn('week_type', function ($academic_session) {
                 if ($academic_session->week_type == 1) {
                     return "Weekend";
                 } else if ($academic_session->week_type == 0) {
