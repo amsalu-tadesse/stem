@@ -165,7 +165,7 @@
                             $('#sex').val(student.sex);
                             $('#grade').val(student.grade);
                             // selected School
-                            if (student.school)
+                            if (student.school_id)
                                 $('.school_select2').val(student
                                     .school).trigger({
                                     type: "change",

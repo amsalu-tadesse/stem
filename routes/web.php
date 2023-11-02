@@ -33,6 +33,7 @@ use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\SchoolController;
 use App\Http\Controllers\SchoolLevelController;
 use App\Http\Controllers\StudentController;
+use App\Models\InstructorCourse;
 
 /*
 |--------------------------------------------------------------------------
@@ -94,6 +95,7 @@ Route::middleware(['web', 'auth'])->group(function () {
             Route::resource('students', StudentController::class);
             Route::resource('courses', CourseController::class);
             Route::resource('academic-sessions', AcademicSessionController::class);
+            Route::resource('instructor-courses', InstructorCourse::class);
 
             Route::resource('zones', ZoneController::class);
             Route::resource('custom-exceptions', CustomExceptionController::class);

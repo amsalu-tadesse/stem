@@ -23,4 +23,9 @@ class Course extends Model
             'created_at'
         ]);
     }
+
+    public function instructorCourses()
+    {
+        return $this->hasMany(InstructorCourse::class);
+    }
 }

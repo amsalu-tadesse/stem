@@ -2,9 +2,9 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Instructor_course;
-use App\Http\Requests\StoreInstructor_courseRequest;
-use App\Http\Requests\UpdateInstructor_courseRequest;
+use App\Models\InstructorCourse;
+use App\Http\Requests\StoreInstructorCourseRequest;
+use App\Http\Requests\UpdateInstructorCourseRequest;
 
 class InstructorCourseController extends Controller
 {
@@ -21,21 +21,24 @@ class InstructorCourseController extends Controller
      */
     public function create()
     {
-        //
+        
     }
 
     /**
      * Store a newly created resource in storage.
      */
-    public function store(StoreInstructor_courseRequest $request)
+    public function store(StoreInstructorCourseRequest $request)
     {
-        //
+        if (request()->ajax()) {
+            InstructorCourse::create($request->validated());
+            return response()->json(array("success" => true), 200);
+        }
     }
 
     /**
      * Display the specified resource.
      */
-    public function show(Instructor_course $instructor_course)
+    public function show(InstructorCourse $instructorCourse)
     {
         //
     }
@@ -43,7 +46,7 @@ class InstructorCourseController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(Instructor_course $instructor_course)
+    public function edit(InstructorCourse $instructorCourse)
     {
         //
     }
@@ -51,7 +54,7 @@ class InstructorCourseController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(UpdateInstructor_courseRequest $request, Instructor_course $instructor_course)
+    public function update(UpdateInstructorCourseRequest $request, InstructorCourse $instructorCourse)
     {
         //
     }
@@ -59,7 +62,7 @@ class InstructorCourseController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Instructor_course $instructor_course)
+    public function destroy(InstructorCourse $instructorCourse)
     {
         //
     }

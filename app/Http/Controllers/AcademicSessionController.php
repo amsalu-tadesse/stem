@@ -5,7 +5,11 @@ namespace App\Http\Controllers;
 use App\DataTables\AcademicSessionDataTable;
 use App\Models\AcademicSession;
 use App\Http\Requests\StoreAcademicSessionRequest;
+use App\Http\Requests\StoreInstructorCourseRequest;
 use App\Http\Requests\UpdateAcademicSessionRequest;
+use App\Models\Course;
+use App\Models\InstructorCourse;
+use App\Models\Lecturer;
 
 class AcademicSessionController extends Controller
 {
@@ -39,9 +43,16 @@ class AcademicSessionController extends Controller
      */
     public function show(AcademicSession $academic_session)
     {
-        $students = $academic_session->students;
-        
-        return view('admin.academic-sessions.show',compact('students'));
+        $students = AcademicSession::with('students.school')->find($academic_session);
+
+        $courses = InstructorCourse::where('academic_session_id', $academic_session->id)
+            ->with('course', 'instructor')
+            ->get();
+
+        $coursesNotInInstructorCourse = Course::whereDoesntHave('instructorCourses')->get();
+        $instructorsNotInInstructorCourse = Lecturer::whereDoesntHave('instructorCourses')->get();
+
+        return view('admin.academic-sessions.show', compact('students', 'courses', 'academic_session', 'coursesNotInInstructorCourse', 'instructorsNotInInstructorCourse'));
     }
 
     /**
