@@ -142,25 +142,31 @@
                 var selected_date = $(this).val();
                 $('#selected_date').val(selected_date);
 
-                $('#time_2-4, #time_4-6, #time_7-9, #time_9-11').removeClass('btn-secondary').addClass('btn-success').prop('disabled',
+                $('#time_2-4').removeClass('btn-secondary').addClass('btn-success').text('2-4').prop('disabled',
+                                false);
+                $('#time_4-6').removeClass('btn-secondary').addClass('btn-success').text('4-6').prop('disabled',
+                                false);
+                $('#time_7-9').removeClass('btn-secondary').addClass('btn-success').text('7-9').prop('disabled',
+                                false);
+                $('#time_9-11').removeClass('btn-secondary').addClass('btn-success').text('9-11').prop('disabled',
                                 false);
 
                 visitors.forEach(visitor => {
                     if (selected_date === visitor.appointment_date) {
                         if (visitor.visiting_hr == '2-4') {
-                            $('#time_2-4').toggleClass('btn-success btn-secondary').prop('disabled',
+                            $('#time_2-4').toggleClass('btn-success btn-secondary').text('Reserved').prop('disabled',
                                 true);
                         }
                         if (visitor.visiting_hr == '4-6') {
-                            $('#time_4-6').toggleClass('btn-success btn-secondary').prop('disabled',
+                            $('#time_4-6').toggleClass('btn-success btn-secondary').text('Reserved').prop('disabled',
                                 true);
                         }
                         if (visitor.visiting_hr == '7-9') {
-                            $('#time_7-9').toggleClass('btn-success btn-secondary').prop('disabled',
+                            $('#time_7-9').toggleClass('btn-success btn-secondary').text('Reserved').prop('disabled',
                                 true);
                         }
                         if (visitor.visiting_hr == '9-11') {
-                            $('#time_9-11').toggleClass('btn-success btn-secondary').prop('disabled',
+                            $('#time_9-11').toggleClass('btn-success btn-secondary').text('Reserved').prop('disabled',
                                 true);
                         }
                     }
