@@ -25,8 +25,7 @@ class VisitorController extends Controller
      */
     public function create()
     {
-        $visitors = Visitor::all();
-        return view('admin.visitors.new', compact('visitors'));
+        
     }
 
     /**

@@ -34,6 +34,7 @@ use App\Http\Controllers\SchoolController;
 use App\Http\Controllers\SchoolLevelController;
 use App\Http\Controllers\StudentController;
 use App\Http\Controllers\VisitorController;
+use App\Http\Controllers\WelcomeController;
 
 /*
 |--------------------------------------------------------------------------
@@ -71,6 +72,8 @@ Route::resource('/user', UserController::class);
 
 Route::post('/delete-all-data', [CustomExceptionController::class, 'deleteAllData'])->name('delete.all.data');
 Route::resource('subscriptions', SubscriptionController::class);
+
+Route::get('/', [WelcomeController::class, 'index'])->name('welcome');
 
 
 
