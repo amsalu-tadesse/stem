@@ -19,6 +19,7 @@ return new class extends Migration
             $table->string('phone');
             $table->string('email');
             $table->string('visiting_hr');
+            $table->date('appointment_date');
             $table->foreignId('created_by')->nullable()->constrained('users');
             $table->foreignId('updated_by')->nullable()->constrained('users');
             $table->softDeletes();

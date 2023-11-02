@@ -11,7 +11,7 @@ class StoreVisitorRequest extends FormRequest
      */
     public function authorize(): bool
     {
-        return false;
+        return true;
     }
 
     /**
@@ -22,7 +22,13 @@ class StoreVisitorRequest extends FormRequest
     public function rules(): array
     {
         return [
-            //
+            'organization_name' => 'required',
+            'visitor_count' => 'required|numeric|max:5000',
+            'responsible_person' => 'required|string',
+            'phone' => 'required',
+            'email' => 'required|email',
+            'visiting_hr' => 'required|string',
+            'appointment_date' => 'required|date|date_format:Y-m-d',
         ];
     }
 }
