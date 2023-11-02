@@ -5,15 +5,19 @@ namespace App\Http\Controllers;
 use App\Models\Visitor;
 use App\Http\Requests\StoreVisitorRequest;
 use App\Http\Requests\UpdateVisitorRequest;
+use App\Traits\ModelAuthorizable;
+
 
 class VisitorController extends Controller
 {
+    use ModelAuthorizable;
+
     /**
      * Display a listing of the resource.
      */
     public function index()
     {
-        //
+        return view('admin.visitors.index');
     }
 
     /**
@@ -21,7 +25,8 @@ class VisitorController extends Controller
      */
     public function create()
     {
-        //
+        $visitors = Visitor::all();
+        return view('admin.visitors.new', compact('visitors'));
     }
 
     /**
@@ -29,7 +34,10 @@ class VisitorController extends Controller
      */
     public function store(StoreVisitorRequest $request)
     {
-        //
+        Visitor::create($request->validated());
+
+        return response()->json(array("success" => true), 200);
+
     }
 
     /**
