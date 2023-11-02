@@ -32,4 +32,9 @@ class Lecturer extends Model
     {
         return $this->hasMany(InstructorCourse::class);
     }
+    public function course()
+    {
+        return $this->belongsToMany(Course::class, 'instructor_courses', 'lecturer_id', 'course_id');
+    }
+
 }

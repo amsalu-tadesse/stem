@@ -12,16 +12,18 @@ use Spatie\Activitylog\Traits\LogsActivity;
 class InstructorCourse extends Model
 {
     use HasFactory, SoftDeletes, LogsActivity, CreatedUpdatedBy;
+
+    protected $table = 'instructor_courses';
     protected $fillable = ['course_id', 'lecturer_id', 'academic_session_id'];
 
     public function getActivitylogOptions(): LogOptions
     {
         return LogOptions::defaults()
-        ->logOnly([
-            'course_id',
-            'created_by',
-            'created_at'
-        ]);
+            ->logOnly([
+                'course_id',
+                'created_by',
+                'created_at'
+            ]);
     }
     public function course()
     {

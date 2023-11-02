@@ -33,7 +33,11 @@ use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\SchoolController;
 use App\Http\Controllers\SchoolLevelController;
 use App\Http\Controllers\StudentController;
+<<<<<<< HEAD
 use App\Models\InstructorCourse;
+=======
+use App\Http\Controllers\InstructorCourseController;
+>>>>>>> ec0957017a01daf566a90a2af3cec57de428e8c2
 use App\Http\Controllers\VisitorController;
 
 /*
@@ -96,7 +100,12 @@ Route::middleware(['web', 'auth'])->group(function () {
             Route::resource('students', StudentController::class);
             Route::resource('courses', CourseController::class);
             Route::resource('academic-sessions', AcademicSessionController::class);
+<<<<<<< HEAD
             Route::resource('instructor-courses', InstructorCourse::class);
+=======
+            Route::resource('instructer-courses', InstructorCourseController::class);
+
+>>>>>>> ec0957017a01daf566a90a2af3cec57de428e8c2
             Route::resource('visitors', VisitorController::class);
 
             Route::resource('zones', ZoneController::class);
