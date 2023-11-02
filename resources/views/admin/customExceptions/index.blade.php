@@ -102,7 +102,7 @@
             })
         }
         //fixorNot Custom Exception
-        function fixorNot_exception(element, user_id) {
+        function update_status(element, user_id) {
             var url = "{{ route('admin.custom-exceptions.update', ':id') }}";
             url = url.replace(':id', user_id);
             console.log(url);

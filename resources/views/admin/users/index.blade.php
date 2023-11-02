@@ -123,7 +123,7 @@
         </script>
 
         <script>
-            //delete user
+            //delete row
             function delete_user(element, user_id) {
                 var url = "{{ route('admin.users.destroy', ':id') }}";
                 url = url.replace(':id', user_id);

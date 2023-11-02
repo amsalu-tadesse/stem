@@ -27,4 +27,8 @@ class Student extends Model
     {
         return $this->belongsTo(School::class);
     }
+    public function academicSession()
+    {
+        return $this->belongsTo(AcademicSession::class, 'academic_session');
+    }
 }

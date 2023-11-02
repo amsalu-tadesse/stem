@@ -27,6 +27,7 @@ class StoreStudentRequest extends FormRequest
             'sex'=>'required',
             'grade'=>'required',
             'school'=>'required',
+            'academic_session'=>'required',
         ];
     }
 }

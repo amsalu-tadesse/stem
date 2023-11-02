@@ -39,7 +39,9 @@ class AcademicSessionController extends Controller
      */
     public function show(AcademicSession $academic_session)
     {
-        //
+        $students = $academic_session->students;
+        
+        return view('admin.academic-sessions.show',compact('students'));
     }
 
     /**
@@ -60,6 +62,15 @@ class AcademicSessionController extends Controller
      */
     public function update(UpdateAcademicSessionRequest $request, AcademicSession $academic_session)
     {
+        // if (request()->ajax()) {
+        //     if($academic_session->status == 0){
+        //         $academic_session->status = 1; 
+        //         $academic_session->save(); 
+        //     }else{
+        //         $academic_session->status = 0; 
+        //         $academic_session->save();  
+        //     }
+        // }
         $academic_session->update($request->validated());
         $academic_session->save();
         return response()->json(array("success" => true), 200);
