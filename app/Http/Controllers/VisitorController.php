@@ -32,23 +32,24 @@ class VisitorController extends Controller
      */
     public function store(StoreVisitorRequest $request)
     {
-        $visitor = Visitor::where('appointment_date', $request->appointment_date);
-        $entries = $visitor->where('visiting_hr', $request->visiting_hr)->count();
-        $date_entries =$visitor->whereIn('visiting_hr', ['2-4', '4-6', '7-9', '9-11'])->count();
+        $visitors = Visitor::where('appointment_date', $request->appointment_date);
+        $entries = $visitors->where('visiting_hr', $request->visiting_hr)->count();
+        $date_entries = $visitors->whereIn('visiting_hr', ['2-4', '4-6', '7-9', '9-11'])->count();
 
-        if ($request->appointmnet_date < now()->format('Y-m-d')) {
+
+        //check for past date appointment
+        if ($request->appointment_date < now()->format('Y-m-d')) { 
             return response()->json(array("success" => false), 200);
         }
 
+        //check for appointment time range repetition
         if ($entries > 0 || $date_entries >= 4) {
             return response()->json(array("success" => false), 200);
-
         }
-         else {
-            Visitor::create($request->validated());
 
-            return response()->json(array("success" => true), 200);
-        }
+        Visitor::create($request->validated());
+
+        return response()->json(array("success" => true), 200);
     }
 
     /**
