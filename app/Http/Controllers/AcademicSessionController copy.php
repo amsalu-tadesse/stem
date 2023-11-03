@@ -3,7 +3,6 @@
 namespace App\Http\Controllers;
 
 use App\DataTables\AcademicSessionDataTable;
-use App\DataTables\AcademicSessionDetailDataTable;
 use App\Models\AcademicSession;
 use App\Http\Requests\StoreAcademicSessionRequest;
 use App\Http\Requests\StoreInstructorCourseRequest;
@@ -11,7 +10,6 @@ use App\Http\Requests\UpdateAcademicSessionRequest;
 use App\Models\Course;
 use App\Models\InstructorCourse;
 use App\Models\Lecturer;
-use App\Models\Student;
 
 class AcademicSessionController extends Controller
 {
@@ -59,15 +57,15 @@ class AcademicSessionController extends Controller
         ->select(['lecturers.name as name','lecturers.id as id'])
         ->get();
 
+// dd($lect);
         $labAssistantNotInInstructorCourse = Lecturer::join('academic_levels', 'lecturers.academic_level_id', '=', 'academic_levels.id')
         ->where('academic_levels.type', 1)
         ->whereDoesntHave('instructorCourses')->select(['lecturers.name as name','lecturers.id as id'])
         ->get();
-
-        $student_not_add_in_this_as = Student::whereNull('academic_session')->get();
-
     
-        return view('admin.academic-sessions.show', compact('students', 'courses', 'academic_session', 'coursesNotInInstructorCourse', 'lect','labAssistantNotInInstructorCourse','student_not_add_in_this_as'));
+
+
+        return view('admin.academic-sessions.show', compact('students', 'courses', 'academic_session', 'coursesNotInInstructorCourse', 'lect','labAssistantNotInInstructorCourse'));
     }
 
     /**

@@ -42,9 +42,9 @@ class StudentDataTable extends DataTable
             ->addColumn('action', function ($student) {
                 return view('components.action-buttons', [
                     'row_id' => $student->id,
-                    'permission_delete'=>'students: delete',
-                     'permission_edit'=>'students: edit',
-                     'permission_view'=>'students: view',
+                    'permission_delete'=>'student: delete',
+                     'permission_edit'=>'student: edit',
+                     'permission_view'=>'student: view',
                 ]);
             })
              ->filter(function ($query) {
@@ -65,7 +65,8 @@ class StudentDataTable extends DataTable
     {
 
         return $model::leftjoin('schools', 'school_id', '=', 'schools.id')
-        ->select(['students.id', 'students.name as name','students.age as age','students.grade as grade', 'students.sex as sex','students.created_at',  'schools.name as schoolname']);
+        ->leftjoin('academic_sessions', 'academic_session', '=', 'academic_sessions.id')
+        ->select(['students.id', 'students.name as name','students.age as age','students.grade as grade', 'students.sex as sex','students.created_at',  'schools.name as schoolname','academic_sessions.label as label']);
     }
 
     /**
@@ -150,6 +151,7 @@ class StudentDataTable extends DataTable
             Column::make('sex'),
             Column::make('grade'),
             Column::make('schoolname')->title('School'),
+            Column::make('label')->title('Academic Session'),
             Column::computed('action')
                 ->exportable(false)
                 ->printable(true)

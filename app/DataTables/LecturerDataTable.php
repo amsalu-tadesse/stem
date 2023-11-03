@@ -47,9 +47,9 @@ class LecturerDataTable extends DataTable
             ->addColumn('action', function ($lecturer) {
                 return view('components.action-buttons', [
                     'row_id' => $lecturer->id,
-                    'permission_delete'=>'lecturers: delete',
-                     'permission_edit'=>'lecturers: edit',
-                     'permission_view'=>'lecturers: view',
+                    'permission_delete'=>'lecturer: delete',
+                     'permission_edit'=>'lecturer: edit',
+                     'permission_view'=>'lecturer: view',
                 ]);
             })
             ->rawColumns(['no', 'action']);
@@ -63,7 +63,7 @@ class LecturerDataTable extends DataTable
      */
     public function query(Lecturer $model): QueryBuilder
     {
-        return $model::leftjoin('academic_levels', 'academic_level', '=', 'academic_levels.id')->leftjoin('departments', 'department', '=', 'departments.id')
+        return $model::leftjoin('academic_levels', 'academic_level_id', '=', 'academic_levels.id')->leftjoin('departments', 'department', '=', 'departments.id')
         ->select(['lecturers.id', 'lecturers.name as name','lecturers.phone as phone','lecturers.email as email', 'departments.name as departmentname','lecturers.created_at',  'academic_levels.name as academiclevelname']);
     }
 

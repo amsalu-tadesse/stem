@@ -15,6 +15,7 @@ return new class extends Migration
             $table->id();
             $table->foreignId('course_id')->constrained('courses');
             $table->foreignId('lecturer_id')->constrained('lecturers');
+            $table->foreignId('lab_assistant_id')->nullable()->constrained('lecturers');
             $table->foreignId('academic_session_id')->constrained('academic_sessions');
             $table->foreignId('created_by')->nullable()->constrained('users');
             $table->foreignId('updated_by')->nullable()->constrained('users');

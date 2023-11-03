@@ -1,7 +1,8 @@
-@props(['instructorsNotInInstructorCourse','coursesNotInInstructorCourse','academic_session'])
+@props(['lect','coursesNotInInstructorCourse','academic_session','labAssistantNotInInstructorCourse'])
 
+<!-- {{dump($lect)}} -->
 <!-- /.modal -->
-<div class="modal fade" id="add_modal">
+<div class="modal fade" id="add_instructor_course_modal">
     <div class="modal-dialog modal-lg">
 
         <div class="modal-content">
@@ -35,16 +36,30 @@
                             </div>
                             <div class="form-group">
                                 <label for="lecturer_id">Instructor</label>
-                                <select id='lecturer_id' class="lecturer_id_select2 select2 form-control" name="lecturer_id" data-placeholder="Pick lecturer_id" data-dropdown-css-class="select2-blue">
+                                <select id='lecturer_id' class="lecturer_id_select2 select2 form-control" name="lecturer_id" data-placeholder="Pick lecturer" data-dropdown-css-class="select2-blue">
                                     <option value="none" selected disabled>Select a lecturer</option>
-                                    @foreach ($instructorsNotInInstructorCourse as $lecturer)
-                                    <option value="{{ $lecturer->id }}" {{ old('lecturer_id') == $lecturer->id ? 'selected' : '' }}>
+                                    @foreach ($lect as $lecturer)
+                                    <option value="{{$lecturer->id}}" >
                                         {{ $lecturer->name }}
                                     </option>
                                     @endforeach
                                 </select>
                                 @error('lecturer_id')
                                 <span class="invalid-feedback d-block">lecturer not selected</span>
+                                @enderror
+                            </div>
+                            <div class="form-group">
+                                <label for="lab_assistant_id">Lab Assistant</label>
+                                <select id='lab_assistant_id' class="lab_assistant_id_select2 select2 form-control" name="lab_assistant_id" data-placeholder="Pick lab assistant" data-dropdown-css-class="select2-blue">
+                                    <option value="none" selected disabled>Select lab assistant</option>
+                                    @foreach ($labAssistantNotInInstructorCourse as $assistant)
+                                    <option value="{{ $assistant->id }}" {{ old('lab_assistant_id') == $assistant->id ? 'selected' : '' }}>
+                                        {{ $assistant->name }}
+                                    </option>
+                                    @endforeach
+                                </select>
+                                @error('lab_assistant_id')
+                                <span class="invalid-feedback d-block">Lab Assistant not selected</span>
                                 @enderror
                             </div>
                             <input type="hidden" name="academic_session_id" value="{{$academic_session->id}}">

@@ -561,13 +561,234 @@ class DatabaseSeeder extends Seeder
         }
         $school_levels = [
             [
+                'name' => 'Elementary School',
+                'description' => 'Elementary School',
+            ],
+            [
+                'name' => 'Junior School',
+                'description' => 'Junior School',
+            ],
+            [
                 'name' => 'High School',
                 'description' => 'High School',
             ],
             [
-                'name' => 'Preparatory',
-                'description' => 'Preparatory',
+                'name' => 'Preparatory School',
+                'description' => 'Preparatory School',
             ],
         ];
+
+        foreach ($school_levels as $school_level) {
+
+            \App\Models\SchoolLevel::factory()->create(
+                [
+                    'name' => $school_level['name'],
+                    'description' => $school_level['description'],
+                ]
+            );
+        }
+        $schools = [
+            [
+                'name' => 'Addis Global Academy',
+                'address' => 'Bole Airport',
+                'school_level' => 1,
+            ],
+            [
+                'name' => 'British International School',
+                'address' => 'Bole Bridge',
+                'school_level' => 2,
+            ],
+            [
+                'name' => 'Bole Community School',
+                'address' => 'Bole Homes',
+                'school_level' => 3,
+            ],
+        ];
+
+        foreach ($schools as $school) {
+
+            \App\Models\School::factory()->create(
+                [
+                    'name' => $school['name'],
+                    'address' => $school['address'],
+                    'school_level' => $school['school_level'],
+                ]
+            );
+        }
+        $departments = [
+            [
+                'name' => 'Department1',
+                'description' => 'Description of Department1',
+            ],
+            [
+                'name' => 'Department2',
+                'description' => 'Description of Department1',
+            ],
+            [
+                'name' => 'Department3',
+                'description' => 'Description of Department3',
+            ],
+        ];
+
+        foreach ($departments as $department) {
+
+            \App\Models\Department::factory()->create(
+                [
+                    'name' => $department['name'],
+                    'description' => $department['description'],
+                ]
+            );
+        }
+
+        $academic_sessions = [
+            [
+                'label' => 'Label1',
+                'academic_year' => '2023/24',
+                'start_date' => '2023-11-03 11:31:38',
+                'end_date' => '2024-11-03 11:31:38',
+                'week_type' => 0,
+            ],
+            [
+                'label' => 'Label2',
+                'academic_year' => '2024/25',
+                'start_date' => '2024-11-03 11:31:38',
+                'end_date' => '2025-11-03 11:31:38',
+                'week_type' => 1,
+            ],
+            [
+                'label' => 'Label3',
+                'academic_year' => '2025/26',
+                'start_date' => '2025-11-03 11:31:38',
+                'end_date' => '2026-11-03 11:31:38',
+                'week_type' => 0,
+            ],
+        ];
+
+        foreach ($academic_sessions as $academic_session) {
+
+            \App\Models\AcademicSession::factory()->create(
+                [
+                    'label' => $academic_session['label'],
+                    'academic_year' => $academic_session['academic_year'],
+                    'start_date' => $academic_session['start_date'],
+                    'end_date' => $academic_session['end_date'],
+                    'week_type' => $academic_session['week_type'],
+                ]
+            );
+        }
+
+
+        $students = [
+            [
+                'name' => 'Getasew Tilahun',
+                'age' => '25',
+                'grade' => '12',
+                'sex' => 'M',
+                'school_id' => 2,
+                'academic_session' => 1,
+            ],
+            [
+                'name' => 'Yunlong Jambo',
+                'age' => '13',
+                'grade' => '7',
+                'sex' => 'M',
+                'school_id' => 1,
+                'academic_session' => 2,
+            ],
+            [
+                'name' => 'Ermiyas Temesgen',
+                'age' => '25',
+                'grade' => '11',
+                'sex' => 'M',
+                'school_id' => 3,
+                'academic_session' => 3,
+            ],
+        ];
+
+        foreach ($students as $student) {
+
+            \App\Models\Student::factory()->create(
+                [
+                    'name' => $student['name'],
+                    'age' => $student['age'],
+                    'sex' => $student['sex'],
+                    'grade' => $student['grade'],
+                    'school_id' => $student['school_id'],
+                    'academic_session' => $student['academic_session'],
+                ]
+            );
+        }
+        $lecturers = [
+            [
+                'name' => 'Amsalu Tadesse',
+                'department' => 1,
+                'academic_level_id' => 1,
+                'phone' => '+25190657348',
+                'email' => 'tadesseamsalu@gmail.com',
+            ],
+            [
+                'name' => 'Yonthan Demlie',
+                'department' => 2,
+                'academic_level_id' => 2,
+                'phone' => '+251941000262',
+                'email' => 'yon21@gmail.com',
+            ],
+            [
+                'name' => 'Ermiyas Temesgen',
+                'department' => 3,
+                'academic_level_id' => 5,
+                'phone' => '+251843955',
+                'email' => 'ermi@gmail.com',
+            ],
+            [
+                'name' => 'Yaried Kidus',
+                'department' => 3,
+                'academic_level_id' => 6,
+                'phone' => '+251843955',
+                'email' => 'yaried12@gmail.com',
+            ],
+        ];
+
+        foreach ($lecturers as $lecturer) {
+
+            \App\Models\Lecturer::factory()->create(
+                [
+                    'name' => $lecturer['name'],
+                    'department' => $lecturer['department'],
+                    'phone' => $lecturer['phone'],
+                    'academic_level_id' => $lecturer['academic_level_id'],
+                    'email' => $lecturer['email'],
+                ]
+            );
+        }
+        $courses = [
+            [
+                'name' => 'Chemistry',
+                'lecture_hr_per_week' => 20,
+                'lab_hr_per_week' => 10,
+            ],
+            [
+                'name' => 'Biology',
+                'lecture_hr_per_week' => 15,
+                'lab_hr_per_week' => 5,
+            ],
+            [
+                'name' => 'Physics',
+                'lecture_hr_per_week' => 15,
+                'lab_hr_per_week' => 10,
+            ],
+        ];
+
+        foreach ($courses as $course) {
+
+            \App\Models\Course::factory()->create(
+                [
+                    'name' => $course['name'],
+                    'lecture_hr_per_week' => $course['lecture_hr_per_week'],
+                    'lab_hr_per_week' => $course['lab_hr_per_week'],
+                ]
+            );
+        }
     }
+
 }

@@ -124,7 +124,7 @@
 
         <script>
             //delete row
-            function delete_user(element, user_id) {
+            function delete_row(element, user_id) {
                 var url = "{{ route('admin.users.destroy', ':id') }}";
                 url = url.replace(':id', user_id);
                 console.log(url);
@@ -202,10 +202,10 @@
             //update User
             $(document).ready(function() {
                 // Update record popup
-                $('#users-table').on('click', '#update_user', function() {
-                    var user_id = $(this).data('user_id');
+                $('#users-table').on('click', '#update_row', function() {
+                    var row_id = $(this).data('row_id');
                     var url = "{{ route('admin.users.edit', ':id') }}";
-                    url = url.replace(':id', user_id);
+                    url = url.replace(':id', row_id);
 
                     // AJAX request
                     $.ajax({
@@ -287,9 +287,9 @@
 
                 //show user
                 $('#users-table').on('click', '#show_row', function() {
-                    var user_id = $(this).data('row_id');
+                    var row_id = $(this).data('row_id');
                     var url = "{{ route('admin.users.show', ':id') }}";
-                    url = url.replace(':id', user_id);
+                    url = url.replace(':id', row_id);
 
                     // AJAX request
                     $.ajax({

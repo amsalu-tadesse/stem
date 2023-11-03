@@ -11,8 +11,10 @@
             <div class="card-body row">
                 <div class="col-md-6">
                     <div class="form-group">
-                        <label>Academic Year</label>
-                        <input type="text" class="form-control" name="academic_year" id="academic_year" />
+                        <x-partials.input-form title="Label" name="label" type="input" />
+                    </div>
+                    <div class="form-group">
+                        <x-partials.input-form title="Academic Year" name="academic_year" type="input" />
                     </div>
                     <div class="form-group">
                         <label>Start Date</label>
@@ -68,14 +70,14 @@
             });
         });
 
-        $(document).ready(function() {
-            $("#academic_year").datepicker({
-                format: "yyyy",
-                viewMode: "years",
-                minViewMode: "years",
-                autoclose: true
-            });
-        })
+        // $(document).ready(function() {
+        //     $("#academic_year").datepicker({
+        //         format: "yyyy",
+        //         viewMode: "years",
+        //         minViewMode: "years",
+        //         autoclose: true
+        //     });
+        // })
     </script>
 
     @endpush
