@@ -96,7 +96,7 @@ Route::middleware(['web', 'auth'])->group(function () {
             Route::resource('students', StudentController::class);
             Route::resource('courses', CourseController::class);
             Route::resource('academic-sessions', AcademicSessionController::class);
-            Route::resource('instructer-courses', InstructorCourseController::class);
+            Route::resource('instructor-courses', InstructorCourseController::class);
             Route::resource('visitors', VisitorController::class);
 
             Route::resource('zones', ZoneController::class);
