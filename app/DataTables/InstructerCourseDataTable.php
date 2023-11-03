@@ -3,9 +3,9 @@
 namespace App\DataTables;
 
 use App\Constants\Constants;
-use App\Models\Lecturer;
+use App\Models\Department;
+use App\Models\InstructorCourse;
 use App\Models\School;
-use App\Models\Student;
 use Illuminate\Database\Eloquent\Builder as QueryBuilder;
 use Yajra\DataTables\EloquentDataTable;
 use Yajra\DataTables\Html\Builder as HtmlBuilder;
@@ -14,7 +14,7 @@ use Yajra\DataTables\Services\DataTable;
 
 use function Termwind\render;
 
-class StudentDataTable extends DataTable
+class InstructerCourseDataTable extends DataTable
 {
     /**
      * Build DataTable class.
@@ -26,47 +26,28 @@ class StudentDataTable extends DataTable
     {
         $index_column = 0;
         return (new EloquentDataTable($query))
-            ->addColumn('no', function () use(&$index_column){
+            ->addColumn('no', function () use (&$index_column) {
                 return ++$index_column;
             })
-
-            //school Name
-            ->addColumn('schoolname', function ($student) {
-                return $student?->schoolname;
-            })->orderColumn('schoolname', function ($query, $order) {
-                $query->orderBy('schools.name', $order);
-            })->filterColumn('schoolname', function ($query, $keyword) {
-                $query->where('schools.name', 'LIKE', "%{$keyword}%");
-            })
-
-            ->addColumn('action', function ($student) {
-                return view('components.action-buttons', [
-                    'row_id' => $student->id,
-                    'permission_delete'=>'students: delete',
-                     'permission_edit'=>'students: edit',
-                     'permission_view'=>'students: view',
-                ]);
-            })
-             ->filter(function ($query) {
-                if (request()->has('school_filter') and request()->filled('school_filter')) {
-                    $query->whereIn('school_id', request('school_filter'));
-                }
-            }, true)
-            ->rawColumns(['no', 'action']);
+           
+            ->rawColumns(['no']);
     }
 
     /**
      * Get query source of dataTable.
      *
-     * @param \App\Models\Student $model
+     * @param \App\Models\InstructorCourse $model
      * @return \Illuminate\Database\Eloquent\Builder
      */
-    public function query(Student $model): QueryBuilder
+    public function query(InstructorCourse $model): QueryBuilder
     {
-
-        return $model::leftjoin('schools', 'school_id', '=', 'schools.id')
-        ->select(['students.id', 'students.name as name','students.age as age','students.grade as grade', 'students.sex as sex','students.created_at',  'schools.name as schoolname']);
+        
+        
+        return $model::leftJoin('lecturers', 'lecturer_id', '=', 'lecturers.id')
+            ->leftJoin('courses', 'course_id', '=', 'courses.id')
+            ->select(['instructor_courses.id', 'instructor_courses.created_at', 'lecturers.name as lecturer_name',  'courses.name AS course_name','courses.lecture_hr_per_week AS lecture_hr_per_week']);
     }
+    
 
     /**
      * Optional method if you want to use html builder.
@@ -76,16 +57,10 @@ class StudentDataTable extends DataTable
     public function html(): HtmlBuilder
     {
         return $this->builder()
-            ->setTableId('students-table')
+            ->setTableId('instructor-course-table')
             ->columns($this->getColumns())
-            ->orderBy(7)
-            // ->minifiedAjax()
-            ->ajax([
-                'url' => route('admin.students.index'), 
-                'data' => 'function(d) {
-                    d.school_filter = $("#school_filter").val();
-                }',
-            ])
+            ->orderBy(3)
+            ->minifiedAjax()
             ->selectStyleSingle()
             ->dom("<'row'<'col-sm-12 col-md-2'l><'col-sm-12 col-md-6'B>
                            <'col-sm-12 col-md-4'f>><'row'<'col-sm-12'tr>>
@@ -145,16 +120,9 @@ class StudentDataTable extends DataTable
                 ->exportable(false)
                 ->addClass('text-center')
                 ->orderable(false),
-            Column::make('name'),
-            Column::make('age'),
-            Column::make('sex'),
-            Column::make('grade'),
-            Column::make('schoolname')->title('School'),
-            Column::computed('action')
-                ->exportable(false)
-                ->printable(true)
-                ->addClass('text-center')
-                ->orderable(false),
+            Column::make('course_name')->title("course"),
+            Column::make('lecturer_name')->title("Instructor"),
+            Column::make('lecture_hr_per_week')->title("Lecture Hour"),
             Column::make('created_at')->visible(false)
         ];
     }
@@ -166,6 +134,6 @@ class StudentDataTable extends DataTable
      */
     protected function filename(): string
     {
-        return 'Students' . date('YmdHis');
+        return 'Departments' . date('YmdHis');
     }
 }

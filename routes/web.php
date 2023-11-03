@@ -33,6 +33,7 @@ use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\SchoolController;
 use App\Http\Controllers\SchoolLevelController;
 use App\Http\Controllers\StudentController;
+use App\Http\Controllers\InstructorCourseController;
 use App\Http\Controllers\VisitorController;
 use App\Http\Controllers\WelcomeController;
 
@@ -98,7 +99,8 @@ Route::middleware(['web', 'auth'])->group(function () {
             Route::resource('students', StudentController::class);
             Route::resource('courses', CourseController::class);
             Route::resource('academic-sessions', AcademicSessionController::class);
-            Route::resource('visitors', VisitorController::class)->except(['store', 'create']);
+            Route::resource('visitors', VisitorController::class)->except('store');
+            Route::resource('instructor-courses', InstructorCourseController::class);
 
             Route::resource('zones', ZoneController::class);
             Route::resource('custom-exceptions', CustomExceptionController::class);

@@ -26,7 +26,7 @@ class StoreStudentRequest extends FormRequest
             'age'=>'required',
             'sex'=>'required',
             'grade'=>'required',
-            'school'=>'required',
+            'school_id'=>'required',
             'academic_session'=>'required',
         ];
     }

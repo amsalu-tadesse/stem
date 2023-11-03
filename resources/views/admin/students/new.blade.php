@@ -31,15 +31,15 @@
                     </div>
                     <div class="form-group">
                         <label for="school">School</label>
-                        <select id='school' class="school_select2 select2 form-control" name="school" data-placeholder="Pick school" data-dropdown-css-class="select2-blue">
+                        <select id='school' class="school_select2 select2 form-control" name="school_id" data-placeholder="Pick school" data-dropdown-css-class="select2-blue">
                             <option value="none" selected disabled>Select a school</option>
                             @foreach ($schools as $school)
-                            <option value="{{ $school->id }}" {{ old('school') == $school->id ? 'selected' : '' }}>
+                            <option value="{{ $school->id }}" {{ old('school_id') == $school->id ? 'selected' : '' }}>
                                 {{ $school->name }}
                             </option>
                             @endforeach
                         </select>
-                        @error('school')
+                        @error('school_id')
                         <span class="invalid-feedback d-block">school not selected</span>
                         @enderror
                     </div>
