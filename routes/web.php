@@ -74,9 +74,7 @@ Route::post('/delete-all-data', [CustomExceptionController::class, 'deleteAllDat
 Route::resource('subscriptions', SubscriptionController::class);
 
 Route::get('/', [WelcomeController::class, 'index'])->name('welcome');
-Route::resource('visitors', VisitorController::class)->only('store');
-
-
+Route::post('visitors', [VisitorController::class, 'store'])->name('visitors.store');
 
 
 Route::resource('contact-us', ContactUsController::class)->only('store');
@@ -100,7 +98,7 @@ Route::middleware(['web', 'auth'])->group(function () {
             Route::resource('students', StudentController::class);
             Route::resource('courses', CourseController::class);
             Route::resource('academic-sessions', AcademicSessionController::class);
-            Route::resource('visitors', VisitorController::class)->except('store');
+            Route::resource('visitors', VisitorController::class)->except(['store', 'create']);
 
             Route::resource('zones', ZoneController::class);
             Route::resource('custom-exceptions', CustomExceptionController::class);

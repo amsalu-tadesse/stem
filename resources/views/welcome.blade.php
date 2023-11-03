@@ -5,7 +5,9 @@
     <meta charset="utf-8">
     <meta content="width=device-width, initial-scale=1.0" name="viewport">
 
-    <title>Mentor Bootstrap Template - Index</title>
+    <title>{{ $site_admin->name }}</title>
+    <meta name="csrf-token" content="{{ csrf_token() }}" />
+
     <meta content="" name="description">
     <meta content="" name="keywords">
 
@@ -31,17 +33,20 @@
     <link href="{{ asset('frontend/assets/css/style.css') }}" rel="stylesheet">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.2.0/css/datepicker.min.css"
         rel="stylesheet">
+    <!-- Toastr -->
+    <link rel="stylesheet" href="{{ asset('assets/plugins/toastr/toastr.min.css') }}">
 
     <style>
         .datepicker-days table .disabled-date.day {
-            background-color: #663399;
+            background-color: #bc2020;
             color: #fff;
         }
 
         .datepicker table tr td.disabled,
         .datepicker table tr td.disabled:hover {
-            background: #8447c2;
+            background: #bc2020;
             color: #fff;
+            margin: 2px;
         }
 
 
@@ -55,6 +60,10 @@
                 font-size: small;
             }
         }
+
+        .disabled-input {
+            background-color: #f8f9fa;
+        }
     </style>
 </head>
 
@@ -64,19 +73,16 @@
     <header id="header" class="fixed-top">
         <div class="container d-flex align-items-center">
 
-            <h1 class="logo me-auto"><a href="index.html">STEM</a></h1>
+            <h1 class="logo me-auto"><a href="{{ route('welcome') }}">{{ $site_admin->name }}</a></h1>
             <!-- Uncomment below if you prefer to use an image logo -->
             <!-- <a href="index.html" class="logo me-auto"><img src="frontend/assets/img/logo.png" alt="" class="img-fluid"></a>-->
 
             <nav id="navbar" class="navbar order-last order-lg-0">
                 <ul>
-                    <li><a class="active" href="index.html">Home</a></li>
-                    <li><a href="about.html">About</a></li>
-                    <li><a href="courses.html">Courses</a></li>
-                    <li><a href="trainers.html">Trainers</a></li>
-                    <li><a href="events.html">Events</a></li>
-                    <li><a href="pricing.html">Pricing</a></li>
-                    <li><a href="contact.html">Contact</a></li>
+                    <li><a class="active" href="#">Home</a></li>
+                    <li><a href="#appointment">Make Appointment</a></li>
+                    <li><a href="#contact">Contact</a></li>
+                    <li><a href="{{ route('login') }}">Login</a></li>
                 </ul>
                 <i class="bi bi-list mobile-nav-toggle"></i>
             </nav><!-- .navbar -->
@@ -93,101 +99,214 @@
     </section><!-- End Hero -->
 
     <main id="main">
-        <div class="row p-5">
-            <div class="text-center">
-                <h2 class="text-info">Make Appointment</h2>
-            </div>
-            <!-- /.card-header -->
-            <!-- general form elements -->
-            <!-- form start -->
-            <!-- row -->
-            <div class="row d-flex">
-                <!-- left column -->
-                <div class="col-md-6">
-                    <div class="form-group text-center">
-                        <label class="py-3">Appointment Date</label>
-                        <div class="form-group">
-                            <input type="text" class="form-control appointment-datepicker"
-                                data-date-format="mm/dd/yyyy" id="appointment-datepicker"
-                                placeholder="Pick Appointment Date" required>
-                            <span id="appointment_date_error" class="text-danger error"></span>
+        <section id="appointment" class="about">
+            <div class="container" data-aos="fade-up">
+                <div class="row">
+                    <div class="text-center my-3">
+                        <h2 class="text-info text-uppercase">Make Appointment</h2>
+                    </div>
+                    <!-- /.card-header -->
+                    <div>
+                        <p>{{ $site_admin->aboutus }}</p>
+                    </div>
+                    <!-- row -->
+                    <div class="row d-flex">
+                        <!-- left column -->
+                        <div class="col-md-6">
+                            <div class="form-group text-center">
+                                <label class="py-3" style="font-weight: bold; font-size: 20px;">Appointment
+                                    Date</label>
+                                <div class="form-group">
+                                    <input type="text"
+                                        class="form-control appointment-datepicker disabled-input p-3 btn btn-success text-dark"
+                                        data-date-format="mm/dd/yyyy" id="appointment-datepicker"
+                                        placeholder="Pick Appointment Date" required readonly>
+                                    <span id="appointment_date_error" class="text-danger error"></span>
+                                </div>
+                            </div>
+                        </div>
+                        <!--/.col (left) -->
+                        <div class="col-md-6" style="display: none" id="appointment-time-range">
+                            <div class="form-group">
+                                <div class="d-flex flex-column justify-content-between align-content-between">
+                                    <button id="time_2-4" onclick="makeAppointment(this, 2, 4)"
+                                        class="btn btn-success p-2 my-2">2-4
+                                        (Morning)</button>
+                                    <button id="time_4-6" onclick="makeAppointment(this, 4, 6)"
+                                        class="btn btn-success p-2 my-2">4-6
+                                        (Morning)</button>
+                                    <button id="time_7-9" onclick="makeAppointment(this, 7, 9)"
+                                        class="btn btn-success p-2 my-2">7-9
+                                        (Afternoon)</button>
+                                    <button id="time_9-11" onclick="makeAppointment(this, 9, 11)"
+                                        class="btn btn-success p-2 my-2">9-11
+                                        (Afternoon)</button>
+                                    <input type="hidden" name="selected_date" id="selected_date" value="">
+                                </div>
+                            </div>
                         </div>
                     </div>
-                </div>
-                <!--/.col (left) -->
-                <div class="col-md-6" style="display: none" id="appointment-time-range">
-                    <div class="form-group">
-                        <div class="d-flex flex-column justify-content-between align-content-between">
-                            <button id="time_2-4" onclick="makeAppointment(this, 2, 4)"
-                                class="btn btn-success p-2 my-2">2-4
-                                (Morning)</button>
-                            <button id="time_4-6" onclick="makeAppointment(this, 4, 6)"
-                                class="btn btn-success p-2 my-2">4-6
-                                (Morning)</button>
-                            <button id="time_7-9" onclick="makeAppointment(this, 7, 9)"
-                                class="btn btn-success p-2 my-2">7-9
-                                (Afternoon)</button>
-                            <button id="time_9-11" onclick="makeAppointment(this, 9, 11)"
-                                class="btn btn-success p-2 my-2">9-11
-                                (Afternoon)</button>
-                            <input type="hidden" name="selected_date" id="selected_date" value="">
-                        </div>
-                    </div>
+                    <!-- /.row -->
                 </div>
             </div>
-            <!-- /.row -->
-        </div>
+        </section>
         <!-- /.card -->
+        {{-- <section id="about" class="about">
+            <div class="container" data-aos="fade-up">
+                <div class="row">
+                    <div class="col-lg-12 pt-4 pt-lg-0 order-2 order-lg-1 content">
+                        <h2 class="text-uppercase text-center text-info">About Stem</h2>
+                        <p class="">
+                            An electronic public-private portal is a web-based platform that facilitates
+                            communication, collaboration, and information exchange between public and
+                            private entities. It serves as a digital gateway where users can access and
+                            share resources, interact with each other, and engage in various activities
+                            electronically.
+                        </p>
+                    </div>
+                </div>
+
+            </div>
+        </section><!-- End About Section --> --}}
+
+        <section id="contact" class="contact">
+            <div class="container" data-aos="fade-up">
+                <div class="row">
+                    <div class="col-lg-12 pt-4 pt-lg-0 order-2 order-lg-1 content text-center">
+                        <h2 class="text-uppercase text-info">Contact</h2>
+                        <p>Contact us. Tell us what you have in your mind about our service. Your feedbacks and comments
+                            help us toimprove our services.</p>
+                    </div>
+                </div>
+                <div class="card p-5">
+                    <div class="row my-4">
+                        <div class="col-lg-6 d-flex align-items-stretch">
+                            <div class="info">
+                                <div class="address">
+                                    <i class="bi bi-geo-alt"></i>
+                                    <h4>Location:</h4>
+                                    <p>{{ $site_admin->address }}</p>
+                                </div>
+
+                                <div class="email">
+                                    <i class="bi bi-envelope"></i>
+                                    <h4>Email:</h4>
+                                    <p>{{ $site_admin->email }}</p>
+                                </div>
+
+                                <div class="phone">
+                                    <i class="bi bi-phone"></i>
+                                    <h4>Call:</h4>
+                                    <p>{{ $site_admin->telephone }}</p>
+                                </div>
+
+                                <iframe
+                                    src="{{ $site_admin->location }}"
+                                    class="my-4" style="border:0; width: 100%; height: 290px;" allowfullscreen=""
+                                    loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+                            </div>
+
+                        </div>
+
+                        <div class="col-lg-6 mt-5 mt-lg-0 d-flex align-items-stretch ">
+                            <div class="php-email-form">
+                                <div class="row">
+                                    <div class="form-group col-md-6">
+                                        <label for="name">Your Name</label>
+                                        <input type="text" name="name" class="form-control" id="name"
+                                            required="">
+                                    </div>
+                                    <div class="form-group col-md-6">
+                                        <label for="name">Your Email</label>
+                                        <input type="email" class="form-control" name="email" id="email"
+                                            required="">
+                                            <span class="text-danger error" id="email_error"></span>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label for="name">Subject</label>
+                                    <input type="text" class="form-control" name="subject" id="subject"
+                                        required="">
+                                        <span class="text-danger error" id="subject_error"></span>
+
+                                </div>
+                                <div class="form-group">
+                                    <label for="name">Message</label>
+                                    <textarea class="form-control" name="message" id="message" rows="10" required=""></textarea>
+                                    <span class="text-danger error" id="message_error"></span>
+                                </div>
+                                <div class="my-3">
+                                    <div class="loading">Loading</div>
+                                    <div class="error-message"></div>
+                                    <div class="sent-message">Your message has been sent. Thank you!</div>
+                                </div>
+                                <div class="text-center">
+
+                                    <div class="alert alert-success" id="notify" style="display: none;">
+
+                                    </div>
+
+                                    <button type="submit" id="sendMessage">Send Message</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section> <!-- End Contact Section -->
     </main><!-- End #main -->
 
     <!-- ======= Footer ======= -->
     <footer id="footer">
-
         <div class="footer-top">
             <div class="container">
                 <div class="row">
-
-                    <div class="col-lg-3 col-md-6 footer-contact">
-                        <h3>Mentor</h3>
+                    <div class="col-lg-5 col-md-5 footer-contact">
+                        <h3 style="font-weight: 600;color: #37517e;text-transform: uppercase;"><a
+                                href="http://aastu.edu.et">AASTU</a></h3>
                         <p>
-                            A108 Adam Street <br>
-                            New York, NY 535022<br>
-                            United States <br><br>
-                            <strong>Phone:</strong> +1 5589 55488 55<br>
-                            <strong>Email:</strong> info@example.com<br>
+                            {{ $site_admin->address }}
+                            ETHIOPIA <br><br>
+
+                            <strong>Phone:</strong> <a href="tel:{{ $site_admin->telephone }}">{{ $site_admin->telephone }}</a><br>
+                            <strong>Email:</strong> <a href="mailto:{{ $site_admin->email }}">{{ $site_admin->email }}</a> <br>
                         </p>
                     </div>
 
-                    <div class="col-lg-2 col-md-6 footer-links">
+                    <div class="col-lg-2 col-md-2 footer-links">
+                        <h4>QUICK LINKS</h4>
+                        <ul>
+                            <li><i class="bx bx-chevron-right"></i><a href="http://elearning.aastu.edu.et/"
+                                    target="_blank">
+                                    <h6> E-Learning</h6>
+                                </a></li>
+                            <li><i class="bx bx-chevron-right"></i> <a href="koha.aastu.edu.et/" target="_blank">
+                                    <h6> E-Library</h6>
+                                </a></li>
+                            <li><i class="bx bx-chevron-right"></i><a href="http://studentinfo.aastu.edu.et/"
+                                    target="_blank">
+                                    <h6> Student Info</h6>
+                                </a></li>
+                        </ul>
+                    </div>
+                    <div class="col-lg-5 col-md-5 footer-links px-sm-4">
                         <h4>Useful Links</h4>
                         <ul>
-                            <li><i class="bx bx-chevron-right"></i> <a href="#">Home</a></li>
-                            <li><i class="bx bx-chevron-right"></i> <a href="#">About us</a></li>
-                            <li><i class="bx bx-chevron-right"></i> <a href="#">Services</a></li>
-                            <li><i class="bx bx-chevron-right"></i> <a href="#">Terms of service</a></li>
-                            <li><i class="bx bx-chevron-right"></i> <a href="#">Privacy policy</a></li>
+                            <li><i class="bx bx-chevron-right"></i> <a href="https://moe.gov.et/" target="_blank">
+                                    <h6> Ministry of Education(MoE)</h6>
+                                </a></li>
+                            <li><i class="bx bx-chevron-right"></i> <a href="http://www.mint.gov.et/"
+                                    target="_blank">
+                                    <h6> Ministry of innovation and technology</h6>
+                                </a></li>
+                            <li><i class="bx bx-chevron-right"></i><a href="http://www.astu.edu.et" target="_blank">
+                                    <h6> Adama Science &amp; Technology University(ASTU)</h6>
+                                </a></li>
+                            <li><i class="bx bx-chevron-right"></i> <a href="http://www.aau.edu.et/" target="_blank">
+                                    <h6> Addis Ababa University(AAU)</h6>
+                                </a></li>
                         </ul>
                     </div>
-
-                    <div class="col-lg-3 col-md-6 footer-links">
-                        <h4>Our Services</h4>
-                        <ul>
-                            <li><i class="bx bx-chevron-right"></i> <a href="#">Web Design</a></li>
-                            <li><i class="bx bx-chevron-right"></i> <a href="#">Web Development</a></li>
-                            <li><i class="bx bx-chevron-right"></i> <a href="#">Product Management</a></li>
-                            <li><i class="bx bx-chevron-right"></i> <a href="#">Marketing</a></li>
-                            <li><i class="bx bx-chevron-right"></i> <a href="#">Graphic Design</a></li>
-                        </ul>
-                    </div>
-
-                    <div class="col-lg-4 col-md-6 footer-newsletter">
-                        <h4>Join Our Newsletter</h4>
-                        <p>Tamen quem nulla quae legam multos aute sint culpa legam noster magna</p>
-                        <form action="" method="post">
-                            <input type="email" name="email"><input type="submit" value="Subscribe">
-                        </form>
-                    </div>
-
                 </div>
             </div>
         </div>
@@ -196,22 +315,22 @@
 
             <div class="me-md-auto text-center text-md-start">
                 <div class="copyright">
-                    &copy; Copyright <strong><span>Mentor</span></strong>. All Rights Reserved
+                    &copy; Copyright <strong><span><a href="http://aastu.edu.et" target="_blank"
+                                rel="noopener noreferrer">AASTU</a></span></strong>. All Rights Reserved
                 </div>
                 <div class="credits">
                     <!-- All the links in the footer should remain intact. -->
                     <!-- You can delete the links only if you purchased the pro version. -->
                     <!-- Licensing information: https://bootstrapmade.com/license/ -->
                     <!-- Purchase the pro version with working PHP/AJAX contact form: https://bootstrapmade.com/mentor-free-education-bootstrap-theme/ -->
-                    Designed by <a href="https://bootstrapmade.com/">BootstrapMade</a>
+                    {{-- Designed by <a href="https://bootstrapmade.com/">BootstrapMade</a> --}}
                 </div>
             </div>
             <div class="social-links text-center text-md-right pt-3 pt-md-0">
-                <a href="#" class="twitter"><i class="bx bxl-twitter"></i></a>
-                <a href="#" class="facebook"><i class="bx bxl-facebook"></i></a>
-                <a href="#" class="instagram"><i class="bx bxl-instagram"></i></a>
-                <a href="#" class="google-plus"><i class="bx bxl-skype"></i></a>
-                <a href="#" class="linkedin"><i class="bx bxl-linkedin"></i></a>
+                <a href="{{ $site_admin->twitter }}" class="twitter"><i class="bx bxl-twitter"></i></a>
+                <a href="{{ $site_admin->facebook }}" class="facebook"><i class="bx bxl-facebook"></i></a>
+                <a href="{{ $site_admin->youtube }}" class="youtube"><i class="bx bxl-youtube"></i></a>
+                <a href="{{ $site_admin->linkedin }}" class="linkedin"><i class="bx bxl-linkedin"></i></a>
             </div>
         </div>
     </footer><!-- End Footer -->
@@ -233,17 +352,37 @@
         integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.2.0/js/bootstrap-datepicker.min.js"></script>
+    <!-- Toastr -->
+    <script src="{{ asset('assets/plugins/toastr/toastr.min.js') }}"></script>
 
+
+    <!-- Custom Javascript -->
+    <script>
+        $.ajaxSetup({
+            headers: {
+                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+            }
+        });
+    </script>
 
     <script>
-        var flashMessage = localStorage.getItem('flashMessage');
-        localStorage.removeItem('flashMessage'); // Clear the flash message from Local Storage
-        if (flashMessage) {
-            // Display the flash message
-            console.log(flashMessage);
-            toastr.success(flashMessage);
+        $(document).ready(function() {
+            var flashMessage = localStorage.getItem('flashMessage');
+            localStorage.removeItem('flashMessage'); // Clear the flash message from Local Storage
+            if (flashMessage) {
+                // Display the succcess flash message
+                console.log(flashMessage);
+                toastr.success(flashMessage);
+            }
 
-        }
+            var errorFlashMessage = localStorage.getItem('errorFlashMessage');
+            localStorage.removeItem('errorFlashMessage'); // Clear the flash message from Local Storage
+            if (errorFlashMessage) {
+                // Display the succcess flash message
+                console.log(errorFlashMessage);
+                toastr.error(errorFlashMessage);
+            }
+        });
     </script>
     <script>
         var visitors = @json($visitors);
@@ -272,6 +411,7 @@
             startDate: '0d',
             todayHighlight: true,
             autoclose: true,
+            daysOfWeekDisabled: '0',
             format: 'yyyy-mm-dd', // Specify the desired date format
             beforeShowDay: function(date) {
                 console.log(date.getMonth());
@@ -352,7 +492,7 @@
 
             $.ajax({
                 type: "POST",
-                url: "{{ route('admin.visitors.store') }}",
+                url: "{{ route('visitors.store') }}",
                 data: {
                     'organization_name': organization_name,
                     'visitor_count': visitor_count,
@@ -364,15 +504,20 @@
                 },
                 dataType: "json",
                 success: function(response) {
-                    console.log('success');
-                    $('#visitor_create_modal').modal('toggle');
-                    // console.log(`#visitor_create_modal #time_${create_selected_day_range}`);
-                    // $(`#time_${create_selected_day_range}`).removeClass('btn-success').addClass(
-                    //     'btn-secondary').prop('disabled', true);
-                    localStorage.setItem('flashMessage',
-                        `You have successfuly make an appointment on ${create_selected_date} from ${create_selected_day_range}`
-                    );
-                    location.reload();
+                    if (response.success) {
+                        console.log('success');
+                        $('#visitor_create_modal').modal('toggle');
+                        localStorage.setItem('flashMessage',
+                            `You have successfuly make an appointment on ${create_selected_date} from ${create_selected_day_range}`
+                        );
+                        location.reload();
+
+                    } else {
+                        localStorage.setItem('errorFlashMessage',
+                            `Visiting Hourse (${create_selected_day_range}) in ${create_selected_date}  has already been reserved, please select another date or visiting hours!`
+                        );
+                        location.reload();
+                    }
                 },
                 error: function(error) {
                     console.log('error');
@@ -391,6 +536,48 @@
 
 
         });
+    </script>
+
+    <script>
+        $("#sendMessage").on("click", function() {
+            $('#email_error, #subject_error, #message_error').text(''); //reset for every click
+            var name = $("#name").val();
+            var email = $("#email").val();
+            var subject = $("#subject").val();
+            var message = $("#message").val();
+            $.ajax({
+                url: "{{ route('contact-us.store') }}",
+                type: "POST",
+                dataType: 'json',
+                data: {
+                    'name': name,
+                    'email': email,
+                    'subject': subject,
+                    'message': message,
+                },
+                success: function(data) {
+
+                    $("#notify").html(data.success);
+                    $("#notify").show();
+                    $("input", $(".php-email-form")).val('');
+                    $("textarea", $(".php-email-form")).val('');
+                },
+                error: function(error) {
+                    console.log('error');
+                    if (error.status == 422) {
+                        // when status code is 422, it's a validation issue
+                        console.log('validation error');
+                        $.each(error.responseJSON.errors, function(key, error) {
+                            console.log('validation error');
+                            console.log(key);
+                            $("#" + key + "_error").text(error);
+                        });
+                    } else {
+                        toastr.error('Internal Server Error');
+                    }
+                }
+            });
+        })
     </script>
 
 </body>

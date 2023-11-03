@@ -990,13 +990,10 @@ Enhanced security: Electronic portals can implement robust security measures to 
         $siteAdmins = [
 
             [
-                'name' => 'EPPD',
-                'aboutus' => '
-                An electronic public-private portal is a web-based platform that facilitates communication, collaboration, and information exchange between public and private entities. It serves as a digital gateway where users can access and share resources, interact with each other, and engage in various activities electronically.
-                ',
-                'location' => 'https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d7880.724309874413!2d38.75270387770995!3d9.030689800000008!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x164b85f23d0aecdb%3A0x5368a36524cc3e5a!2sFDRE%20Ministry%20of%20Trade%20and%20Industry!5e0!3m2!1sen!2spl!4v1694002069266!5m2!1sen!2spl" width="600" height="450" style="border:0;"
-                allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade',
-                'address' => 'Woreda 09 basha wolde chilot, Arada Sub City, Addis Ababa,',
+                'name' => 'STEM',
+                'aboutus' => 'Lorem ipsum, dolor sit amet consectetur adipisicing elit. Iure non blanditiis, impedit earum sapiente laudantium commodi doloribus mollitia? Eos omnis totam sint dolore vitae autem, dolorum repudiandae! Iusto quos consequuntur provident ea quas fuga recusandae vel quia assumenda, id, sequi blanditiis placeat ipsa labore doloremque delectus officiis esse, obcaecati est exercitationem! Nesciunt iusto voluptatibus sapiente atque possimus aperiam dolores a vitae nostrum cumque, minus in iure ipsum animi quod aut fugiat saepe expedita labore sunt velit sed, eveniet ratione. Nihil deleniti hic accusamus aspernatur, aut autem, corporis quod, repellendus vero iste nisi! Culpa, adipisci id. Vel sapiente ratione impedit quibusdam!',
+                'location' => 'https://www.google.com/maps/embed?pb=!1m14!1m8!1m3!1d7883.880124860577!2d38.809753!3d8.885165!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x164b82a7e392203f%3A0xb05f440eacc98f9f!2sAddis%20Ababa%20Science%20and%20Technology%20University!5e0!3m2!1sen!2sus!4v1699017266770!5m2!1sen!2sus',
+                'address' => '3Km North of Tirunesh-Beijing Hospital or Addis Ababa to Adama Expressway, Koye Roundabout (turn to left for 1km), Akaki Kality Sub-City, Addis Ababa,',
                 'email' => 'info@gmail.com',
                 'telephone' => '+251115513990',
                 'facebook' => 'https://www.facebook.com/people/Ethiopian-Ministry-of-Trade-and-Regional-Integration/100076055062908/',

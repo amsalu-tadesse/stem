@@ -28,7 +28,7 @@ class StoreVisitorRequest extends FormRequest
             'phone' => 'required',
             'email' => 'required|email',
             'visiting_hr' => 'required|string',
-            'appointment_date' => 'required|date|date_format:Y-m-d',
+            'appointment_date' => ['required', 'date','date_format:Y-m-d']
         ];
     }
 }

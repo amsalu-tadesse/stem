@@ -17,7 +17,7 @@ use Exception;
 class ContactUsController extends Controller
 {
 
-    use ModelAuthorizable;
+    // use ModelAuthorizable;
 
     /**
      * Display a listing of the resource.

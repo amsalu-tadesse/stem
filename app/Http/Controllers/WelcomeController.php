@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\StoreVisitorRequest;
+use App\Models\SiteAdmin;
 use App\Models\Visitor;
 use Illuminate\Http\Request;
 
@@ -13,7 +15,8 @@ class WelcomeController extends Controller
     public function index()
     {
         $visitors = Visitor::all();
-        return view('welcome', compact('visitors'));
+        $site_admin = SiteAdmin::first();
+        return view('welcome', compact('visitors', 'site_admin'));
     }
 
     // /**
@@ -24,13 +27,15 @@ class WelcomeController extends Controller
     //     //
     // }
 
-    // /**
-    //  * Store a newly created resource in storage.
-    //  */
-    // public function store(Request $request)
-    // {
-    //     //
-    // }
+    /**
+     * Store a newly created resource in storage.
+     */
+    public function store(StoreVisitorRequest $request)
+    {
+        Visitor::create($request->validated());
+
+        return response()->json(array("success" => true), 200);
+    }
 
     // /**
     //  * Display the specified resource.

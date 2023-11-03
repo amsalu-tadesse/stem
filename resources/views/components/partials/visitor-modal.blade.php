@@ -1,56 +1,51 @@
 <!-- /.modal -->
 <div class="modal" tabindex="-1" role="dialog" id="visitor_create_modal">
-    <div class="modal-dialog modal-lg" role="document">
+    <div class="modal-dialog modal-lg">
         <div class="modal-content">
             <div class="modal-header">
-                <h4 class="modal-title">Make Appointment</h4>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
+                <h3 class="modal-title">Make Appointment</h3>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close">
                 </button>
             </div>
             <form id="visitor_create_form">
                 @csrf
-                <div class="modal-body">
+                <div class="modal-body row">
                     <!-- /.card-body -->
-                    <!-- row -->
-                    <div class="card-body row">
-                        <!-- left column -->
-                        <div class="col-md-6">
-                            <div class="form-group">
-                                <x-partials.input-form title="Organization Name" name="organization_name"
-                                    type="input" />
-                                <span class="text-danger error" id="organization_name_error"></span>
-                            </div>
-                            <div class="form-group">
-                                <x-partials.input-form title="Responsible Person" name="responsible_person"
-                                    type="input" />
-                                <span class="text-danger error" id="responsible_person_error"></span>
-
-                            </div>
-                            <div class="form-group">
-                                <x-partials.input-form title="Phone Number" name="phone_number" type="tel" />
-                                <span class="text-danger error" id="phone_error"></span>
-                            </div>
+                    <!-- left column -->
+                    <div class="col-md-6 p-2">
+                        <div class="form-group p-2">
+                            <x-partials.input-form title="Organization Name" name="organization_name" type="input" />
+                            <span class="text-danger error" id="organization_name_error"></span>
                         </div>
-                        <div class="col-md-6">
-                            <div class="form-group">
-                                <x-partials.input-form title="Email" name="email" type="email" />
-                                <span class="text-danger error" id="email_error"></span>
+                        <div class="form-group p-2">
+                            <x-partials.input-form title="Responsible Person" name="responsible_person"
+                                type="input" />
+                            <span class="text-danger error" id="responsible_person_error"></span>
 
-                            </div>
-                            <div class="form-group">
-                                <x-partials.input-form title="Number of Visitors" name="visitor_count" type="number" />
-                                <span class="text-danger error" id="visitor_count_error"></span>
-                            </div>
-                            <input type="hidden" name="selected_date" id="create_selected_date">
-                            <input type="hidden" name="selected_day_range" id="create_selected_day_range">
+                        </div>
+                        <div class="form-group p-2">
+                            <x-partials.input-form title="Phone Number" name="phone_number" type="tel" />
+                            <span class="text-danger error" id="phone_error"></span>
                         </div>
                     </div>
+                    <div class="col-md-6 p-2">
+                        <div class="form-group p-2">
+                            <x-partials.input-form title="Email" name="email" type="email" />
+                            <span class="text-danger error" id="email_error"></span>
+
+                        </div>
+                        <div class="form-group p-2">
+                            <x-partials.input-form title="Number of Visitors" name="visitor_count" type="number" />
+                            <span class="text-danger error" id="visitor_count_error"></span>
+                        </div>
+                        <input type="hidden" name="selected_date" id="create_selected_date">
+                        <input type="hidden" name="selected_day_range" id="create_selected_day_range">
+                    </div>
                 </div>
-                <div class="modal-footer justify-content-between">
-                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                <div class="modal-footer justify-content-between p-2">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
                     {{-- <input type="hidden" name="course_id" id="course_id"> --}}
-                    <button type="submit" class="btn btn-info">Save changes</button>
+                    <button type="submit" class="btn btn-success">Save changes</button>
                 </div>
             </form>
             <!-- /#user_form -->
@@ -61,24 +56,3 @@
     <!-- /.modal-dialog -->
 </div>
 <!-- /.modal -->
-
-
-<div class="modal" tabindex="-1" role="dialog">
-    <div class="modal-dialog" role="document">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title">Modal title</h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
-            </div>
-            <div class="modal-body">
-                <p>Modal body text goes here.</p>
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-primary">Save changes</button>
-                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-            </div>
-        </div>
-    </div>
-</div>
