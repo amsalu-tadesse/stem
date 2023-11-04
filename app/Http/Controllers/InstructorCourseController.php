@@ -19,7 +19,7 @@ class InstructorCourseController extends Controller
     public function index(InstructerCourseDataTable $dataTable)
     {
           $courses=Course::all();
-          return $dataTable->render("admin.instructor-courses.index",compact("courses"));
+          return $dataTable->render("admin.payroll.index",compact("courses"));
 
     }
 
