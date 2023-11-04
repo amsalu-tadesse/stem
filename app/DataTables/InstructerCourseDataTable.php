@@ -29,7 +29,7 @@ class InstructerCourseDataTable extends DataTable
             ->addColumn('no', function () use (&$index_column) {
                 return ++$index_column;
             })
-           
+
             ->rawColumns(['no']);
     }
 
@@ -41,13 +41,26 @@ class InstructerCourseDataTable extends DataTable
      */
     public function query(InstructorCourse $model): QueryBuilder
     {
-        
-        
+
         return $model::leftJoin('lecturers', 'lecturer_id', '=', 'lecturers.id')
             ->leftJoin('courses', 'course_id', '=', 'courses.id')
-            ->select(['instructor_courses.id', 'instructor_courses.created_at', 'lecturers.name as lecturer_name',  'courses.name AS course_name','courses.lecture_hr_per_week AS lecture_hr_per_week']);
+            ->leftJoin('academic_sessions', 'academic_session_id', '=', 'academic_sessions.id')
+            ->select(['instructor_courses.id', 'instructor_courses.created_at', 'lecturers.name as lecturer_name',  'courses.name AS course_name','courses.lecture_hr_per_week AS lecture_hr_per_week','academic_sessions.start_date','academic_sessions.end_date','academic_sessions.week_type','academic_sessions.start_date','academic_sessions.label','academic_sessions.academic_year',
+            \DB::raw('DATEDIFF(academic_sessions.end_date, academic_sessions.start_date) + 1 AS total_days'),
+
+
+            \DB::raw("DATEDIFF(academic_sessions.end_date, academic_sessions.start_date) + 1 -
+            ((DATEDIFF(academic_sessions.end_date, academic_sessions.start_date) +
+            WEEKDAY(academic_sessions.start_date) + 1) DIV 7 * 2) -
+            CASE WHEN WEEKDAY(academic_sessions.start_date) = 6 THEN 1 ELSE 0 END -
+            CASE WHEN WEEKDAY(academic_sessions.end_date) = 5 THEN 1 ELSE 0 END AS week_days_count"),
+
+
+    ]);
     }
-    
+
+
+
 
     /**
      * Optional method if you want to use html builder.
@@ -120,10 +133,47 @@ class InstructerCourseDataTable extends DataTable
                 ->exportable(false)
                 ->addClass('text-center')
                 ->orderable(false),
+            Column::make('label')->title("Session"),
             Column::make('course_name')->title("course"),
             Column::make('lecturer_name')->title("Instructor"),
-            Column::make('lecture_hr_per_week')->title("Lecture Hour"),
-            Column::make('created_at')->visible(false)
+            Column::computed('week_type')->title("Week type")
+            ->data('function(row) {
+                if(row.week_type==0)
+                {
+                    return "Week days";
+                }
+                return "Weekend";
+
+            }'),
+            Column::make('lecture_hr_per_week')->title("Lecture hours/week"),
+            Column::make('week_days_count')->title("Week Days count"),
+            Column::computed('difference')->title("Weekends count")
+            ->data('function(row) {
+                return row.total_days - row.week_days_count;
+            }'),
+
+            Column::make('total_days')->title("Total days")->visible(false),
+            Column::computed('payment')->title("Payment(ETB)")
+            ->data('function(row) {
+
+                var weekDayCount = row.week_days_count;
+                var weekends_count = row.total_days - row.week_days_count;
+
+                if(row.week_type==0)
+                {
+                    var rate_per_day = row.lecture_hr_per_week/7;
+                    return (rate_per_day*weekDayCount).toFixed(2);
+                }
+                var rate_per_day = row.lecture_hr_per_week/2;
+                return (rate_per_day*weekends_count).toFixed(2);
+
+            }'),
+
+
+
+
+
+            // Column::make('created_at')->visible(false)
         ];
     }
 

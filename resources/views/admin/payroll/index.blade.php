@@ -12,7 +12,7 @@
                                     <option value="{{$course->id}}">{{$course->name}}
                                     </option>
                                     @endforeach
-                                
+
                                 </select>
                             </div>
                         </div>
@@ -33,7 +33,7 @@
 
             <div class="col">
                 <div style="display: flex; justify-content:flex-end">
-                  
+
                 </div>
             </div>
         </div>
@@ -49,7 +49,7 @@
     <script>
         $('.school_select2').select2();
         $('#course_filter').select2();
-      
+
     </script>
     <script>
         $('#course_filter_button').on('click', function() {
