@@ -28,9 +28,9 @@ class AcademicLevelDataTable extends DataTable
                 return ++$index_column;
             })->addColumn('type', function ($academic_level) {
                 if ($academic_level->type == 1) {
-                    return "Lecture";
+                    return "Lab Assistant";
                 } else if ($academic_level->type == 0) {
-                    return "Lab";
+                    return "Instructor";
                 }
             })
             ->addColumn('action', function ($academic_level) {

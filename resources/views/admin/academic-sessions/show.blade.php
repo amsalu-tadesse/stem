@@ -130,7 +130,8 @@
                         if (data.success) {
                             console.log(data);
                             $('#add_instructor_course_modal').modal('toggle');
-                            window.LaravelDataTables["courseTable"].ajax.reload();
+                            //window.LaravelDataTables["courseTable"].ajax.reload();
+                            location.reload();
                             toastr.success('You have successfuly add a instructor-course.')
                         }
                     },

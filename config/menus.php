@@ -35,6 +35,11 @@ return [
         'menu_item'            =>
         [
             [
+                'title'      =>  'Academic Sessions',
+                'url'        =>  'admin.academic-sessions.index',
+                'permission'   => 'course: list'
+            ],
+            [
                 'title'      =>  'Students',
                 'url'        =>  'admin.students.index',
                 'permission'   => 'student: list'
@@ -51,20 +56,11 @@ return [
                 'url'        =>  'admin.courses.index',
                 'permission'   => 'course: list'
             ],
-            [
-                'title'      =>  'Academic Sessions',
-                'url'        =>  'admin.academic-sessions.index',
-                'permission'   => 'course: list'
-            ],
+
             [
                 'title'      =>  'Payroll',
                 'url'        =>  'admin.instructor-courses.index',
                 'permission'   => 'instructor-course: list'
-            ],
-            [
-                'title'      =>  'Visitors',
-                'url'        =>  'admin.visitors.index',
-                'permission'   => 'visitor: list'
             ],
         ],
 

@@ -26,7 +26,7 @@ class StoreLecturerRequest extends FormRequest
             'department'=>'required',
             'phone'=>'required',
             'email'=>'required',
-            'academic_level'=>'required',
+            'academic_level_id'=>'required',
         ];
     }
 }

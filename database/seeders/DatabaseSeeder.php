@@ -45,51 +45,10 @@ class DatabaseSeeder extends Seeder
             ],
             'email:on_contact_us' => [
                 'subject' => 'Your message has been received',
-                'body' => 'Dear {user} <br> Thank you for Your message on EPPD platform. We always appreciate feedback and suggestions.',
+                'body' => 'Dear {user} <br> Thank you for Your message on STEM platform. We always appreciate feedback and suggestions.',
                 'status' => 1,
             ],
-            'email:on_subscribe' => [
-                'subject' => 'You have subscribed successfully',
-                'body' => 'Dear {user}, <br> Thank you for Your subscription on EPPD platform. <br> Click on the following links, If you wish to unsubscribe, {link}',
-                'status' => 1,
 
-            ],
-            'email:on_issue_created' => [
-                'subject' => 'New Issue Created: {issue_title}',
-                'body' => 'Dear {user} <br> We are writing to inform you that a new issue has been created in Electronic Public Private Dialog Portal - FDRE.',
-                'status' => 1,
-            ],
-            /* 'email:on_request_institutions_for_comment' => [
-                'subject' => 'Request for comment',
-                'body' => 'Greetings, <br> We need your institution to comment on the draft document shared below. <br> Draft link: {link}',
-            ],
-
-            'email:on_request_personnel_for_comment' => [
-                'subject' => 'Request for comment',
-                'body' => 'Dear {user}, <br> You have been assigned to comment the draft shared below. <br> Draft link: {link}',
-            ],
-
-            'email:on_document_creation' => [
-                'subject' => 'Draft document created',
-                'body' => 'Dear {user}, <br> <br> You have successfully created a new draft document. please check it from the link provided below. <br> Draft link: {link}',
-            ],
-
-            'email:on_comment_open' => [
-                'subject' => 'Draft document has been opened for comment',
-                'body' => 'Dear {user}, <br> Your document has been opened for comment. <br> Draft link: {link}',
-            ],
-            'email:on_comment_close' => [
-                'subject' => 'Draft document commenting session has been closed',
-                'body' => 'Dear {user}, <br> Your draft document commenting session has been closed. <br> Draft link: {link}',
-            ],
-            'email:on_assignment_for_comment_replies' => [
-                'subject' => 'Assigned as comment replier',
-                'body' => 'Dear {user}, <br> You have been assigned as comment replier for the following draft. <br> Draft link: {link}',
-            ],
-            'email:on_assignment_as_commenter' => [
-                'subject' => 'Assigned as commenter',
-                'body' => 'Dear {user}, <br> You have been assigned to give your comments on the following draft content. <br> Draft link: {link}',
-            ],*/
 
         ];
 
@@ -239,7 +198,7 @@ class DatabaseSeeder extends Seeder
             [
                 'code' => 'allow_user_signup',
                 'name' => 'allow user signup',
-                'value1' => '1',
+                'value1' => '0',
                 'value2' => 'null',
                 'type' => 0,
 

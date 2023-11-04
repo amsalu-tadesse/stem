@@ -15,7 +15,7 @@ class Constants
     public const EXCEPTION_EMAIL_ADDRESSS = 'tadesseamsalu@gmail.com';
     public const EXCEPTION_EMAIL_TITLE = 'Econsultation Exception';
     public const CRON_EXECUTION_TIME = 5;
-    public const APP_NAME = "EPPD";
+    public const APP_NAME = "STEM";
 
 public static function PAGE_NUMBER()
 {

@@ -218,7 +218,7 @@
                         // $(`#time_${create_selected_day_range}`).removeClass('btn-success').addClass(
                         //     'btn-secondary').prop('disabled', true);
                         localStorage.setItem('flashMessage',
-                            `You have successfuly make an appointment on ${create_selected_date} from ${create_selected_day_range}`
+                            `You have successfuly made an appointment on ${create_selected_date} from ${create_selected_day_range}`
                         );
                         location.reload();
                     },

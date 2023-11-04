@@ -7,38 +7,7 @@
     <div class="card">
         <div class="card-header">
             <div>
-                <div class="row mx-2">
-                    <!-- Organization select2 -->
-                    <div class="col-md-6">
-                        <div class="form-group">
-                            <div class="select2-blue">
-                                <select name="organization" class="form-control select2" id="organization_filter" multiple
-                                    data-placeholder="Organization Types" data-dropdown-css-class="select2-blue"
-                                    style="width: 100%;" tabindex="-1" aria-hidden="true">
-                                    @foreach ($organizations as $organization)
-                                        <option value="{{ $organization->id }}">{{ $organization->name }}</option>
-                                    @endforeach
-                                </select>
-                            </div>
-                        </div>
-                    </div>
 
-                    <!-- Organization select2 -->
-                    <div class="col-md-6">
-                        <div class="form-group">
-                            <div class="select2-blue">
-                                <select name="organization_level" class="form-control select2"
-                                    id="organization_level_filter" multiple data-placeholder="Organization Levels"
-                                    data-dropdown-css-class="select2-blue" style="width: 100%;" tabindex="-1"
-                                    aria-hidden="true">
-                                    @foreach ($organization_levels as $level)
-                                        <option value="{{ $level->id }}">{{ $level->name }}</option>
-                                    @endforeach
-                                </select>
-                            </div>
-                        </div>
-                    </div>
-                </div>
                 <div class="row mx-2">
                     <div class="form-group col-md-6">
                         <div class="select2-blue">

@@ -26,7 +26,7 @@ class UpdateLecturerRequest extends FormRequest
             'department'=>'',
             'phone'=>'',
             'email'=>'',
-            'academic_level'=>'',
+            'academic_level_id'=>'',
         ];
     }
 }
