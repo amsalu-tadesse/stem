@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>EPPD</title>
+    <title>STEM</title>
 </head>
 <body>
     {{-- <h1>{{ $content['title'] }}</h1> --}}

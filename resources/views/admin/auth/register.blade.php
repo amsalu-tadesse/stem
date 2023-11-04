@@ -21,7 +21,7 @@
   <div class="register-box">
     <div class="card card-outline card-primary">
       <div class="card-header text-center">
-        <a href="../../index2.html" class="h1"><b>EPPD</b></a>
+        <a href="../../index2.html" class="h1"><b>STEM</b></a>
       </div>
       <div class="card-body">
         <p class="login-box-msg">Register a new membership</p>
@@ -147,10 +147,10 @@
     if (/* Check for errors in other fields */) {
         // Prevent the form from submitting
         event.preventDefault();
-        
+
         // Optionally, display an error message to the user
         alert('Please correct the errors before submitting.');
-        
+
         // Ensure the "I agree" checkbox remains checked
         document.getElementById('agreeTerms').checked = true;
     }

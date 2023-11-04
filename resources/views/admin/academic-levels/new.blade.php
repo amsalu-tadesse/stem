@@ -20,8 +20,8 @@
                         <label for="type">Type</label>
                         <select id='type' class="form-control" name="type">
                             <option value="">Select Type</option>
-                            <option value="0">Lecture</option>
-                            <option value="1">Lab</option>
+                            <option value="0">Instructor</option>
+                            <option value="1">Lab Assistant</option>
                         </select>
                     </div>
                 </div>
