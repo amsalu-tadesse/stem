@@ -57,7 +57,7 @@
                                     <option value="none" selected disabled>Select a academic_session</option>
                                     @foreach ($academic_sessions as $academic_session)
                                     <option value="{{ $academic_session->id }}" {{ old('academic_session') == $academic_session->id ? 'selected' : '' }}>
-                                        {{ $academic_session->academic_year }}
+                                        {{ $academic_session->label }}
                                     </option>
                                     @endforeach
                                 </select>

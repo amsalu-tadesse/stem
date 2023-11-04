@@ -9,7 +9,7 @@
             <div class="col">
                 <div style="display: flex; justify-content:flex-end">
                     <div>
-                        @can('academic-levels: create')
+                        @can('academic-level: create')
                         <a href="{{route('admin.academic-levels.create') }}">
                             <button type="button" class="btn btn-primary">Add New Academic Level</button>
                         </a>

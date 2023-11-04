@@ -15,7 +15,7 @@ return new class extends Migration
             $table->id();
             $table->string('name');
             $table->foreignId('department')->constrained('departments');
-            $table->foreignId('academic_level')->constrained('academic_levels');
+            $table->foreignId('academic_level_id')->constrained('academic_levels');
             $table->string('phone');
             $table->string('email');
             $table->foreignId('created_by')->nullable()->constrained('users');

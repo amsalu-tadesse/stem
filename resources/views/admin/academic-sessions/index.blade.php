@@ -9,7 +9,7 @@
             <div class="col">
                 <div style="display: flex; justify-content:flex-end">
                     <div>
-                        @can('academic-sessions: create')
+                        @can('academic-session: create')
                         <a href="{{route('admin.academic-sessions.create') }}">
                             <button type="button" class="btn btn-primary">Add New Academic Session</button>
                         </a>
@@ -34,28 +34,28 @@
     @push('scripts')
     {{ $dataTable->scripts(attributes: ['type' => 'module']) }}
     <script>
-        $('#start_date').datetimepicker({
-            format: 'YYYY-MM-DD 00:00:00',
-            icons: {
-                time: 'far fa-clock'
-            },
-            buttons: {
-                showClear: true,
-                showClose: true,
-            }
+        // $('#start_date').datetimepicker({
+        //     format: 'YYYY-MM-DD 00:00:00',
+        //     icons: {
+        //         time: 'far fa-clock'
+        //     },
+        //     buttons: {
+        //         showClear: true,
+        //         showClose: true,
+        //     }
 
-        });
-        $('#end_date').datetimepicker({
-            format: 'YYYY-MM-DD 00:00:00',
-            icons: {
-                time: 'far fa-clock'
-            },
-            buttons: {
-                showClear: true,
-                showClose: true,
-            }
+        // });
+        // $('#end_date').datetimepicker({
+        //     format: 'YYYY-MM-DD 00:00:00',
+        //     icons: {
+        //         time: 'far fa-clock'
+        //     },
+        //     buttons: {
+        //         showClear: true,
+        //         showClose: true,
+        //     }
 
-        });
+        // });
 
         //delete row
         function delete_row(element, user_id) {
@@ -147,6 +147,7 @@
                             $('#start_date').val(academic_session.start_date);
                             $('#end_date').val(academic_session.end_date);
                             $('#week_type').val(academic_session.week_type);
+                            $('#label').val(academic_session.label);
                             $('#update_modal').modal('show');
 
                         } else {
@@ -197,14 +198,14 @@
             });
         });
 
-        $(document).ready(function() {
-            $("#academic_year").datepicker({
-                format: "yyyy",
-                viewMode: "years",
-                minViewMode: "years",
-                autoclose: true
-            });
-        })
+        // $(document).ready(function() {
+        //     $("#academic_year").datepicker({
+        //         format: "yyyy",
+        //         viewMode: "years",
+        //         minViewMode: "years",
+        //         autoclose: true
+        //     });
+        // })
     </script>
     @endpush
     <!-- Custom Js contents -->

@@ -25,6 +25,7 @@ class UpdateInstructorCourseRequest extends FormRequest
             'course_id'=>'',
             'lecturer_id'=>'',
             'academic_session_id'=>'',
+            'lab_assistant_id'=>'',
         ];
     }
 }

@@ -26,6 +26,7 @@ class StoreAcademicSessionRequest extends FormRequest
             'start_date'=>'required',
             'end_date'=>'required',
             'week_type'=>'required',
+            'label'=>'required',
             'status'=>'',
         ];
     }

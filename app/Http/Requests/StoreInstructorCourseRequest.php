@@ -25,6 +25,7 @@ class StoreInstructorCourseRequest extends FormRequest
             'course_id'=>'required',
             'lecturer_id'=>'required',
             'academic_session_id'=>'required',
+            'lab_assistant_id'=>'',
         ];
     }
 }
