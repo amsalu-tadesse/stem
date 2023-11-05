@@ -17,7 +17,13 @@ class StudentFactory extends Factory
     public function definition(): array
     {
         return [
-            //
+            'name' => fake()->name(),
+            'age' => 25,
+            'sex' => "Male",
+            'grade' => fake()->numberBetween(1,12),
+            'school_id' => 1,
+            'academic_session' => 1,
+            'created_by' => 1
         ];
     }
 }

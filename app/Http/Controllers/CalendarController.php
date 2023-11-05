@@ -17,7 +17,7 @@ class CalendarController extends Controller
     {
         // Initialize Google Client
         $client = new Google_Client();
-        $client->setApplicationName('STEM');
+        $client->setApplicationName(Constants::APP_NAME);
         $client->setScopes(Google_Service_Calendar::CALENDAR);
         $client->setAuthConfig(storage_path('client_secrets/client_secret.json')); // Path to your client secret JSON file obtained from Google Cloud Console
         $client->setAccessType('offline'); // Allow offline access
@@ -31,7 +31,7 @@ class CalendarController extends Controller
         // Redirect the user to the authorization URL
         return redirect()->away($authUrl);
     }
-
+)
     public function calendarCallback()
     {
         $event_id = request()->query('state');
@@ -39,7 +39,7 @@ class CalendarController extends Controller
 
         // Create Google Client and authenticate with the authorization code
         $client = new Google_Client();
-        $client->setApplicationName('STEM');
+        $client->setApplicationName(Constants::APP_NAME);
         $client->setScopes(Google_Service_Calendar::CALENDAR);
         $client->setAuthConfig(storage_path('client_secrets/client_secret.json')); // Path to your client secret JSON file obtained from Google Cloud Console
         $client->setAccessType('offline'); // Allow offline access
