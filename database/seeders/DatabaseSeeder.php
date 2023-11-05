@@ -45,7 +45,7 @@ class DatabaseSeeder extends Seeder
             ],
             'email:on_contact_us' => [
                 'subject' => 'Your message has been received',
-                'body' => 'Dear {user} <br> Thank you for Your message on STEM platform. We always appreciate feedback and suggestions.',
+                'body' => 'Dear {user} <br> Thank you for Your message on ' . Constants::APP_NAME . ' platform. We always appreciate feedback and suggestions.',
                 'status' => 1,
             ],
 
@@ -114,10 +114,8 @@ class DatabaseSeeder extends Seeder
 
 
         $roles = [
-
             'Instructor',
             'Super Admin',
-
         ];
 
 
@@ -281,7 +279,7 @@ class DatabaseSeeder extends Seeder
                     'value1' => $setting['value1'],
                     'value2' => $setting['value2'],
                     'type' => $setting['type'],
-                    'created_by' =>1,
+                    'created_by' => 1,
                     'updated_by' => 1,
                 ]
             );
@@ -376,7 +374,7 @@ class DatabaseSeeder extends Seeder
         $siteAdmins = [
 
             [
-                'name' => 'STEM',
+                'name' => Constants::APP_NAME,
                 'aboutus' => 'Lorem ipsum, dolor sit amet consectetur adipisicing elit. Iure non blanditiis, impedit earum sapiente laudantium commodi doloribus mollitia? Eos omnis totam sint dolore vitae autem, dolorum repudiandae! Iusto quos consequuntur provident ea quas fuga recusandae vel quia assumenda, id, sequi blanditiis placeat ipsa labore doloremque delectus officiis esse, obcaecati est exercitationem! Nesciunt iusto voluptatibus sapiente atque possimus aperiam dolores a vitae nostrum cumque, minus in iure ipsum animi quod aut fugiat saepe expedita labore sunt velit sed, eveniet ratione. Nihil deleniti hic accusamus aspernatur, aut autem, corporis quod, repellendus vero iste nisi! Culpa, adipisci id. Vel sapiente ratione impedit quibusdam!',
                 'location' => 'https://www.google.com/maps/embed?pb=!1m14!1m8!1m3!1d7883.880124860577!2d38.809753!3d8.885165!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x164b82a7e392203f%3A0xb05f440eacc98f9f!2sAddis%20Ababa%20Science%20and%20Technology%20University!5e0!3m2!1sen!2sus!4v1699017266770!5m2!1sen!2sus',
                 'address' => '3Km North of Tirunesh-Beijing Hospital or Addis Ababa to Adama Expressway, Koye Roundabout (turn to left for 1km), Akaki Kality Sub-City, Addis Ababa,',
@@ -465,7 +463,17 @@ class DatabaseSeeder extends Seeder
         $academic_levels = [
             [
                 'type' => 0,
-                'name' => 'Assistatnt Lectures',
+                'name' => 'Full Professor',
+                'price' => '200',
+            ],
+            [
+                'type' => 0,
+                'name' => 'Associate Professor',
+                'price' => '200',
+            ],
+            [
+                'type' => 0,
+                'name' => 'Assistant Lectures',
                 'price' => '150',
             ],
             [
@@ -475,22 +483,12 @@ class DatabaseSeeder extends Seeder
             ],
             [
                 'type' => 0,
-                'name' => 'Assistant proffesor',
-                'price' => '200',
-            ],
-            [
-                'type' => 0,
-                'name' => 'Full Professor',
+                'name' => 'Assistant Lecturer',
                 'price' => '200',
             ],
             [
                 'type' => 1,
-                'name' => 'ARA',
-                'price' => '100',
-            ],
-            [
-                'type' => 1,
-                'name' => 'SARA',
+                'name' => 'CARA2',
                 'price' => '100',
             ],
             [
@@ -500,9 +498,16 @@ class DatabaseSeeder extends Seeder
             ],
             [
                 'type' => 1,
-                'name' => 'CARA2',
+                'name' => 'SARA',
                 'price' => '100',
             ],
+            [
+                'type' => 1,
+                'name' => 'ARA',
+                'price' => '100',
+            ],
+
+
         ];
 
         foreach ($academic_levels as $academic_level) {
@@ -598,21 +603,21 @@ class DatabaseSeeder extends Seeder
 
         $academic_sessions = [
             [
-                'label' => 'Label1',
+                'label' => 'Session 2021',
                 'academic_year' => '2023/24',
                 'start_date' => '2023-11-03 11:31:38',
                 'end_date' => '2024-11-03 11:31:38',
                 'week_type' => 0,
             ],
             [
-                'label' => 'Label2',
+                'label' => 'Session 2022',
                 'academic_year' => '2024/25',
                 'start_date' => '2024-11-03 11:31:38',
                 'end_date' => '2025-11-03 11:31:38',
                 'week_type' => 1,
             ],
             [
-                'label' => 'Label3',
+                'label' => 'Session 2023',
                 'academic_year' => '2025/26',
                 'start_date' => '2025-11-03 11:31:38',
                 'end_date' => '2026-11-03 11:31:38',
@@ -634,7 +639,7 @@ class DatabaseSeeder extends Seeder
         }
 
 
-        $students = [
+        /*$students = [
             [
                 'name' => 'Getasew Tilahun',
                 'age' => '25',
@@ -673,7 +678,11 @@ class DatabaseSeeder extends Seeder
                     'academic_session' => $student['academic_session'],
                 ]
             );
-        }
+        }*/
+
+
+
+
         $lecturers = [
             [
                 'name' => 'Amsalu Tadesse',
@@ -745,6 +754,27 @@ class DatabaseSeeder extends Seeder
                 ]
             );
         }
-    }
 
+
+        \App\Models\InstructorCourse::factory()->create([
+            'course_id' => 1,
+            'lecturer_id' => 1,
+            'lab_assistant_id' => 1,
+            'academic_session_id' => 1,
+        ]);
+
+        $students = 100;
+
+        \App\Models\Student::factory()->count($students)->create();
+
+
+        for ($i = 1; $i < $students; $i++) {
+            \App\Models\StudentInstructorCourse::factory()->create([
+                'student_id' => $i,
+                'instructor_course_id' => 1,
+                'mark' => 40,
+                'pass' => 1,
+            ]);
+        }
+    }
 }

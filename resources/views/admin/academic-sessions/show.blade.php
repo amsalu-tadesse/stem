@@ -73,13 +73,13 @@
                             text: 'Export',
                             buttons: ['excel', 'pdf', 'print']
                         },
-                        {
+                        /*{
                             text: 'Add Student',
                             action: function() {
                                 openAddStudentModal();
                             },
                             className: 'btn btn-primary'
-                        }
+                        }*/
                     ]
                 });
                 $('#courseTable').DataTable({
@@ -90,7 +90,7 @@
                             buttons: ['excel', 'pdf', 'print']
                         },
                         {
-                            text: 'Add Student',
+                            text: 'Add Course',
                             action: function() {
                                 openAddCourseModal();
                             },

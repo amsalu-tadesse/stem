@@ -13,9 +13,9 @@
                     <div class="form-group">
                         <x-partials.input-form title="Label" name="label" type="input" />
                     </div>
-                    <div class="form-group">
-                        <x-partials.input-form title="Academic Year" name="academic_year" type="input" />
-                    </div>
+
+
+
                     <div class="form-group">
                         <label>Start Date</label>
                         <div class="input-append input-group">
@@ -26,8 +26,8 @@
 
                         </div>
                     </div>
-                </div>
-                <div class="col-md-6">
+
+
                     <div class="form-group">
                         <label for="week_type">Week Type</label>
                         <select id='week_type' class="form-control" name="week_type">
@@ -35,6 +35,14 @@
                             <option value="0">Weeks</option>
                             <option value="1">Weekend</option>
                         </select>
+                    </div>
+
+
+
+                </div>
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <x-partials.input-form title="Academic Year" name="academic_year" type="input" />
                     </div>
                     <div class="form-group">
                         <label>End Date</label>

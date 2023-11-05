@@ -114,7 +114,7 @@ class ContactUsController extends Controller
                 // $body = str_ireplace("{user}", $username, $contact_message->message);
                 // $body = str_ireplace("{link}", $link, $body);
 
-                $message['title'] = "Update On STEM Platform";
+                $message['title'] = "Update On ".Constants::APP_NAME." Platform";
                 $message['body'] = "Dear ".$username.", <br><br>".$contact_message->message;
 
 
