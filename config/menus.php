@@ -30,7 +30,7 @@ return [
 
     'menu_8'                 =>  [
         'name'                 => 'Stem',
-        'menu_icon'           => 'fas fa-ellipsis-h',
+        'menu_icon'           => 'fas fa-book',
         'permissions'           => ['school-level: list', 'school: list', 'academic-level: list', 'department: list', 'lecturer: list', 'student: list', 'course: list', 'academic-session: list', 'instructor-course:list', 'visitor: list', 'payroll: list'],
         'menu_item'            =>
         [
