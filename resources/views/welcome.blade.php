@@ -443,22 +443,22 @@
             visitors.forEach(visitor => {
                 if (selected_date === visitor.appointment_date) {
                     if (visitor.visiting_hr == '2-4') {
-                        $('#time_2-4').toggleClass('btn-success btn-secondary').text('Reserved').prop(
+                        $('#time_2-4').toggleClass('btn-success btn-secondary').text('2-4 (Reserved)').prop(
                             'disabled',
                             true);
                     }
                     if (visitor.visiting_hr == '4-6') {
-                        $('#time_4-6').toggleClass('btn-success btn-secondary').text('Reserved').prop(
+                        $('#time_4-6').toggleClass('btn-success btn-secondary').text('4-6 (Reserved)').prop(
                             'disabled',
                             true);
                     }
                     if (visitor.visiting_hr == '7-9') {
-                        $('#time_7-9').toggleClass('btn-success btn-secondary').text('Reserved').prop(
+                        $('#time_7-9').toggleClass('btn-success btn-secondary').text('7-9 (Reserved)').prop(
                             'disabled',
                             true);
                     }
                     if (visitor.visiting_hr == '9-11') {
-                        $('#time_9-11').toggleClass('btn-success btn-secondary').text('Reserved').prop(
+                        $('#time_9-11').toggleClass('btn-success btn-secondary').text('9-11 (Reserved)').prop(
                             'disabled',
                             true);
                     }
