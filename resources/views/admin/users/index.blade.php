@@ -7,38 +7,7 @@
     <div class="card">
         <div class="card-header">
             <div>
-                <div class="row mx-2">
-                    <!-- Organization select2 -->
-                    <div class="col-md-6">
-                        <div class="form-group">
-                            <div class="select2-blue">
-                                <select name="organization" class="form-control select2" id="organization_filter" multiple
-                                    data-placeholder="Organization Types" data-dropdown-css-class="select2-blue"
-                                    style="width: 100%;" tabindex="-1" aria-hidden="true">
-                                    @foreach ($organizations as $organization)
-                                        <option value="{{ $organization->id }}">{{ $organization->name }}</option>
-                                    @endforeach
-                                </select>
-                            </div>
-                        </div>
-                    </div>
 
-                    <!-- Organization select2 -->
-                    <div class="col-md-6">
-                        <div class="form-group">
-                            <div class="select2-blue">
-                                <select name="organization_level" class="form-control select2"
-                                    id="organization_level_filter" multiple data-placeholder="Organization Levels"
-                                    data-dropdown-css-class="select2-blue" style="width: 100%;" tabindex="-1"
-                                    aria-hidden="true">
-                                    @foreach ($organization_levels as $level)
-                                        <option value="{{ $level->id }}">{{ $level->name }}</option>
-                                    @endforeach
-                                </select>
-                            </div>
-                        </div>
-                    </div>
-                </div>
                 <div class="row mx-2">
                     <div class="form-group col-md-6">
                         <div class="select2-blue">
@@ -124,7 +93,7 @@
 
         <script>
             //delete row
-            function delete_user(element, user_id) {
+            function delete_row(element, user_id) {
                 var url = "{{ route('admin.users.destroy', ':id') }}";
                 url = url.replace(':id', user_id);
                 console.log(url);
@@ -202,10 +171,10 @@
             //update User
             $(document).ready(function() {
                 // Update record popup
-                $('#users-table').on('click', '#update_user', function() {
-                    var user_id = $(this).data('user_id');
+                $('#users-table').on('click', '#update_row', function() {
+                    var row_id = $(this).data('row_id');
                     var url = "{{ route('admin.users.edit', ':id') }}";
-                    url = url.replace(':id', user_id);
+                    url = url.replace(':id', row_id);
 
                     // AJAX request
                     $.ajax({
@@ -287,9 +256,9 @@
 
                 //show user
                 $('#users-table').on('click', '#show_row', function() {
-                    var user_id = $(this).data('row_id');
+                    var row_id = $(this).data('row_id');
                     var url = "{{ route('admin.users.show', ':id') }}";
-                    url = url.replace(':id', user_id);
+                    url = url.replace(':id', row_id);
 
                     // AJAX request
                     $.ajax({

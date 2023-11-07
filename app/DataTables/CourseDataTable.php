@@ -33,9 +33,9 @@ class CourseDataTable extends DataTable
             ->addColumn('action', function ($course) {
                 return view('components.action-buttons', [
                     'row_id' => $course->id,
-                    'permission_delete'=>'courses: delete',
-                     'permission_edit'=>'courses: edit',
-                     'permission_view'=>'courses: view',
+                    'permission_delete'=>'course: delete',
+                     'permission_edit'=>'course: edit',
+                     'permission_view'=>'course: view',
                 ]);
             })
             ->rawColumns(['no', 'action']);

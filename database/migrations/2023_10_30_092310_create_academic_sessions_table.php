@@ -14,6 +14,7 @@ return new class extends Migration
         Schema::create('academic_sessions', function (Blueprint $table) {
             $table->id();
             $table->string('academic_year');
+            $table->string('label');
             $table->dateTime('start_date');
             $table->dateTime('end_date');
             $table->integer('week_type');

@@ -31,9 +31,9 @@ class DepartmentDataTable extends DataTable
             ->addColumn('action', function ($department) {
                 return view('components.action-buttons', [
                     'row_id' => $department->id,
-                    'permission_delete' => 'departments: delete',
-                    'permission_edit' => 'departments: edit',
-                    'permission_view' => 'departments: view',
+                    'permission_delete' => 'department: delete',
+                    'permission_edit' => 'department: edit',
+                    'permission_view' => 'department: view',
                 ]);
             })
             ->rawColumns(['no', 'action']);

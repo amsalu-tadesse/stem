@@ -1,14 +1,14 @@
 <x-layout>
     <!-- Content Header (Page header) -->
-    <x-breadcrump title="Dashboard" parent="Dashboard" child="List" />
+    <x-breadcrump title="STEM" parent="Dashboard" child="List" />
     <div class="card">
         <div class="card-header">
-            <h5> welcome to Electronic  Public Private Dialogue Portal Administration Page </h5>
+            <h5> Welcome to Addis Ababa Science & Technology University STEM Administration Page </h5>
 
         </div>
 
         <div class="card-body text-justify">
-            <p>The Electronic Public-Private Dialogue (e-PPD) administration page is a web-based interface that facilitates and manages online public-private dialogues. It serves as a platform for governments, businesses, and civil society organizations to engage in discussions, exchange information, and collaborate on policy and development issues.</p>
+            <p>This page is for administering student records who come regularily from different schoiols and organizations to the STEM center in Addis Ababa Science & Technology University.</p>
 
         </div>
     </div>

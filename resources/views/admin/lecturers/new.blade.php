@@ -41,8 +41,8 @@
                     </div>
                     <div class="form-group">
                         <label for="academic_level">Academic Level</label>
-                        <select id='academic_level' class="academic_level_select2 select2 form-control"
-                            name="academic_level" data-placeholder="Pick academic_level"
+                        <select id='academic_level_id' class="academic_level_select2 select2 form-control"
+                            name="academic_level_id" data-placeholder="Pick academic_level"
                             data-dropdown-css-class="select2-blue">
                             <option value="none" selected disabled>Select a academic_level</option>
                             @foreach ($academic_levels as $academic_level)
@@ -52,7 +52,7 @@
                                 </option>
                             @endforeach
                         </select>
-                        @error('academic_level')
+                        @error('academic_level_id')
                             <span class="invalid-feedback d-block">academic_level not selected</span>
                         @enderror
                     </div>

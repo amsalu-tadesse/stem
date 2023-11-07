@@ -30,10 +30,15 @@ return [
 
     'menu_8'                 =>  [
         'name'                 => 'Stem',
-        'menu_icon'           => 'fas fa-ellipsis-h',
+        'menu_icon'           => 'fas fa-book',
         'permissions'           => ['school-level: list', 'school: list', 'academic-level: list', 'department: list', 'lecturer: list', 'student: list', 'course: list', 'academic-session: list', 'instructor-course:list', 'visitor: list', 'payroll: list'],
         'menu_item'            =>
         [
+            [
+                'title'      =>  'Academic Sessions',
+                'url'        =>  'admin.academic-sessions.index',
+                'permission'   => 'course: list'
+            ],
             [
                 'title'      =>  'Students',
                 'url'        =>  'admin.students.index',
@@ -51,20 +56,11 @@ return [
                 'url'        =>  'admin.courses.index',
                 'permission'   => 'course: list'
             ],
-            [
-                'title'      =>  'Academic Sessions',
-                'url'        =>  'admin.academic-sessions.index',
-                'permission'   => 'course: list'
-            ],
+
             [
                 'title'      =>  'Payroll',
                 'url'        =>  'admin.instructor-courses.index',
                 'permission'   => 'instructor-course: list'
-            ],
-            [
-                'title'      =>  'Visitors',
-                'url'        =>  'admin.visitors.index',
-                'permission'   => 'visitor: list'
             ],
         ],
 

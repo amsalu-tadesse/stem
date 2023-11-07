@@ -33,7 +33,7 @@
             <div class="col">
                 <div style="display: flex; justify-content:flex-end">
                     <div>
-                        @can('students: create')
+                        @can('student: create')
                         <a href="{{route('admin.students.create') }}">
                             <button type="button" class="btn btn-primary">Add New Student</button>
                         </a>

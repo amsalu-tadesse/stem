@@ -14,7 +14,7 @@ class InstructorCourse extends Model
     use HasFactory, SoftDeletes, LogsActivity, CreatedUpdatedBy;
 
     protected $table = 'instructor_courses';
-    protected $fillable = ['course_id', 'lecturer_id', 'academic_session_id'];
+    protected $fillable = ['course_id', 'lecturer_id', 'academic_session_id','lab_assistant_id'];
 
     public function getActivitylogOptions(): LogOptions
     {
@@ -32,5 +32,9 @@ class InstructorCourse extends Model
     public function instructor()
     {
         return $this->belongsTo(Lecturer::class, 'lecturer_id');
+    }
+    public function labAssistant()
+    {
+        return $this->belongsTo(Lecturer::class, 'lab_assistant_id');
     }
 }

@@ -25,8 +25,8 @@ class AcademicSessionDataTable extends DataTable
         return (new EloquentDataTable($query))
             ->addColumn('no', function () use (&$index_column) {
                 return ++$index_column;
-            })->addColumn('academic_year', function ($academic_session) {
-                return '<a href="' . route('admin.academic-sessions.show', $academic_session->id) . '">' . $academic_session->academic_year . '</a>';
+            })->addColumn('label', function ($academic_session) {
+                return '<a href="' . route('admin.academic-sessions.show', $academic_session->id) . '">' . $academic_session->label . '</a>';
             })->addColumn('start_date', function ($academic_session) {
                 $carbonDate = Carbon::parse($academic_session->start_date);
                 $formattedDate = $carbonDate->format('Y-m-d');
@@ -47,9 +47,9 @@ class AcademicSessionDataTable extends DataTable
                 $dateToCheck = Carbon::parse($academic_session->end_date); 
                 $isDatePassed = $dateToCheck->isPast();
                 if ($isDatePassed) {
-                    return '<button class="btn btn-danger btn-sm">Closed</button>';
+                    return '<span class="badge badge-danger">Closed</span>';
                 } else {
-                    return '<button class="btn btn-success btn-sm">Open</button>';
+                    return '<span class="badge badge-success">Active</span>';
                 }
                 
                 // return view('components.action-buttons-for-custom-exception-status', [
@@ -60,13 +60,13 @@ class AcademicSessionDataTable extends DataTable
             ->addColumn('action', function ($academic_session) {
                 return view('components.action-buttons', [
                     'row_id' => $academic_session->id,
-                    'permission_delete' => 'academic-sessions: delete',
-                    'permission_edit' => 'academic-sessions: edit',
-                    'permission_view' => 'academic-sessions: view',
+                    'permission_delete' => 'academic-session: delete',
+                    'permission_edit' => 'academic-session: edit',
+                    'permission_view' => 'academic-session: view',
                 ]);
             })
 
-            ->rawColumns(['no','academic_year','status', 'action']);
+            ->rawColumns(['no','label','status', 'action']);
     }
 
     /**
@@ -84,6 +84,7 @@ class AcademicSessionDataTable extends DataTable
             'end_date',
             'week_type',
             'status',
+            'label',
             'created_at',
         ]);
     }
@@ -159,6 +160,7 @@ class AcademicSessionDataTable extends DataTable
                 ->exportable(false)
                 ->addClass('text-center')
                 ->orderable(false),
+            Column::make('label'),
             Column::make('academic_year'),
             Column::make('start_date'),
             Column::make('end_date'),

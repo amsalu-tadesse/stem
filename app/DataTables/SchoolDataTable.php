@@ -38,9 +38,9 @@ class SchoolDataTable extends DataTable
             ->addColumn('action', function ($shool) {
                 return view('components.action-buttons', [
                     'row_id' => $shool->id,
-                    'permission_delete'=>'schools: delete',
-                     'permission_edit'=>'schools: edit',
-                     'permission_view'=>'schools: view',
+                    'permission_delete'=>'school: delete',
+                     'permission_edit'=>'school: edit',
+                     'permission_view'=>'school: view',
                 ]);
             })
 

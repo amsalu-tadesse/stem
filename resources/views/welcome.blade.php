@@ -92,7 +92,7 @@
     <!-- ======= Hero Section ======= -->
     <section id="hero" class="d-flex justify-content-center align-items-center">
         <div class="container position-relative" data-aos="zoom-in" data-aos-delay="100">
-             
+
             <h1>Inside Every Child is a Scientist.<br></h1>
             <h2 class="text-info" style="font-weight: bold;">Welcome to Addis Ababa Science & Technology University STEM Center Appointment Portal</h2>
             {{-- <a href="courses.html" class="btn-get-started">Get Started</a> --}}
@@ -509,7 +509,7 @@
                         console.log('success');
                         $('#visitor_create_modal').modal('toggle');
                         localStorage.setItem('flashMessage',
-                            `You have successfuly make an appointment on ${create_selected_date} from ${create_selected_day_range}`
+                            `You have successfuly made an appointment on ${create_selected_date} from ${create_selected_day_range}`
                         );
                         location.reload();
 

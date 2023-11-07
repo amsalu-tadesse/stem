@@ -26,6 +26,7 @@ class UpdateAcademicSessionRequest extends FormRequest
             'start_date'=>'',
             'end_date'=>'',
             'week_type'=>'',
+            'label'=>'',
             'status'=>'',
         ];
     }

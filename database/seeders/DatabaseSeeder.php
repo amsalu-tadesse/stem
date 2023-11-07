@@ -45,51 +45,10 @@ class DatabaseSeeder extends Seeder
             ],
             'email:on_contact_us' => [
                 'subject' => 'Your message has been received',
-                'body' => 'Dear {user} <br> Thank you for Your message on EPPD platform. We always appreciate feedback and suggestions.',
+                'body' => 'Dear {user} <br> Thank you for Your message on ' . Constants::APP_NAME . ' platform. We always appreciate feedback and suggestions.',
                 'status' => 1,
             ],
-            'email:on_subscribe' => [
-                'subject' => 'You have subscribed successfully',
-                'body' => 'Dear {user}, <br> Thank you for Your subscription on EPPD platform. <br> Click on the following links, If you wish to unsubscribe, {link}',
-                'status' => 1,
 
-            ],
-            'email:on_issue_created' => [
-                'subject' => 'New Issue Created: {issue_title}',
-                'body' => 'Dear {user} <br> We are writing to inform you that a new issue has been created in Electronic Public Private Dialog Portal - FDRE.',
-                'status' => 1,
-            ],
-            /* 'email:on_request_institutions_for_comment' => [
-                'subject' => 'Request for comment',
-                'body' => 'Greetings, <br> We need your institution to comment on the draft document shared below. <br> Draft link: {link}',
-            ],
-
-            'email:on_request_personnel_for_comment' => [
-                'subject' => 'Request for comment',
-                'body' => 'Dear {user}, <br> You have been assigned to comment the draft shared below. <br> Draft link: {link}',
-            ],
-
-            'email:on_document_creation' => [
-                'subject' => 'Draft document created',
-                'body' => 'Dear {user}, <br> <br> You have successfully created a new draft document. please check it from the link provided below. <br> Draft link: {link}',
-            ],
-
-            'email:on_comment_open' => [
-                'subject' => 'Draft document has been opened for comment',
-                'body' => 'Dear {user}, <br> Your document has been opened for comment. <br> Draft link: {link}',
-            ],
-            'email:on_comment_close' => [
-                'subject' => 'Draft document commenting session has been closed',
-                'body' => 'Dear {user}, <br> Your draft document commenting session has been closed. <br> Draft link: {link}',
-            ],
-            'email:on_assignment_for_comment_replies' => [
-                'subject' => 'Assigned as comment replier',
-                'body' => 'Dear {user}, <br> You have been assigned as comment replier for the following draft. <br> Draft link: {link}',
-            ],
-            'email:on_assignment_as_commenter' => [
-                'subject' => 'Assigned as commenter',
-                'body' => 'Dear {user}, <br> You have been assigned to give your comments on the following draft content. <br> Draft link: {link}',
-            ],*/
 
         ];
 
@@ -155,10 +114,8 @@ class DatabaseSeeder extends Seeder
 
 
         $roles = [
-
             'Instructor',
             'Super Admin',
-
         ];
 
 
@@ -239,7 +196,7 @@ class DatabaseSeeder extends Seeder
             [
                 'code' => 'allow_user_signup',
                 'name' => 'allow user signup',
-                'value1' => '1',
+                'value1' => '0',
                 'value2' => 'null',
                 'type' => 0,
 
@@ -322,7 +279,7 @@ class DatabaseSeeder extends Seeder
                     'value1' => $setting['value1'],
                     'value2' => $setting['value2'],
                     'type' => $setting['type'],
-                    'created_by' =>1,
+                    'created_by' => 1,
                     'updated_by' => 1,
                 ]
             );
@@ -417,7 +374,7 @@ class DatabaseSeeder extends Seeder
         $siteAdmins = [
 
             [
-                'name' => 'STEM',
+                'name' => Constants::APP_NAME,
                 'aboutus' => 'Lorem ipsum, dolor sit amet consectetur adipisicing elit. Iure non blanditiis, impedit earum sapiente laudantium commodi doloribus mollitia? Eos omnis totam sint dolore vitae autem, dolorum repudiandae! Iusto quos consequuntur provident ea quas fuga recusandae vel quia assumenda, id, sequi blanditiis placeat ipsa labore doloremque delectus officiis esse, obcaecati est exercitationem! Nesciunt iusto voluptatibus sapiente atque possimus aperiam dolores a vitae nostrum cumque, minus in iure ipsum animi quod aut fugiat saepe expedita labore sunt velit sed, eveniet ratione. Nihil deleniti hic accusamus aspernatur, aut autem, corporis quod, repellendus vero iste nisi! Culpa, adipisci id. Vel sapiente ratione impedit quibusdam!',
                 'location' => 'https://www.google.com/maps/embed?pb=!1m14!1m8!1m3!1d7883.880124860577!2d38.809753!3d8.885165!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x164b82a7e392203f%3A0xb05f440eacc98f9f!2sAddis%20Ababa%20Science%20and%20Technology%20University!5e0!3m2!1sen!2sus!4v1699017266770!5m2!1sen!2sus',
                 'address' => '3Km North of Tirunesh-Beijing Hospital or Addis Ababa to Adama Expressway, Koye Roundabout (turn to left for 1km), Akaki Kality Sub-City, Addis Ababa,',
@@ -506,7 +463,17 @@ class DatabaseSeeder extends Seeder
         $academic_levels = [
             [
                 'type' => 0,
-                'name' => 'Assistatnt Lectures',
+                'name' => 'Full Professor',
+                'price' => '200',
+            ],
+            [
+                'type' => 0,
+                'name' => 'Associate Professor',
+                'price' => '200',
+            ],
+            [
+                'type' => 0,
+                'name' => 'Assistant Lectures',
                 'price' => '150',
             ],
             [
@@ -516,22 +483,12 @@ class DatabaseSeeder extends Seeder
             ],
             [
                 'type' => 0,
-                'name' => 'Assistant proffesor',
-                'price' => '200',
-            ],
-            [
-                'type' => 0,
-                'name' => 'Full Professor',
+                'name' => 'Assistant Lecturer',
                 'price' => '200',
             ],
             [
                 'type' => 1,
-                'name' => 'ARA',
-                'price' => '100',
-            ],
-            [
-                'type' => 1,
-                'name' => 'SARA',
+                'name' => 'CARA2',
                 'price' => '100',
             ],
             [
@@ -541,9 +498,16 @@ class DatabaseSeeder extends Seeder
             ],
             [
                 'type' => 1,
-                'name' => 'CARA2',
+                'name' => 'SARA',
                 'price' => '100',
             ],
+            [
+                'type' => 1,
+                'name' => 'ARA',
+                'price' => '100',
+            ],
+
+
         ];
 
         foreach ($academic_levels as $academic_level) {
@@ -558,13 +522,259 @@ class DatabaseSeeder extends Seeder
         }
         $school_levels = [
             [
+                'name' => 'Elementary School',
+                'description' => 'Elementary School',
+            ],
+            [
+                'name' => 'Junior School',
+                'description' => 'Junior School',
+            ],
+            [
                 'name' => 'High School',
                 'description' => 'High School',
             ],
             [
-                'name' => 'Preparatory',
-                'description' => 'Preparatory',
+                'name' => 'Preparatory School',
+                'description' => 'Preparatory School',
             ],
         ];
+
+        foreach ($school_levels as $school_level) {
+
+            \App\Models\SchoolLevel::factory()->create(
+                [
+                    'name' => $school_level['name'],
+                    'description' => $school_level['description'],
+                ]
+            );
+        }
+        $schools = [
+            [
+                'name' => 'Addis Global Academy',
+                'address' => 'Bole Airport',
+                'school_level' => 1,
+            ],
+            [
+                'name' => 'British International School',
+                'address' => 'Bole Bridge',
+                'school_level' => 2,
+            ],
+            [
+                'name' => 'Bole Community School',
+                'address' => 'Bole Homes',
+                'school_level' => 3,
+            ],
+        ];
+
+        foreach ($schools as $school) {
+
+            \App\Models\School::factory()->create(
+                [
+                    'name' => $school['name'],
+                    'address' => $school['address'],
+                    'school_level' => $school['school_level'],
+                ]
+            );
+        }
+        $departments = [
+            [
+                'name' => 'Department1',
+                'description' => 'Description of Department1',
+            ],
+            [
+                'name' => 'Department2',
+                'description' => 'Description of Department1',
+            ],
+            [
+                'name' => 'Department3',
+                'description' => 'Description of Department3',
+            ],
+        ];
+
+        foreach ($departments as $department) {
+
+            \App\Models\Department::factory()->create(
+                [
+                    'name' => $department['name'],
+                    'description' => $department['description'],
+                ]
+            );
+        }
+
+        $academic_sessions = [
+            [
+                'label' => 'Session 2021',
+                'academic_year' => '2023/24',
+                'start_date' => '2023-11-03 11:31:38',
+                'end_date' => '2024-11-03 11:31:38',
+                'week_type' => 0,
+            ],
+            [
+                'label' => 'Session 2022',
+                'academic_year' => '2024/25',
+                'start_date' => '2024-11-03 11:31:38',
+                'end_date' => '2025-11-03 11:31:38',
+                'week_type' => 1,
+            ],
+            [
+                'label' => 'Session 2023',
+                'academic_year' => '2025/26',
+                'start_date' => '2025-11-03 11:31:38',
+                'end_date' => '2026-11-03 11:31:38',
+                'week_type' => 0,
+            ],
+        ];
+
+        foreach ($academic_sessions as $academic_session) {
+
+            \App\Models\AcademicSession::factory()->create(
+                [
+                    'label' => $academic_session['label'],
+                    'academic_year' => $academic_session['academic_year'],
+                    'start_date' => $academic_session['start_date'],
+                    'end_date' => $academic_session['end_date'],
+                    'week_type' => $academic_session['week_type'],
+                ]
+            );
+        }
+
+
+        /*$students = [
+            [
+                'name' => 'Getasew Tilahun',
+                'age' => '25',
+                'grade' => '12',
+                'sex' => 'M',
+                'school_id' => 2,
+                'academic_session' => 1,
+            ],
+            [
+                'name' => 'Yunlong Jambo',
+                'age' => '13',
+                'grade' => '7',
+                'sex' => 'M',
+                'school_id' => 1,
+                'academic_session' => 2,
+            ],
+            [
+                'name' => 'Ermiyas Temesgen',
+                'age' => '25',
+                'grade' => '11',
+                'sex' => 'M',
+                'school_id' => 3,
+                'academic_session' => 3,
+            ],
+        ];
+
+        foreach ($students as $student) {
+
+            \App\Models\Student::factory()->create(
+                [
+                    'name' => $student['name'],
+                    'age' => $student['age'],
+                    'sex' => $student['sex'],
+                    'grade' => $student['grade'],
+                    'school_id' => $student['school_id'],
+                    'academic_session' => $student['academic_session'],
+                ]
+            );
+        }*/
+
+
+
+
+        $lecturers = [
+            [
+                'name' => 'Amsalu Tadesse',
+                'department' => 1,
+                'academic_level_id' => 1,
+                'phone' => '+25190657348',
+                'email' => 'tadesseamsalu@gmail.com',
+            ],
+            [
+                'name' => 'Yonthan Demlie',
+                'department' => 2,
+                'academic_level_id' => 2,
+                'phone' => '+251941000262',
+                'email' => 'yon21@gmail.com',
+            ],
+            [
+                'name' => 'Ermiyas Temesgen',
+                'department' => 3,
+                'academic_level_id' => 5,
+                'phone' => '+251843955',
+                'email' => 'ermi@gmail.com',
+            ],
+            [
+                'name' => 'Yaried Kidus',
+                'department' => 3,
+                'academic_level_id' => 6,
+                'phone' => '+251843955',
+                'email' => 'yaried12@gmail.com',
+            ],
+        ];
+
+        foreach ($lecturers as $lecturer) {
+
+            \App\Models\Lecturer::factory()->create(
+                [
+                    'name' => $lecturer['name'],
+                    'department' => $lecturer['department'],
+                    'phone' => $lecturer['phone'],
+                    'academic_level_id' => $lecturer['academic_level_id'],
+                    'email' => $lecturer['email'],
+                ]
+            );
+        }
+        $courses = [
+            [
+                'name' => 'Chemistry',
+                'lecture_hr_per_week' => 20,
+                'lab_hr_per_week' => 10,
+            ],
+            [
+                'name' => 'Biology',
+                'lecture_hr_per_week' => 15,
+                'lab_hr_per_week' => 5,
+            ],
+            [
+                'name' => 'Physics',
+                'lecture_hr_per_week' => 15,
+                'lab_hr_per_week' => 10,
+            ],
+        ];
+
+        foreach ($courses as $course) {
+
+            \App\Models\Course::factory()->create(
+                [
+                    'name' => $course['name'],
+                    'lecture_hr_per_week' => $course['lecture_hr_per_week'],
+                    'lab_hr_per_week' => $course['lab_hr_per_week'],
+                ]
+            );
+        }
+
+
+        \App\Models\InstructorCourse::factory()->create([
+            'course_id' => 1,
+            'lecturer_id' => 1,
+            'lab_assistant_id' => 1,
+            'academic_session_id' => 1,
+        ]);
+
+        $students = 100;
+
+        \App\Models\Student::factory()->count($students)->create();
+
+
+        for ($i = 1; $i < $students; $i++) {
+            \App\Models\StudentInstructorCourse::factory()->create([
+                'student_id' => $i,
+                'instructor_course_id' => 1,
+                'mark' => 40,
+                'pass' => 1,
+            ]);
+        }
     }
 }

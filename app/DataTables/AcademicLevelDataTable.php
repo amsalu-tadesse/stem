@@ -28,17 +28,17 @@ class AcademicLevelDataTable extends DataTable
                 return ++$index_column;
             })->addColumn('type', function ($academic_level) {
                 if ($academic_level->type == 1) {
-                    return "Lecture";
+                    return "Lab Assistant";
                 } else if ($academic_level->type == 0) {
-                    return "Lab";
+                    return "Instructor";
                 }
             })
             ->addColumn('action', function ($academic_level) {
                 return view('components.action-buttons', [
                     'row_id' => $academic_level->id,
-                    'permission_delete'=>'academic-levels: delete',
-                     'permission_edit'=>'academic-levels: edit',
-                     'permission_view'=>'academic-levels: view',
+                    'permission_delete'=>'academic-level: delete',
+                     'permission_edit'=>'academic-level: edit',
+                     'permission_view'=>'academic-level: view',
                 ]);
             })
             ->rawColumns(['no', 'action']);
