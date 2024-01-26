@@ -31,7 +31,7 @@ return [
     'menu_8'                 =>  [
         'name'                 => 'Stem',
         'menu_icon'           => 'fas fa-book',
-        'permissions'           => ['school-level: list', 'school: list', 'academic-level: list', 'department: list', 'lecturer: list', 'student: list', 'course: list', 'academic-session: list', 'instructor-course:list', 'visitor: list', 'payroll: list'],
+        'permissions'           => ['school-level: list', 'school: list', 'academic-level: list', 'department: list', 'lecturer: list', 'student: list', 'course: list', 'academic-session: list', 'instructor-course:list', 'visitor: list', 'payroll: list','trainer: list','equipment: list','lab: list','center: list','trainee: list'],
         'menu_item'            =>
         [
             [
@@ -61,6 +61,31 @@ return [
                 'title'      =>  'Payroll',
                 'url'        =>  'admin.instructor-courses.index',
                 'permission'   => 'instructor-course: list'
+            ],
+            [
+                'title'      =>  'Centers',
+                'url'        =>  'admin.centers.index',
+                'permission'   => 'center: list'
+            ],
+            [
+                'title'      =>  'Labs',
+                'url'        =>  'admin.labs.index',
+                'permission'   => 'lab: list'
+            ],
+            [
+                'title'      =>  'Equipment',
+                'url'        =>  'admin.equipment.index',
+                'permission'   => 'equipment: list'
+            ],
+            [
+                'title'      =>  'Trainers',
+                'url'        =>  'admin.trainers.index',
+                'permission'   => 'trainer: list'
+            ],
+            [
+                'title'      =>  'Trainees',
+                'url'        =>  'admin.trainees.index',
+                'permission'   => 'trainee: list'
             ],
         ],
 

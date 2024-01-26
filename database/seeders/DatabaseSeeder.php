@@ -5,16 +5,11 @@ namespace Database\Seeders;
 // use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 
 use App\Models\User;
-use ReflectionClass;
-use Illuminate\Support\Str;
 use App\Constants\Constants;
 
 use Illuminate\Database\Seeder;
 use Spatie\Permission\Models\Role;
-use Illuminate\Support\Facades\File;
-use Illuminate\Database\Eloquent\Model;
 use Spatie\Permission\Models\Permission;
-use Symfony\Component\Finder\SplFileInfo;
 
 class DatabaseSeeder extends Seeder
 {
@@ -75,7 +70,12 @@ class DatabaseSeeder extends Seeder
             'course',
             'academic-session',
             'instructor-course',
-            'visitor'
+            'visitor',
+            'center',
+            'lab',
+            'equipment',
+            'trainer',
+            'trainee',
         ];
         $permission_activities = [
             'list',
@@ -775,6 +775,50 @@ class DatabaseSeeder extends Seeder
                 'mark' => 40,
                 'pass' => 1,
             ]);
+        }
+
+        $centers =[
+            [
+                'name'=>'Incubation',
+                'description'=>'Incubation Description',
+            ],
+            [
+                'name'=>'STEM',
+                'description'=>'STEM Description',
+            ],
+            [
+                'name'=>'Innovation',
+                'description'=>'Innovation Description',
+            ],
+        ];
+        foreach ($centers as $center) {
+
+            \App\Models\Center::factory()->create(
+                [
+                    'name' => $center['name'],
+                    'description' => $center['description'],
+                ]
+            );
+        }
+        $equipments =[
+            [
+                'name'=>'Consumables',
+                'description'=>'Consumables Description',
+            ],
+            [
+                'name'=>'Permanent',
+                'description'=>'Permanent Description',
+            ],
+           
+        ];
+        foreach ($equipments as $equip) {
+
+            \App\Models\Equipment::factory()->create(
+                [
+                    'name' => $equip['name'],
+                    'description' => $equip['description'],
+                ]
+            );
         }
     }
 }

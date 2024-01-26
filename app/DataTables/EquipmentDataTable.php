@@ -3,16 +3,20 @@
 namespace App\DataTables;
 
 use App\Constants\Constants;
-use App\Models\AcademicLevel;
+use App\Models\Equipment;
 use Illuminate\Database\Eloquent\Builder as QueryBuilder;
+use Illuminate\Support\Facades\DB;
 use Yajra\DataTables\EloquentDataTable;
 use Yajra\DataTables\Html\Builder as HtmlBuilder;
+use Yajra\DataTables\Html\Button;
 use Yajra\DataTables\Html\Column;
+use Yajra\DataTables\Html\Editor\Editor;
+use Yajra\DataTables\Html\Editor\Fields;
 use Yajra\DataTables\Services\DataTable;
 
 use function Termwind\render;
 
-class AcademicLevelDataTable extends DataTable
+class EquipmentDataTable extends DataTable
 {
     /**
      * Build DataTable class.
@@ -26,19 +30,29 @@ class AcademicLevelDataTable extends DataTable
         return (new EloquentDataTable($query))
             ->addColumn('no', function () use (&$index_column) {
                 return ++$index_column;
-            })->addColumn('type', function ($academic_level) {
-                if ($academic_level->type == 1) {
-                    return "Lab Assistant";
-                } else if ($academic_level->type == 0) {
-                    return "Instructor";
-                }
             })
-            ->addColumn('action', function ($academic_level) {
+            ->addColumn('labName', function ($user) {
+                return $user?->labName;
+            })
+            ->orderColumn('labName', function ($query, $order) {
+                $query->orderBy('labName', $order);
+            })->filterColumn('labName', function ($user, $keyword) {
+                $sql = "labs.name like ?";
+                $user->whereRaw($sql, ["%{$keyword}%"]);
+            })
+            // custom filter
+            ->filter(function ($query) {
+                if (request()->has('lab_id') && request()->filled('lab_id')) {
+                    $query->where('labs.id', '=', request('lab_id'));
+                }
+            }, true)
+            ->addColumn('action', function ($equipment) {
                 return view('components.action-buttons', [
-                    'row_id' => $academic_level->id,
-                    'permission_delete' => 'academic-level: delete',
-                    'permission_edit' => 'academic-level: edit',
-                    'permission_view' => 'academic-level: view',
+                    'row_id' => $equipment->id,
+                    'show' => true,
+                    'permission_delete' => 'equipment: delete',
+                    'permission_edit' => 'equipment: edit',
+                    'permission_view' => 'equipment: view',
                 ]);
             })
             ->rawColumns(['no', 'action']);
@@ -47,18 +61,19 @@ class AcademicLevelDataTable extends DataTable
     /**
      * Get query source of dataTable.
      *
-     * @param \App\Models\AcademicLevel $model
+     * @param \App\Models\Equipment $model
      * @return \Illuminate\Database\Eloquent\Builder
      */
-    public function query(AcademicLevel $model): QueryBuilder
+    public function query(Equipment $model): QueryBuilder
     {
         // return $model->newQuery();
-        return $model::select([
-            'id',
-            'name',
-            'price',
-            'type',
-            'created_at'
+        return $model::leftjoin('labs','lab_id','=','labs.id')->select([
+            'equipment.id',
+            'equipment.created_at',
+            'equipment.name',
+            'equipment.description',
+            'labs.id as labId',
+            'labs.name as labName',
         ]);
     }
 
@@ -70,14 +85,20 @@ class AcademicLevelDataTable extends DataTable
     public function html(): HtmlBuilder
     {
         return $this->builder()
-            ->setTableId('academic-levels-table')
+            ->setTableId('equipment-table')
             ->columns($this->getColumns())
-            ->orderBy(5)
+            ->orderBy(4)
             ->minifiedAjax()
             ->selectStyleSingle()
-            ->dom("<'row'<'col-sm-12 col-md-2'l><'col-sm-12 col-md-6'B>
+            ->ajax([
+                'url' => route('admin.equipment.index'),
+                'data' => 'function(d) {
+                    d.lab_id = $("#lab_id").val();
+                }',
+            ])
+            ->dom("'<'row'<'col-sm-12 col-md-2'l><'col-sm-12 col-md-6'B>
                            <'col-sm-12 col-md-4'f>><'row'<'col-sm-12'tr>>
-                           <'row'<'col-sm-12 col-md-5'i><'col-sm-12 col-md-7'p>>")
+                           <'row'<'col-sm-12 col-md-5'i><'col-sm-12 col-md-7'p>>'")
             ->responsive(true)
             ->processing(true)
             ->autoWidth(false)
@@ -117,7 +138,7 @@ class AcademicLevelDataTable extends DataTable
             )
             ->lengthMenu(Constants::PAGE_NUMBER()) // Customize the options here
             ->language([
-                'lengthMenu' => '_MENU_ records per page', // Customize the label
+                'lengthMenu' => '_MENU_ records per page', // Customize the attribute
             ]);
     }
 
@@ -134,14 +155,14 @@ class AcademicLevelDataTable extends DataTable
                 ->addClass('text-center')
                 ->orderable(false),
             Column::make('name'),
-            Column::make('price'),
-            Column::make('type'),
+            Column::make('labName')->title('lab'),
             Column::computed('action')
                 ->exportable(false)
                 ->printable(true)
                 ->addClass('text-center')
                 ->orderable(false),
             Column::make('created_at')->visible(false)
+
         ];
     }
 
@@ -152,6 +173,6 @@ class AcademicLevelDataTable extends DataTable
      */
     protected function filename(): string
     {
-        return 'AcademicLevels' . date('YmdHis');
+        return "equipment" . date('YmdHis');
     }
 }

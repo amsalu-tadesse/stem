@@ -31,6 +31,7 @@
                     </tbody>
                 </table>
             </div>
+            
             <div class="col-6">
                 <div class="card-header">
                     <div class="row float-right">

@@ -3,16 +3,20 @@
 namespace App\DataTables;
 
 use App\Constants\Constants;
-use App\Models\AcademicLevel;
+use App\Models\TraineeGroup;
 use Illuminate\Database\Eloquent\Builder as QueryBuilder;
+use Illuminate\Support\Facades\DB;
 use Yajra\DataTables\EloquentDataTable;
 use Yajra\DataTables\Html\Builder as HtmlBuilder;
+use Yajra\DataTables\Html\Button;
 use Yajra\DataTables\Html\Column;
+use Yajra\DataTables\Html\Editor\Editor;
+use Yajra\DataTables\Html\Editor\Fields;
 use Yajra\DataTables\Services\DataTable;
 
 use function Termwind\render;
 
-class AcademicLevelDataTable extends DataTable
+class TraineeGroupDataTable extends DataTable
 {
     /**
      * Build DataTable class.
@@ -26,19 +30,14 @@ class AcademicLevelDataTable extends DataTable
         return (new EloquentDataTable($query))
             ->addColumn('no', function () use (&$index_column) {
                 return ++$index_column;
-            })->addColumn('type', function ($academic_level) {
-                if ($academic_level->type == 1) {
-                    return "Lab Assistant";
-                } else if ($academic_level->type == 0) {
-                    return "Instructor";
-                }
             })
-            ->addColumn('action', function ($academic_level) {
+            ->addColumn('action', function ($trainee_group) {
                 return view('components.action-buttons', [
-                    'row_id' => $academic_level->id,
-                    'permission_delete' => 'academic-level: delete',
-                    'permission_edit' => 'academic-level: edit',
-                    'permission_view' => 'academic-level: view',
+                    'row_id' => $trainee_group->id,
+                    'show'=>true,
+                    'permission_delete'=>'trainee-group: delete',
+                    'permission_edit'=>'trainee-group: edit',
+                    'permission_view'=>'trainee-group: view',
                 ]);
             })
             ->rawColumns(['no', 'action']);
@@ -47,18 +46,19 @@ class AcademicLevelDataTable extends DataTable
     /**
      * Get query source of dataTable.
      *
-     * @param \App\Models\AcademicLevel $model
+     * @param \App\Models\TraineeGroup $model
      * @return \Illuminate\Database\Eloquent\Builder
      */
-    public function query(AcademicLevel $model): QueryBuilder
+    public function query(TraineeGroup $model): QueryBuilder
     {
         // return $model->newQuery();
         return $model::select([
             'id',
-            'name',
-            'price',
-            'type',
-            'created_at'
+            'created_at' ,
+'group_id',
+'trainee_id',
+
+            
         ]);
     }
 
@@ -70,14 +70,14 @@ class AcademicLevelDataTable extends DataTable
     public function html(): HtmlBuilder
     {
         return $this->builder()
-            ->setTableId('academic-levels-table')
+            ->setTableId('trainee-groups-table')
             ->columns($this->getColumns())
-            ->orderBy(5)
+            ->orderBy(3)
             ->minifiedAjax()
             ->selectStyleSingle()
-            ->dom("<'row'<'col-sm-12 col-md-2'l><'col-sm-12 col-md-6'B>
+            ->dom("'<'row'<'col-sm-12 col-md-2'l><'col-sm-12 col-md-6'B>
                            <'col-sm-12 col-md-4'f>><'row'<'col-sm-12'tr>>
-                           <'row'<'col-sm-12 col-md-5'i><'col-sm-12 col-md-7'p>>")
+                           <'row'<'col-sm-12 col-md-5'i><'col-sm-12 col-md-7'p>>'")
             ->responsive(true)
             ->processing(true)
             ->autoWidth(false)
@@ -117,7 +117,7 @@ class AcademicLevelDataTable extends DataTable
             )
             ->lengthMenu(Constants::PAGE_NUMBER()) // Customize the options here
             ->language([
-                'lengthMenu' => '_MENU_ records per page', // Customize the label
+                'lengthMenu' => '_MENU_ records per page', // Customize the attribute
             ]);
     }
 
@@ -132,16 +132,17 @@ class AcademicLevelDataTable extends DataTable
             Column::computed('no')->title('No')
                 ->exportable(false)
                 ->addClass('text-center')
-                ->orderable(false),
-            Column::make('name'),
-            Column::make('price'),
-            Column::make('type'),
+                ->orderable(false), 
+Column::make('group_id'),
+Column::make('trainee_id'),
+
             Column::computed('action')
                 ->exportable(false)
                 ->printable(true)
                 ->addClass('text-center')
                 ->orderable(false),
             Column::make('created_at')->visible(false)
+
         ];
     }
 
@@ -152,6 +153,6 @@ class AcademicLevelDataTable extends DataTable
      */
     protected function filename(): string
     {
-        return 'AcademicLevels' . date('YmdHis');
+        return "trainee_groups". date('YmdHis');
     }
 }

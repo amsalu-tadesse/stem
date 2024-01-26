@@ -26,14 +26,20 @@ use App\Http\Controllers\CustomExceptionController;
 use App\Http\Controllers\OrganizationTypeController;
 use App\Http\Controllers\OrganizationLevelController;
 use App\Http\Controllers\Auth\ForgotPasswordController;
+use App\Http\Controllers\CenterController;
 use App\Http\Controllers\CourseController;
+use App\Http\Controllers\CrudGeneratorController;
 use App\Http\Controllers\DepartmentController;
+use App\Http\Controllers\EquipmentController;
 use App\Http\Controllers\LecturerController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\SchoolController;
 use App\Http\Controllers\SchoolLevelController;
 use App\Http\Controllers\StudentController;
 use App\Http\Controllers\InstructorCourseController;
+use App\Http\Controllers\LabController;
+use App\Http\Controllers\TraineeController;
+use App\Http\Controllers\TrainerController;
 use App\Http\Controllers\VisitorController;
 use App\Http\Controllers\WelcomeController;
 
@@ -102,11 +108,19 @@ Route::middleware(['web', 'auth'])->group(function () {
             Route::resource('visitors', VisitorController::class)->except('store');
             Route::resource('instructor-courses', InstructorCourseController::class);
 
+            Route::resource('centers', CenterController::class);
+            Route::resource('labs', LabController::class);
+            Route::resource('equipment', EquipmentController::class);
+            Route::resource('trainers', TrainerController::class);
+            Route::resource('trainees', TraineeController::class);
+
             Route::resource('zones', ZoneController::class);
             Route::resource('custom-exceptions', CustomExceptionController::class);
             Route::resource('audit', AuditController::class);
             Route::resource('settings', SettingController::class);
             Route::resource('contact-us', ContactUsController::class)->except('store');
+
+
             Route::post('contact-message', [ContactUsController::class, 'storeReply'])->name('contact-message.storeReply');
             Route::post('update-address/{id}', [SiteAdminController::class, 'update'])->name('updateaddress');
             Route::get('/site-admin', [SiteAdminController::class, 'index'])->name('siteAdmins.index');
@@ -119,10 +133,16 @@ Route::middleware(['web', 'auth'])->group(function () {
             Route::put('/organizations/authorize/{organization}', [OrganizationController::class, 'authorizeOrganization'])->name('organizations.authorize');
             Route::put('/organizations/unauthorize/{organization}', [OrganizationController::class, 'unAuthorizeOrganization'])->name('organizations.unauthorize');
             Route::get('/profile', [ProfileController::class, 'profile'])->name('profile');
+            Route::get('/list/{lab}', [LabController::class, 'list'])->name('list');
             Route::post('/change-profile', [ProfileController::class, 'changeProfile'])->name('postProfile');
             Route::get('/dashboard', [DashboardController::class, 'dashboard'])->name('dashboard');
             Route::get('/analysis', [AnalysisController::class, 'visualize'])->name('analysis');
 
+
+                   
+              #CRUD
+              Route::resource('crud-generator', CrudGeneratorController::class);
+              Route::post('crud-generator', [CrudGeneratorController::class, 'crudGenerator'])->name('crud-generator');
 
         });
     });

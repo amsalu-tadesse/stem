@@ -31,7 +31,7 @@ class CalendarController extends Controller
         // Redirect the user to the authorization URL
         return redirect()->away($authUrl);
     }
-)
+
     public function calendarCallback()
     {
         $event_id = request()->query('state');
