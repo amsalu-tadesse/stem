@@ -28,16 +28,34 @@ class GroupDataTable extends DataTable
     {
         $index_column = 0;
         return (new EloquentDataTable($query))
-            ->addColumn('no', function () use (&$index_column) {
-                return ++$index_column;
+            ->addColumn('no', function ($group) use (&$index_column) {
+                return '<input class="form-check-input" type="checkbox" id="' . 'id_' . $group->id . '" name="groups" value="' . $group->id . '">' . ++$index_column;
+            })->orderColumn('labName', function ($query, $order) {
+                $query->orderBy('labName', $order);
+            })->filterColumn('labName', function ($group, $keyword) {
+                $sql = "labs.name like ?";
+                $group->whereRaw($sql, ["%{$keyword}%"]);
+            })->orderColumn('traineeCount', function ($query, $order) {
+                $query->orderByRaw('COUNT(trainee_groups.id) ' . $order);
+            })->filterColumn('traineeCount', function ($query, $keyword) {
+                $query->havingRaw('COUNT(trainee_groups.id) = ?', [$keyword]);
             })
+
+
+            // custom filter
+            ->filter(function ($query) {
+                if (request()->has('lab_id') && request()->filled('lab_id')) {
+                    $query->where('labs.id', '=', request('lab_id'));
+                }
+            }, true)
+
             ->addColumn('action', function ($group) {
                 return view('components.action-buttons', [
                     'row_id' => $group->id,
-                    'show'=>true,
-                    'permission_delete'=>'group: delete',
-                    'permission_edit'=>'group: edit',
-                    'permission_view'=>'group: view',
+                    'show' => true,
+                    'permission_delete' => 'group: delete',
+                    'permission_edit' => 'group: edit',
+                    'permission_view' => 'group: view',
                 ]);
             })
             ->rawColumns(['no', 'action']);
@@ -51,14 +69,18 @@ class GroupDataTable extends DataTable
      */
     public function query(Group $model): QueryBuilder
     {
-        // return $model->newQuery();
-        return $model::select([
-            'id',
-            'created_at' ,
-'name',
-
-            
-        ]);
+        return $model::leftJoin('group_labs', 'group_id', '=', 'groups.id')
+            ->leftJoin('labs', 'labs.id', '=', 'group_labs.lab_id')
+            ->leftJoin('trainee_groups', 'trainee_groups.group_id', '=', 'groups.id')
+            ->select([
+                'groups.id',
+                'groups.created_at',
+                'groups.name',
+                'labs.id as labId',
+                'labs.name as labName',
+                DB::raw('COUNT(trainee_groups.id) as traineeCount'),
+            ])
+            ->groupBy('groups.id', 'groups.created_at', 'groups.name', 'labId', 'labName');
     }
 
     /**
@@ -71,9 +93,23 @@ class GroupDataTable extends DataTable
         return $this->builder()
             ->setTableId('groups-table')
             ->columns($this->getColumns())
-            ->orderBy(3)
+            ->orderBy(5)
             ->minifiedAjax()
             ->selectStyleSingle()
+            ->ajax([
+                'url' => route('admin.groups.index'),
+                'data' => 'function(d) {
+                    d.lab_id = $("#lab_id").val();
+                }',
+            ])
+            ->initComplete('function(settings, json) {
+                var table = $("#groups-table").DataTable();
+                
+                // Attach an event listener for changes to dynamically update the lab_id and group_id
+                $("#lab_id").on("change", function() {
+                    table.ajax.reload();
+                });
+            }')
             ->dom("'<'row'<'col-sm-12 col-md-2'l><'col-sm-12 col-md-6'B>
                            <'col-sm-12 col-md-4'f>><'row'<'col-sm-12'tr>>
                            <'row'<'col-sm-12 col-md-5'i><'col-sm-12 col-md-7'p>>'")
@@ -131,9 +167,10 @@ class GroupDataTable extends DataTable
             Column::computed('no')->title('No')
                 ->exportable(false)
                 ->addClass('text-center')
-                ->orderable(false), 
-Column::make('name'),
-
+                ->orderable(false),
+            Column::make('name'),
+            Column::make('labName')->title('Lab'),
+            Column::make('traineeCount')->title('Trainees'),
             Column::computed('action')
                 ->exportable(false)
                 ->printable(true)
@@ -151,6 +188,6 @@ Column::make('name'),
      */
     protected function filename(): string
     {
-        return "groups". date('YmdHis');
+        return "groups" . date('YmdHis');
     }
 }

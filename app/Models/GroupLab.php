@@ -9,7 +9,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 use Spatie\Activitylog\Traits\LogsActivity;
 use Spatie\Activitylog\LogOptions;
 
-class Equipment extends Model
+class GroupLab extends Model
 {
     use HasFactory, SoftDeletes, LogsActivity, CreatedUpdatedBy;
     protected $guarded = [
@@ -19,18 +19,18 @@ class Equipment extends Model
     {
         return LogOptions::defaults()
             ->logOnly([
-                'name',
-                'description',
-                'center_id',
+                'group_id',
+                'lab_id',
+
             ]);
     }
 
+    public function group()
+    {
+        return $this->belongsTo(Group::class, 'group_id');
+    }
     public function lab()
     {
         return $this->belongsTo(Lab::class, 'lab_id');
-    }
-    public function equipmentType()
-    {
-        return $this->belongsTo(EquipmentType::class, 'equipment_type_id');
     }
 }

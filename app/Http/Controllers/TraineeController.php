@@ -7,10 +7,11 @@ use App\Models\Trainee;
 use App\Http\Requests\StoreTraineeRequest;
 use App\Http\Requests\UpdateTraineeRequest;
 use App\Models\Center;
+use App\Models\Group;
 use App\Models\User;
 use App\Traits\ModelAuthorizable;
 use Illuminate\Support\Facades\DB;
-
+use PHPUnit\Metadata\Api\Groups;
 
 class TraineeController extends Controller
 {
@@ -20,8 +21,9 @@ class TraineeController extends Controller
      */
     public function index(TraineeDataTable $dataTable)
     {
+        $groups = Group::all();
         $centers = Center::all();
-        return $dataTable->render('admin.trainees.index', compact('centers',));
+        return $dataTable->render('admin.trainees.index', compact('centers','groups'));
     }
 
     /**

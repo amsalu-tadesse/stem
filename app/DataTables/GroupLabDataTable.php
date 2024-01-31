@@ -3,7 +3,7 @@
 namespace App\DataTables;
 
 use App\Constants\Constants;
-use App\Models\Equipment;
+use App\Models\GroupLab;
 use Illuminate\Database\Eloquent\Builder as QueryBuilder;
 use Illuminate\Support\Facades\DB;
 use Yajra\DataTables\EloquentDataTable;
@@ -16,7 +16,7 @@ use Yajra\DataTables\Services\DataTable;
 
 use function Termwind\render;
 
-class EquipmentDataTable extends DataTable
+class GroupLabDataTable extends DataTable
 {
     /**
      * Build DataTable class.
@@ -30,29 +30,24 @@ class EquipmentDataTable extends DataTable
         return (new EloquentDataTable($query))
             ->addColumn('no', function () use (&$index_column) {
                 return ++$index_column;
-            })
-            ->addColumn('labName', function ($user) {
-                return $user?->labName;
-            })
-            ->orderColumn('labName', function ($query, $order) {
+            })->orderColumn('labName', function ($query, $order) {
                 $query->orderBy('labName', $order);
-            })->filterColumn('labName', function ($user, $keyword) {
+            })->filterColumn('labName', function ($group, $keyword) {
                 $sql = "labs.name like ?";
-                $user->whereRaw($sql, ["%{$keyword}%"]);
+                $group->whereRaw($sql, ["%{$keyword}%"]);
+            })->orderColumn('groupName', function ($query, $order) {
+                $query->orderBy('groupName', $order);
+            })->filterColumn('groupName', function ($group, $keyword) {
+                $sql = "groups.name like ?";
+                $group->whereRaw($sql, ["%{$keyword}%"]);
             })
-            // custom filter
-            ->filter(function ($query) {
-                if (request()->has('lab_id') && request()->filled('lab_id')) {
-                    $query->where('labs.id', '=', request('lab_id'));
-                }
-            }, true)
-            ->addColumn('action', function ($equipment) {
+            ->addColumn('action', function ($group_lab) {
                 return view('components.action-buttons', [
-                    'row_id' => $equipment->id,
+                    'row_id' => $group_lab->id,
                     'show' => true,
-                    'permission_delete' => 'equipment: delete',
-                    'permission_edit' => 'equipment: edit',
-                    'permission_view' => 'equipment: view',
+                    'permission_delete' => 'group-lab: delete',
+                    'permission_edit' => 'group-lab: edit',
+                    'permission_view' => 'group-lab: view',
                 ]);
             })
             ->rawColumns(['no', 'action']);
@@ -61,21 +56,19 @@ class EquipmentDataTable extends DataTable
     /**
      * Get query source of dataTable.
      *
-     * @param \App\Models\Equipment $model
+     * @param \App\Models\GroupLab $model
      * @return \Illuminate\Database\Eloquent\Builder
      */
-    public function query(Equipment $model): QueryBuilder
+    public function query(GroupLab $model): QueryBuilder
     {
         // return $model->newQuery();
-        return $model::leftjoin('labs', 'lab_id', '=', 'labs.id')->leftjoin('equipment_types', 'equipment_type_id', '=', 'equipment_types.id')->select([
-            'equipment.id',
-            'equipment.created_at',
-            'equipment.name',
-            'equipment.count as countName',
-            'equipment.description',
-            'labs.id as labId',
+        return $model::leftjoin('labs','lab_id','=','labs.id')->leftjoin('groups','group_id','=','groups.id')->select([
+            'group_labs.id',
+            'group_labs.created_at',
+            'group_labs.group_id',
+            'group_labs.lab_id',
             'labs.name as labName',
-            'equipment_types.name as typeName'
+            'groups.name as groupName',
         ]);
     }
 
@@ -87,17 +80,11 @@ class EquipmentDataTable extends DataTable
     public function html(): HtmlBuilder
     {
         return $this->builder()
-            ->setTableId('equipment-table')
+            ->setTableId('group-labs-table')
             ->columns($this->getColumns())
-            ->orderBy(6)
+            ->orderBy(4)
             ->minifiedAjax()
             ->selectStyleSingle()
-            ->ajax([
-                'url' => route('admin.equipment.index'),
-                'data' => 'function(d) {
-                    d.lab_id = $("#lab_id").val();
-                }',
-            ])
             ->dom("'<'row'<'col-sm-12 col-md-2'l><'col-sm-12 col-md-6'B>
                            <'col-sm-12 col-md-4'f>><'row'<'col-sm-12'tr>>
                            <'row'<'col-sm-12 col-md-5'i><'col-sm-12 col-md-7'p>>'")
@@ -156,10 +143,8 @@ class EquipmentDataTable extends DataTable
                 ->exportable(false)
                 ->addClass('text-center')
                 ->orderable(false),
-            Column::make('name'),
-            Column::make('labName')->title('lab'),
-            Column::make('countName')->title('Count'),
-            Column::make('typeName')->title('Type'),
+            Column::make('labName')->title('Lab'),
+            Column::make('groupName')->title('Group'),
             Column::computed('action')
                 ->exportable(false)
                 ->printable(true)
@@ -177,6 +162,6 @@ class EquipmentDataTable extends DataTable
      */
     protected function filename(): string
     {
-        return "equipment" . date('YmdHis');
+        return "group_labs" . date('YmdHis');
     }
 }

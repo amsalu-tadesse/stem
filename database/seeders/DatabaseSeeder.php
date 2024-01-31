@@ -74,8 +74,12 @@ class DatabaseSeeder extends Seeder
             'center',
             'lab',
             'equipment',
+            'equipment-type',
             'trainer',
             'trainee',
+            'group',
+            'trainee-group',
+            'group-lab',
         ];
         $permission_activities = [
             'list',
@@ -791,6 +795,7 @@ class DatabaseSeeder extends Seeder
                 'description'=>'Innovation Description',
             ],
         ];
+
         foreach ($centers as $center) {
 
             \App\Models\Center::factory()->create(
@@ -800,7 +805,7 @@ class DatabaseSeeder extends Seeder
                 ]
             );
         }
-        $equipments =[
+        $equipment_types =[
             [
                 'name'=>'Consumables',
                 'description'=>'Consumables Description',
@@ -811,12 +816,13 @@ class DatabaseSeeder extends Seeder
             ],
            
         ];
-        foreach ($equipments as $equip) {
 
-            \App\Models\Equipment::factory()->create(
+        foreach ($equipment_types as $equip_type) {
+
+            \App\Models\EquipmentType::factory()->create(
                 [
-                    'name' => $equip['name'],
-                    'description' => $equip['description'],
+                    'name' => $equip_type['name'],
+                    'description' => $equip_type['description'],
                 ]
             );
         }

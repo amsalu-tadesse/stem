@@ -31,7 +31,7 @@ return [
     'menu_8'                 =>  [
         'name'                 => 'Stem',
         'menu_icon'           => 'fas fa-book',
-        'permissions'           => ['school-level: list', 'school: list', 'academic-level: list', 'department: list', 'lecturer: list', 'student: list', 'course: list', 'academic-session: list', 'instructor-course:list', 'visitor: list', 'payroll: list','trainer: list','equipment: list','lab: list','center: list','trainee: list'],
+        'permissions'           => ['school-level: list', 'school: list', 'academic-level: list', 'department: list', 'lecturer: list', 'student: list', 'course: list', 'academic-session: list', 'instructor-course:list', 'visitor: list', 'payroll: list', 'trainer: list', 'equipment: list', 'lab: list', 'center: list', 'trainee: list', 'group: list', 'trainee-group: list','group-lab: list','equipment-type: list'],
         'menu_item'            =>
         [
             [
@@ -73,6 +73,11 @@ return [
                 'permission'   => 'lab: list'
             ],
             [
+                'title'      =>  'Equipment Types',
+                'url'        =>  'admin.equipment-types.index',
+                'permission'   => 'equipment-type: list'
+            ],
+            [
                 'title'      =>  'Equipment',
                 'url'        =>  'admin.equipment.index',
                 'permission'   => 'equipment: list'
@@ -86,6 +91,21 @@ return [
                 'title'      =>  'Trainees',
                 'url'        =>  'admin.trainees.index',
                 'permission'   => 'trainee: list'
+            ],
+            [
+                'title'      =>  'Groups',
+                'url'        =>  'admin.groups.index',
+                'permission'   => 'group: list'
+            ],
+            [
+                'title'      =>  'Trainee Groups',
+                'url'        =>  'admin.trainee-groups.index',
+                'permission'   => 'trainee-group: list'
+            ],
+            [
+                'title'      =>  'Group Lab',
+                'url'        =>  'admin.group-labs.index',
+                'permission'   => 'group-lab: list'
             ],
         ],
 

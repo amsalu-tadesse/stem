@@ -10,6 +10,7 @@ use App\Http\Requests\StoreLabRequest;
 use App\Http\Requests\UpdateLabRequest;
 use App\Models\Center;
 use App\Models\Equipment;
+use App\Models\EquipmentType;
 use App\Models\User;
 use App\Traits\ModelAuthorizable;
 use Illuminate\Support\Facades\DB;
@@ -63,10 +64,10 @@ class LabController extends Controller
     {
         $equipment = Equipment::where('lab_id', $lab->id)->with('lab')->get();
         $labs = Lab::all();
-
+        $equipment_types = EquipmentType::all();
         return $dataTable
             ->with(['lab_id' => $lab->id])
-            ->render('admin.labs.list', compact('equipment', 'lab', 'labs'));
+            ->render('admin.labs.list', compact('equipment', 'lab', 'labs', 'equipment_types'));
     }
 
 

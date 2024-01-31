@@ -18,14 +18,16 @@
             {{ $dataTable->table(['class' => 'table table-bordered table-striped']) }}
         </div>
     </div>
-    <x-partials.equipment_on_lab_modal  />
-    <x-partials.add_equipment_modal :lab="$lab" />
+    <x-partials.equipment_on_lab_modal :equipment_types="$equipment_types" />
+    <x-partials.add_equipment_modal :lab="$lab" :equipment_types="$equipment_types" />
     <x-show-modals.equipment_show_modal />
     @push('scripts')
     {{ $dataTable->scripts(attributes: ['type' => 'module']) }}
     <script>
         $('.labs_select2').select2();
         $('.filter_by_lab_select2').select2();
+        $('.equipment_types_on_add_select2').select2();
+        $('.equipment_typess_select2').select2();
     </script>
     <script>
         //delete row
@@ -62,7 +64,7 @@
                         success: function(data) {
                             console.log(data);
                             if (data.success) {
-                                window.LaravelDataTables['equipment-table'].ajax.reload();
+                                window.LaravelDataTables['equipment-on-lab-table'].ajax.reload();
                             }
                         },
                         error: function(error) {
@@ -98,7 +100,7 @@
 
         $(document).ready(function() {
             // Update record popup
-            $('#equipment-table').on('click', '#update_row', function() {
+            $('#equipment-on-lab-table').on('click', '#update_row', function() {
                 var row_id = $(this).data('row_id');
                 var url = "{{ route('admin.equipment.edit', ':id') }}";
                 url = url.replace(':id', row_id);
@@ -116,9 +118,13 @@
                             console.log(equipment);
                             $('#equipment_id').val(equipment.id);
                             $('#name').val(equipment.name);
+                            $('#count').val(equipment.count);
                             $('#description').val(equipment.description);
                             if (equipment.lab_id) {
                                 $('.labs_select2').val(equipment.lab.id).trigger('change');
+                            }
+                            if (equipment.equipment_type_id) {
+                                $('.equipment_typess_select2').val(equipment.equipment_type.id).trigger('change');
                             }
                             $('#update_modal').modal('show');
 
@@ -130,7 +136,7 @@
             });
 
             //show
-            $('#equipment-table').on('click', '#show_row', function() {
+            $('#equipment-on-lab-table').on('click', '#show_row', function() {
                 var row_id = $(this).data('row_id');
                 var url = "{{ route('admin.equipment.show', ':id') }}";
                 url = url.replace(':id', row_id);
@@ -147,9 +153,13 @@
                             console.log(equipment);
                             $('#equipment_id').val(equipment.id);
                             $('#show_modal #name').html(equipment.name);
+                            $('#show_modal #count').html(equipment.count);
                             $('#show_modal #description').html(equipment.description);
                             if (equipment.lab_id) {
                                 $('#show_modal #lab_id').html(equipment.lab.name);
+                            }
+                            if (equipment.equipment_type_id) {
+                                $('#show_modal #equipment_type_id').html(equipment.equipment_type.name);
                             }
                             $('#show_modal').modal('show');
 
@@ -183,7 +193,7 @@
                         console.log(data);
                         console.log('2222222222222222');
                         $('#update_modal').modal('toggle');
-                        window.LaravelDataTables['equipment-table'].ajax.reload();
+                        window.LaravelDataTables['equipment-on-lab-table'].ajax.reload();
                         toastr.success('You have successfuly updated a Equipment.')
                     }
                 },
@@ -215,7 +225,7 @@
                     if (data.success) {
                         console.log(data);
                         $('#add_equipment_modal').modal('toggle');
-                        window.LaravelDataTables['equipment-table'].ajax.reload();
+                        window.LaravelDataTables['equipment-on-lab-table'].ajax.reload();
                         toastr.success('You have successfuly add a Equipment.')
                         $('#add_equipment_form_modal :input').val('');
                     }

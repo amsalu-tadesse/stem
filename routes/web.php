@@ -31,6 +31,9 @@ use App\Http\Controllers\CourseController;
 use App\Http\Controllers\CrudGeneratorController;
 use App\Http\Controllers\DepartmentController;
 use App\Http\Controllers\EquipmentController;
+use App\Http\Controllers\EquipmentTypeController;
+use App\Http\Controllers\GroupController;
+use App\Http\Controllers\GroupLabController;
 use App\Http\Controllers\LecturerController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\SchoolController;
@@ -39,6 +42,7 @@ use App\Http\Controllers\StudentController;
 use App\Http\Controllers\InstructorCourseController;
 use App\Http\Controllers\LabController;
 use App\Http\Controllers\TraineeController;
+use App\Http\Controllers\TraineeGroupController;
 use App\Http\Controllers\TrainerController;
 use App\Http\Controllers\VisitorController;
 use App\Http\Controllers\WelcomeController;
@@ -111,8 +115,13 @@ Route::middleware(['web', 'auth'])->group(function () {
             Route::resource('centers', CenterController::class);
             Route::resource('labs', LabController::class);
             Route::resource('equipment', EquipmentController::class);
+            Route::resource('equipment-types', EquipmentTypeController::class);
             Route::resource('trainers', TrainerController::class);
             Route::resource('trainees', TraineeController::class);
+            Route::resource('trainee-groups', TraineeGroupController::class);
+            Route::resource('groups', GroupController::class);
+
+            Route::resource('group-labs', GroupLabController::class);
 
             Route::resource('zones', ZoneController::class);
             Route::resource('custom-exceptions', CustomExceptionController::class);

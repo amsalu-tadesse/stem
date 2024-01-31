@@ -1,9 +1,14 @@
-<?php 
+<?php
+
 namespace App\Http\Controllers;
+
 use App\DataTables\TraineeGroupDataTable;
+use App\Http\Requests\StoreGroupRequest;
 use App\Models\TraineeGroup;
 use App\Http\Requests\StoreTraineeGroupRequest;
 use App\Http\Requests\UpdateTraineeGroupRequest;
+use App\Models\Group;
+use App\Models\Trainee;
 use App\Models\User;
 use App\Traits\ModelAuthorizable;
 use Illuminate\Support\Facades\DB;
@@ -16,28 +21,68 @@ class TraineeGroupController extends Controller
      * Display a listing of the resource.
      */
     public function index(TraineeGroupDataTable $dataTable)
-    {$groups= DB::table('groups')->get();$trainees= DB::table('trainees')->get();
-                return $dataTable->render('admin.trainee-groups.index',compact('groups','trainees',));
+    {
+        $groups = DB::table('groups')->get();
+        $trainees = DB::table('trainees')->get();
+        return $dataTable->render('admin.trainee-groups.index', compact('groups', 'trainees',));
     }
 
     /**
      * Show the form for creating a new resource.
      */
     public function create()
-    {$groups= DB::table('groups')->get();$trainees= DB::table('trainees')->get();
-        return view('admin.trainee-groups.new',compact('groups','trainees',));
+    {
+        $groups = DB::table('groups')->get();
+        $trainees = DB::table('trainees')->get();
+        return view('admin.trainee-groups.new', compact('groups', 'trainees',));
     }
 
     /**
      * Store a newly created resource in storage.
      */
+
     public function store(StoreTraineeGroupRequest $request)
     {
 
-        $trainee_group = TraineeGroup::create($request->validated());
+        // dd(request()->all());
+        $name = $request->input('name');
+        $group_id = $request->input('group_id');
+        $validatedTraineeGroupData = $request->input('selectedCheckboxes');
 
-        return redirect()->route('admin.trainee-groups.index')->with('success_create', ' trainee_group added!');
+        if ($group_id !== null && $group_id !== '') {
+            foreach ($validatedTraineeGroupData as $traineeId) {
+                TraineeGroup::updateOrInsert(
+                    ['trainee_id' => $traineeId],
+                    ['group_id' => $group_id]
+                );
+                Trainee::where('id', $traineeId)->update(['grouped' => 1]);
+            }
+        }
+
+        if ($name !== null && $name !== '') {
+            $existingTraineeIds = TraineeGroup::whereIn('trainee_id', $validatedTraineeGroupData)->pluck('trainee_id')->toArray();
+
+            $group = Group::create(['name' => $name]);
+            $group_id = $group->id;
+            // dd($validatedTraineeGroupData);
+            foreach ($validatedTraineeGroupData as $traineeId) {
+                if (in_array($traineeId, $existingTraineeIds)) {
+                    TraineeGroup::where('trainee_id', $traineeId)->forceDelete();
+                }
+
+                // Create a new row
+                TraineeGroup::create([
+                    'group_id' => $group_id,
+                    'trainee_id' => $traineeId,
+                ]);
+
+                Trainee::where('id', $traineeId)->update(['grouped' => 1]);
+            }
+        }
+        return response()->json(['success' => true], 200);
     }
+
+
 
     /**
      * Display the specified resource.
@@ -45,6 +90,7 @@ class TraineeGroupController extends Controller
     public function show(TraineeGroup $trainee_group)
     {
         if (request()->ajax()) {
+            $trainee_group->load('group:id,name')->load('trainee:id,full_name');
             $response = array();
             $response['success'] = 1;
             $response['trainee_group'] = $trainee_group;
@@ -58,6 +104,7 @@ class TraineeGroupController extends Controller
     public function edit(TraineeGroup $trainee_group)
     {
         if (request()->ajax()) {
+            $trainee_group->load('group:id,name')->load('trainee:id,full_name');
             $response = array();
             $response['success'] = 1;
             $response['trainee_group'] = $trainee_group;
@@ -88,5 +135,3 @@ class TraineeGroupController extends Controller
         return response()->json(array('success' => true), 200);
     }
 }
-
-        

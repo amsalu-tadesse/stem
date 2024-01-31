@@ -110,6 +110,7 @@
                 var url = "{{ route('admin.lecturers.edit', ':id') }}";
                 url = url.replace(':id', row_id);
 
+                $('#lecturer_update_form :input').val('');
                 // AJAX request
                 $.ajax({
                     url: url,

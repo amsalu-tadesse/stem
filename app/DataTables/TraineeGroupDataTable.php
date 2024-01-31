@@ -31,13 +31,25 @@ class TraineeGroupDataTable extends DataTable
             ->addColumn('no', function () use (&$index_column) {
                 return ++$index_column;
             })
+            ->orderColumn('groupName', function ($query, $order) {
+                $query->orderBy('groupName', $order);
+            })->filterColumn('groupName', function ($user, $keyword) {
+                $sql = "groups.name like ?";
+                $user->whereRaw($sql, ["%{$keyword}%"]);
+            })
+            ->orderColumn('traineeName', function ($query, $order) {
+                $query->orderBy('traineeName', $order);
+            })->filterColumn('traineeName', function ($user, $keyword) {
+                $sql = "trainees.full_name like ?";
+                $user->whereRaw($sql, ["%{$keyword}%"]);
+            })
             ->addColumn('action', function ($trainee_group) {
                 return view('components.action-buttons', [
                     'row_id' => $trainee_group->id,
-                    'show'=>true,
-                    'permission_delete'=>'trainee-group: delete',
-                    'permission_edit'=>'trainee-group: edit',
-                    'permission_view'=>'trainee-group: view',
+                    'show' => true,
+                    'permission_delete' => 'trainee-group: delete',
+                    'permission_edit' => 'trainee-group: edit',
+                    'permission_view' => 'trainee-group: view',
                 ]);
             })
             ->rawColumns(['no', 'action']);
@@ -52,13 +64,11 @@ class TraineeGroupDataTable extends DataTable
     public function query(TraineeGroup $model): QueryBuilder
     {
         // return $model->newQuery();
-        return $model::select([
-            'id',
-            'created_at' ,
-'group_id',
-'trainee_id',
-
-            
+        return $model::leftjoin('groups','group_id','groups.id')->leftjoin('trainees','trainee_id','trainees.id')->select([
+            'trainee_groups.id',
+            'trainee_groups.created_at',
+            'groups.name as groupName',
+            'trainees.full_name as traineeName',
         ]);
     }
 
@@ -72,7 +82,7 @@ class TraineeGroupDataTable extends DataTable
         return $this->builder()
             ->setTableId('trainee-groups-table')
             ->columns($this->getColumns())
-            ->orderBy(3)
+            ->orderBy(4)
             ->minifiedAjax()
             ->selectStyleSingle()
             ->dom("'<'row'<'col-sm-12 col-md-2'l><'col-sm-12 col-md-6'B>
@@ -132,10 +142,9 @@ class TraineeGroupDataTable extends DataTable
             Column::computed('no')->title('No')
                 ->exportable(false)
                 ->addClass('text-center')
-                ->orderable(false), 
-Column::make('group_id'),
-Column::make('trainee_id'),
-
+                ->orderable(false),
+            Column::make('groupName')->title('Group'),
+            Column::make('traineeName')->title('Trainee'),
             Column::computed('action')
                 ->exportable(false)
                 ->printable(true)
@@ -153,6 +162,6 @@ Column::make('trainee_id'),
      */
     protected function filename(): string
     {
-        return "trainee_groups". date('YmdHis');
+        return "trainee_groups" . date('YmdHis');
     }
 }

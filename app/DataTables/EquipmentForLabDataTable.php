@@ -69,13 +69,15 @@ class EquipmentForLabDataTable extends DataTable
     public function query(Equipment $model): QueryBuilder
     {
         // return $model->newQuery();
-        return $model::leftjoin('labs','lab_id','=','labs.id')->select([
+        return $model::leftjoin('labs', 'lab_id', '=', 'labs.id')->leftjoin('equipment_types','equipment_type_id','=','equipment_types.id')->select([
             'equipment.id',
             'equipment.created_at',
             'equipment.name',
+            'equipment.count as countName',
             'equipment.description',
             'labs.id as labId',
             'labs.name as labName',
+            'equipment_types.name as typeName'
         ]);
     }
 
@@ -87,15 +89,15 @@ class EquipmentForLabDataTable extends DataTable
     public function html(): HtmlBuilder
     {
         return $this->builder()
-            ->setTableId('equipment-table')
+            ->setTableId('equipment-on-lab-table')
             ->columns($this->getColumns())
-            ->orderBy(4)
+            ->orderBy(6)
             ->minifiedAjax()
             ->selectStyleSingle()
             ->ajax([
                 'url' => route('admin.equipment.index'),
                 'data' => 'function(d) {
-                    d.lab_id = '.$this->lab_id.'; // Use the passed lab_id
+                    d.lab_id = ' . $this->lab_id . '; // Use the passed lab_id
                 }',
             ])
             ->dom("'<'row'<'col-sm-12 col-md-2'l><'col-sm-12 col-md-6'B>
@@ -158,6 +160,8 @@ class EquipmentForLabDataTable extends DataTable
                 ->orderable(false),
             Column::make('name'),
             Column::make('labName')->title('lab'),
+            Column::make('countName')->title('Count'),
+            Column::make('typeName')->title('Type'),
             Column::computed('action')
                 ->exportable(false)
                 ->printable(true)

@@ -1,9 +1,13 @@
-<?php 
+<?php
+
 namespace App\Http\Controllers;
+
 use App\DataTables\GroupDataTable;
 use App\Models\Group;
 use App\Http\Requests\StoreGroupRequest;
 use App\Http\Requests\UpdateGroupRequest;
+use App\Models\Center;
+use App\Models\Lab;
 use App\Models\User;
 use App\Traits\ModelAuthorizable;
 use Illuminate\Support\Facades\DB;
@@ -17,14 +21,17 @@ class GroupController extends Controller
      */
     public function index(GroupDataTable $dataTable)
     {
-            return $dataTable->render('admin.groups.index');
+        $labs = Lab::all();
+        $centers = Center::all();
+        return $dataTable->render('admin.groups.index',compact('labs','centers'));
     }
 
     /**
      * Show the form for creating a new resource.
      */
     public function create()
-    { return view('admin.groups.new');
+    {
+        return view('admin.groups.new');
     }
 
     /**
@@ -87,5 +94,3 @@ class GroupController extends Controller
         return response()->json(array('success' => true), 200);
     }
 }
-
-        

@@ -26,6 +26,8 @@ class StoreEquipmentRequest extends FormRequest
             'name' => 'required',
             'description' => '',
             'lab_id' => '',
+            'equipment_type_id' => '',
+            'count' => '',
         ];
     }
 }

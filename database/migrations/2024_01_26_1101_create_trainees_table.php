@@ -14,7 +14,9 @@ return new class extends Migration
         Schema::create('trainees', function (Blueprint $table) {
             $table->id();
             $table->string('full_name');
+            $table->integer('grouped')->default(0)->nullable();
             $table->string('id_number')->nullable();
+            $table->foreignId('group_id')->nullable()->constrained('groups');
             $table->foreignId('center_id')->nullable()->constrained('centers');
             $table->foreignId('created_by')->nullable()->constrained('users');
             $table->foreignId('updated_by')->nullable()->constrained('users');

@@ -1,14 +1,17 @@
 <x-layout>
-    <x-breadcrump title="Courses List" parent="Courses" child="List" />
+    <!-- Content Header (Page header) -->
+    <x-breadcrump title='Equipment Types List' parent='Equipment Types' child='List' />
+    <!-- /.content-header -->
 
-    <div class="card">
-        <div class="card-header">
-            <div class="col">
-                <div style="display: flex; justify-content:flex-end">
+    <!-- /.content-Main -->
+    <div class='card'>
+        <div class='card-header'>
+            <div class='col'>
+                <div style='display: flex; justify-content:flex-end'>
                     <div>
-                        @can('course: create')
-                        <a href="{{route('admin.courses.create') }}">
-                            <button type="button" class="btn btn-primary">Add New Course</button>
+                        @can('equipment-type: create')
+                        <a href="{{route('admin.equipment-types.create') }}">
+                            <button type='button' class='btn btn-primary'>Add New Equipment Type</button>
                         </a>
                         @endcan
                     </div>
@@ -16,7 +19,7 @@
             </div>
         </div>
         <!-- /.card-header -->
-        <div class="card-body">
+        <div class='card-body'>
             {{ $dataTable->table(['class' => 'table table-bordered table-striped']) }}
         </div>
 
@@ -24,17 +27,19 @@
     </div>
     <!-- /.card -->
     <!-- /#updateModal -->
-    <x-partials.course_modal />
+    <x-partials.equipment_type_modal />
+    <x-show-modals.equipment_type_show_modal />
     <!-- /#updateModal -->
     <!-- /.content -->
     <!-- Custom Js contents -->
     @push('scripts')
     {{ $dataTable->scripts(attributes: ['type' => 'module']) }}
+    <script></script>
     <script>
         //delete row
-        function delete_row(element, user_id) {
-            var url = "{{ route('admin.courses.destroy', ':id') }}";
-            url = url.replace(':id', user_id);
+        function delete_row(element, row_id) {
+            var url = "{{ route('admin.equipment-types.destroy', ':id') }}";
+            url = url.replace(':id', row_id);
             console.log(url);
 
             const swalWithBootstrapButtons = Swal.mixin({
@@ -56,16 +61,16 @@
             }).then((result) => {
                 if (result.isConfirmed) {
                     $.ajax({
-                        type: "DELETE",
+                        type: 'DELETE',
                         url: url,
                         data: {
-                            user_id: user_id,
+                            row_id: row_id,
                         },
-                        dataType: "json",
+                        dataType: 'json',
                         success: function(data) {
                             console.log(data);
                             if (data.success) {
-                                window.LaravelDataTables["courses-table"].ajax.reload();
+                                window.LaravelDataTables['equipment-types-table'].ajax.reload();
                             }
                         },
                         error: function(error) {
@@ -94,37 +99,64 @@
             })
         }
 
-        if ( @json(session('success_create')) ) {
-            toastr.success('You have successfuly added a new Course.')
-        }
+        if (@json(session('success_create'))) {
 
+            toastr.success('You have successfuly added a new Equipment Type')
+        }
 
         $(document).ready(function() {
             // Update record popup
-            $('#courses-table').on('click', '#update_row', function() {
+            $('#equipment-types-table').on('click', '#update_row', function() {
                 var row_id = $(this).data('row_id');
-                var url = "{{ route('admin.courses.edit', ':id') }}";
+                var url = "{{ route('admin.equipment-types.edit', ':id') }}";
                 url = url.replace(':id', row_id);
 
-                $('#course_update_form :input').val('');
+                $('#equipment_type_update_form :input').val('');
                 // AJAX request
                 $.ajax({
                     url: url,
-                    type: "GET",
+                    type: 'GET',
                     dataType: 'json',
                     success: function(response) {
                         console.log('success');
+                        var equipment_type = response.equipment_type
                         if (response.success == 1) {
-                            var course = response.course;
-                            console.log(response);
-                            $('#course_id').val(course.id);
-                            $('#name').val(course.name);
-                            $('#lecture_hr_per_week').val(course.lecture_hr_per_week);
-                            $('#lab_hr_per_week').val(course.lab_hr_per_week);
+                            console.log(equipment_type);
+                            $('#equipment_type_id').val(equipment_type.id);
+                            $('#name').val(equipment_type.name);
+                            $('#description').val(equipment_type.description);
                             $('#update_modal').modal('show');
 
                         } else {
-                            alert("Invalid ID.");
+                            alert('Invalid ID.');
+                        }
+                    }
+                });
+            });
+
+            //show
+            $('#equipment-types-table').on('click', '#show_row', function() {
+                var row_id = $(this).data('row_id');
+                var url = "{{ route('admin.equipment-types.show', ':id') }}";
+                url = url.replace(':id', row_id);
+
+                // AJAX request
+                $.ajax({
+                    url: url,
+                    type: 'GET',
+                    dataType: 'json',
+                    success: function(response) {
+                        console.log('success');
+                        var equipment_type = response.equipment_type
+                        if (response.success == 1) {
+                            console.log(equipment_type);
+                            $('#equipment_type_id').val(equipment_type.id);
+                            $('#show_modal #name').html(equipment_type.name);
+                            $('#show_modal #description').html(equipment_type.description);
+                            $('#show_modal').modal('show');
+
+                        } else {
+                            alert('Invalid ID.');
                         }
                     }
                 });
@@ -132,26 +164,29 @@
         });
 
 
-        $('#course_update_form').on('submit', function(e) {
+        $('#equipment_type_update_form').on('submit', function(e) {
             e.preventDefault();
             form_data = $(this).serialize();
-            row_id = $('#course_id', $(this)).val()
+            row_id = $('#equipment_type_id', $(this)).val()
             console.log(row_id);
-            var url = "{{ route('admin.courses.update', ':id') }}";
+
+            var url = "{{ route('admin.equipment-types.update', ':id') }}";
             url = url.replace(':id', row_id);
 
             // AJAX request
             $.ajax({
                 url: url,
-                type: "PATCH",
+                type: 'PATCH',
                 data: form_data,
                 dataType: 'json',
                 success: function(data) {
                     if (data.success) {
+                        console.log('111111111111111');
                         console.log(data);
+                        console.log('2222222222222222');
                         $('#update_modal').modal('toggle');
-                        window.LaravelDataTables["courses-table"].ajax.reload();
-                        toastr.success('You have successfuly updated a Course.')
+                        window.LaravelDataTables['equipment-types-table'].ajax.reload();
+                        toastr.success('You have successfuly updated a Equipment Type.')
                     }
                 },
                 error: function(error) {

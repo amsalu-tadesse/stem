@@ -2,35 +2,93 @@
     <!-- Content Header (Page header) -->
     <x-breadcrump title='Trainees List' parent='Trainees' child='List' />
     <!-- /.content-header -->
-
     <!-- /.content-Main -->
     <div class='card'>
         <div class='card-header'>
             <div class="row mx-2">
                 <div class="form-group col-md-6">
                     <div class='form-group'>
-                        <label for='centers'>Center</label>
+                        <label for='centers'>Centers</label>
                         <select name='center_id' class='filter_by_centers_select2 select2 form-control' id='center_id' data-dropdown-css-class='select2-blue'>
-                            <option value=''>All</option>
                             @foreach ($centers as $center)
-                            <option value='{{$center->id }}'>
+                            <option value='{{$center->id }}' @if($center->id == '1') selected @endif>
                                 {{$center->name }}
                             </option>
                             @endforeach
                         </select>
                     </div>
                 </div>
-            </div>
-            <div class="d-flex row col-md-6 px-md-3 pl-3 pr-1">
-                <div class="col-md-4 mt-2">
-                    <button type="button" id="trainee_filter_button" class="btn btn-success form-control">Search</button>
+                <div class="form-group col-md-6">
+                    <div class='form-group'>
+                        <label for='groups'>Groups</label>
+                        <select name='group_id' class='filter_by_group_select2 select2 form-control' id='group_id' data-dropdown-css-class='select2-blue'>
+                            <option value=''>select group </option>
+                            @foreach ($groups as $group)
+                            <option value='{{$group->id }}'>
+                                {{$group->name }}
+                            </option>
+                            @endforeach
+                        </select>
+                    </div>
                 </div>
-                <div class="col-md-4 mt-2">
-                    <button type="button" id="trainee_reset_button" class="btn btn-warning form-control">Reset</button>
+                <div class="form-group col-md-6">
                 </div>
+
+
+                <div class="modal" id="createGroupModal">
+                    <div class="modal-dialog">
+                        <div class="modal-content">
+
+                            <!-- Modal Header -->
+                            <div class="modal-header">
+                                <h4 class="modal-title">Add Trainees</h4>
+                                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                            </div>
+
+                            <!-- Modal Body -->
+                            <div class="modal-body">
+                                <div class='form-group'>
+                                    <input type="checkbox" id="showGroups">
+                                    <label for="showGroups">Existing Groups</label>
+                                    <div style="display: none;" id="group_div">
+                                        <select name='group_idd' id="group_idd" class='group_select2 select2 form-control' data-dropdown-css-class='select2-blue'>
+                                            <option value=''>select group</option>
+                                            @foreach ($groups as $group)
+                                            <option value='{{$group->id }}'>
+                                                {{$group->name }}
+                                            </option>
+                                            @endforeach
+                                        </select>
+                                    </div>
+                                    <div id="name_div">
+                                        <label for="group_name">Group Name</label>
+                                        <input class="form-control" id="group_name" name="name" placeholder="Enter The Group Name..." />
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Modal Footer -->
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                                <button type="button" class="btn btn-info" id="createGroup">Create</button>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+
             </div>
-            <div class='col'>
+
+
+
+            <div class="col">
                 <div style='display: flex; justify-content:flex-end'>
+                    <div id="createGroupModalPopUp">
+                        <button type="button" class="btn btn-info" data-toggle="modal" data-target="#createGroupModal">
+                            Create Group
+                        </button>
+                    </div>&nbsp;&nbsp;
+
                     <div>
                         @can('trainee: create')
                         <a href="{{route('admin.trainees.create') }}">
@@ -41,6 +99,7 @@
                 </div>
             </div>
         </div>
+
         <!-- /.card-header -->
         <div class='card-body'>
             {{ $dataTable->table(['class' => 'table table-bordered table-striped']) }}
@@ -60,6 +119,8 @@
     <script>
         $('.centers_select2').select2();
         $('.filter_by_centers_select2').select2();
+        $('.group_select2').select2();
+        $('.filter_by_group_select2').select2();
     </script>
     <script>
         $('#trainee_filter_button').on('click', function() {
@@ -72,6 +133,23 @@
             window.LaravelDataTables["trainees-table"].ajax.reload();
         });
     </script>
+
+    <script>
+        $(document).ready(function() {
+            $('#showGroups').change(function() {
+                if (this.checked) {
+                    $('#group_div').show().val('');
+                    $('#name_div').hide();
+                    $('#group_name').val('');
+                } else {
+                    $('#name_div').show().val('');
+                    $('#group_div').hide();
+                    $('#group_idd').val('');
+                }
+            });
+        });
+    </script>
+
     <script>
         //delete row
         function delete_row(element, row_id) {
@@ -204,9 +282,67 @@
                     }
                 });
             });
+
+            $("#createGroupModalPopUp").hide();
+            $(document).on('change', 'input[name="trainees"]', function() {
+                // Check if at least one checkbox with the name "trainees" is checked
+                if ($('input[name="trainees"]:checked').length) {
+                    console.log('At least one checkbox is checked');
+                    $("#createGroupModalPopUp").show();
+                } else {
+                    console.log('No checkboxes are checked');
+                    $("#createGroupModalPopUp").hide();
+                }
+            });
+
+
+
+            $('#createGroup').click(function() {
+                var selectedCheckboxes = $('input[name="trainees"]:checked').map(function() {
+                    return $(this).val();
+                }).get();
+                var groupName = $("#group_name").val();
+                var group_id = $("#group_idd").val();
+                var postData = {
+                    selectedCheckboxes: selectedCheckboxes,
+                    name: groupName,
+                    group_id: group_id,
+                };
+
+                // Ajax request
+                $.ajax({
+                    url: "{{ route('admin.trainee-groups.store') }}",
+                    type: 'POST',
+                    data: postData,
+                    dataType: 'json',
+                    success: function(data) {
+                        if (data.success) {
+                            $('#group_name').val('');
+                            $('input[name="trainees"]:checked').prop('checked', false);
+                            toastr.success('You have successfuly create Group.');
+                            $('#createGroupModal').modal('hide');
+                            window.LaravelDataTables['trainees-table'].ajax.reload();
+                        }
+                    },
+                    error: function(xhr, status, error) {
+                        var errorMessage;
+                        if (xhr.responseJSON && xhr.responseJSON.error) {
+                            errorMessage = xhr.responseJSON.error;
+                            $('#createGroupModal').modal('hide');
+                        } else {
+                            errorMessage = 'An error occurred.';
+                        }
+                        toastr.error(errorMessage, 'Error', {
+                            positionClass: 'toast-top-right',
+                            closeButton: true,
+                        });
+
+                    }
+                });
+            });
         });
-
-
+    </script>
+    <script>
         $('#trainee_update_form').on('submit', function(e) {
             e.preventDefault();
             form_data = $(this).serialize();

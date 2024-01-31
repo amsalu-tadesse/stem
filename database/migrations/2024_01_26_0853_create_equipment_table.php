@@ -15,6 +15,8 @@ return new class extends Migration
             $table->id();
             $table->string('name');
             $table->text('description')->nullable();
+            $table->string('count')->nullable();
+            $table->foreignId('equipment_type_id')->nullable()->constrained('equipment_types');
             $table->foreignId('created_by')->nullable()->constrained('users');
             $table->foreignId('lab_id')->nullable()->constrained('labs');
             $table->foreignId('updated_by')->nullable()->constrained('users');

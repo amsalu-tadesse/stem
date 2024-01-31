@@ -106,6 +106,7 @@
                 var url = "{{ route('admin.departments.edit', ':id') }}";
                 url = url.replace(':id', row_id);
 
+                $('#department_update_form :input').val('');
                 // AJAX request
                 $.ajax({
                     url: url,

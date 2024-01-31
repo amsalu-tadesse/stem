@@ -7,6 +7,7 @@ use App\Models\Equipment;
 use App\Http\Requests\StoreEquipmentRequest;
 use App\Http\Requests\UpdateEquipmentRequest;
 use App\Models\Center;
+use App\Models\EquipmentType;
 use App\Models\Lab;
 use App\Models\User;
 use App\Traits\ModelAuthorizable;
@@ -23,7 +24,8 @@ class EquipmentController extends Controller
     {
         $labs = Lab::all();
         $centers = Center::all();
-        return $dataTable->render('admin.equipment.index', compact('labs','centers'));
+        $equipment_types = EquipmentType::all();
+        return $dataTable->render('admin.equipment.index', compact('labs','centers','equipment_types'));
     }
 
     /**
@@ -40,6 +42,7 @@ class EquipmentController extends Controller
      */
     public function store(StoreEquipmentRequest $request)
     {
+        // dd($request->validated());
         if(request()->ajax()){
              Equipment::create($request->validated()); 
             return response()->json(array('success' => true), 200);
@@ -55,7 +58,7 @@ class EquipmentController extends Controller
     public function show(Equipment $equipment)
     {
         if (request()->ajax()) {
-            $equipment->load('lab:id,name');
+            $equipment->load('lab:id,name')->load('equipmentType:id,name');
             $response = array();
             $response['success'] = 1;
             $response['equipment'] = $equipment;
@@ -69,7 +72,7 @@ class EquipmentController extends Controller
     public function edit(Equipment $equipment)
     {
         if (request()->ajax()) {
-            $equipment->load('lab:id,name');
+            $equipment->load('lab:id,name')->load('equipmentType:id,name');
             $response = array();
             $response['success'] = 1;
             $response['equipment'] = $equipment;

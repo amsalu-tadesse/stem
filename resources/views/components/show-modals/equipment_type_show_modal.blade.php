@@ -1,10 +1,11 @@
+
 <!-- /.modal -->
 <div class='modal fade' id='show_modal'>
     <div class='modal-dialog modal-xl'>
 
         <div class='modal-content'>
             <div class='modal-header'>
-                <h4 class='modal-title'>Equipment Detail</h4>
+                <h4 class='modal-title'>Equipment Type Detail</h4>
                 <button type='button' class='close' data-dismiss='modal' aria-attribute='Close'>
                     <span aria-hidden='true'>&times;</span>
                 </button>
@@ -12,39 +13,17 @@
             <div class='modal-body'>
                 <!-- /.card-body -->
                 <!-- row -->
-                <div class='card-body'>
-                    <div class='form-group row'>
+                <div class='card-body'><div class='form-group row'>
                         <label class='col-sm-2 col-form-label'>Name</label>
                         <div class='col-sm-10'>
                             <p name='name' id='name'></p>
                         </div>
-                    </div>
-                    <div class='form-group row'>
-                        <label class='col-sm-2 col-form-label'>Quantity</label>
-                        <div class='col-sm-10'>
-                            <p name='count' id='count'></p>
-                        </div>
-                    </div>
-                    <div class='form-group row'>
-                        <label class='col-sm-2 col-form-label'>Lab</label>
-                        <div class='col-sm-10'>
-                            <p name='lab_id' id='lab_id'></p>
-                        </div>
-                    </div>
-                    <div class='form-group row'>
-                        <label class='col-sm-2 col-form-label'>Equipment Type</label>
-                        <div class='col-sm-10'>
-                            <p name='equipment_type_id' id='equipment_type_id'></p>
-                        </div>
-                    </div>
-                    <div class='form-group row'>
+                    </div><div class='form-group row'>
                         <label class='col-sm-2 col-form-label'>Description</label>
                         <div class='col-sm-10'>
                             <p name='description' id='description'></p>
                         </div>
-                    </div>
-                    
-                </div>
+                    </div></div>
                 <!-- /.row -->
                 <!-- /.card-body -->
             </div>
