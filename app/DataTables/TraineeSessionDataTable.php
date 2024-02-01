@@ -3,7 +3,7 @@
 namespace App\DataTables;
 
 use App\Constants\Constants;
-use App\Models\Equipment;
+use App\Models\TraineeSession;
 use Illuminate\Database\Eloquent\Builder as QueryBuilder;
 use Illuminate\Support\Facades\DB;
 use Yajra\DataTables\EloquentDataTable;
@@ -16,7 +16,7 @@ use Yajra\DataTables\Services\DataTable;
 
 use function Termwind\render;
 
-class EquipmentForLabDataTable extends DataTable
+class TraineeSessionDataTable extends DataTable
 {
     /**
      * Build DataTable class.
@@ -26,35 +26,18 @@ class EquipmentForLabDataTable extends DataTable
      */
     public function dataTable(QueryBuilder $query): EloquentDataTable
     {
-
-        // dd(request()->has('lab_id'));
         $index_column = 0;
         return (new EloquentDataTable($query))
             ->addColumn('no', function () use (&$index_column) {
                 return ++$index_column;
             })
-            ->addColumn('labName', function ($user) {
-                return $user?->labName;
-            })
-            ->orderColumn('labName', function ($query, $order) {
-                $query->orderBy('labName', $order);
-            })->filterColumn('labName', function ($user, $keyword) {
-                $sql = "labs.name like ?";
-                $user->whereRaw($sql, ["%{$keyword}%"]);
-            })
-            // custom filter
-            ->filter(function ($query) {
-                if (request()->has('lab_id') && request()->filled('lab_id')) {
-                    $query->where('labs.id', '=', request('lab_id'));
-                }
-            }, true)
-            ->addColumn('action', function ($equipment) {
+            ->addColumn('action', function ($trainee_session) {
                 return view('components.action-buttons', [
-                    'row_id' => $equipment->id,
+                    'row_id' => $trainee_session->id,
                     'show' => true,
-                    'permission_delete' => 'equipment: delete',
-                    'permission_edit' => 'equipment: edit',
-                    'permission_view' => 'equipment: view',
+                    'permission_delete' => 'trainee-session: delete',
+                    'permission_edit' => 'trainee-session: edit',
+                    'permission_view' => 'trainee-session: view',
                 ]);
             })
             ->rawColumns(['no', 'action']);
@@ -63,21 +46,21 @@ class EquipmentForLabDataTable extends DataTable
     /**
      * Get query source of dataTable.
      *
-     * @param \App\Models\Equipment $model
+     * @param \App\Models\TraineeSession $model
      * @return \Illuminate\Database\Eloquent\Builder
      */
-    public function query(Equipment $model): QueryBuilder
+    public function query(TraineeSession $model): QueryBuilder
     {
         // return $model->newQuery();
-        return $model::leftjoin('labs', 'lab_id', '=', 'labs.id')->leftjoin('equipment_types', 'equipment_type_id', '=', 'equipment_types.id')->select([
-            'equipment.id',
-            'equipment.created_at',
-            'equipment.name',
-            'equipment.count as countName',
-            'equipment.description',
-            'labs.id as labId',
-            'labs.name as labName',
-            'equipment_types.name as typeName'
+        return $model::select([
+            'id',
+            'created_at',
+            'name',
+            'academic_year',
+            'start_date',
+            'end_date',
+            'status',
+
         ]);
     }
 
@@ -89,17 +72,11 @@ class EquipmentForLabDataTable extends DataTable
     public function html(): HtmlBuilder
     {
         return $this->builder()
-            ->setTableId('equipment-on-lab-table')
+            ->setTableId('trainee-sessions-table')
             ->columns($this->getColumns())
-            ->orderBy(6)
+            ->orderBy(7)
             ->minifiedAjax()
             ->selectStyleSingle()
-            ->ajax([
-                'url' => route('admin.equipment.index'),
-                'data' => 'function(d) {
-                    d.lab_id = ' . $this->lab_id . '; // Use the passed lab_id
-                }',
-            ])
             ->dom("'<'row'<'col-sm-12 col-md-2'l><'col-sm-12 col-md-6'B>
                            <'col-sm-12 col-md-4'f>><'row'<'col-sm-12'tr>>
                            <'row'<'col-sm-12 col-md-5'i><'col-sm-12 col-md-7'p>>'")
@@ -159,9 +136,11 @@ class EquipmentForLabDataTable extends DataTable
                 ->addClass('text-center')
                 ->orderable(false),
             Column::make('name'),
-            Column::make('labName')->title('lab'),
-            Column::make('countName')->title('Quantity'),
-            Column::make('typeName')->title('Type'),
+            Column::make('academic_year'),
+            Column::make('start_date'),
+            Column::make('end_date'),
+            Column::make('status'),
+
             Column::computed('action')
                 ->exportable(false)
                 ->printable(true)
@@ -179,6 +158,6 @@ class EquipmentForLabDataTable extends DataTable
      */
     protected function filename(): string
     {
-        return "equipment" . date('YmdHis');
+        return "trainee_sessions" . date('YmdHis');
     }
 }

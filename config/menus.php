@@ -31,7 +31,7 @@ return [
     'menu_8'                 =>  [
         'name'                 => 'Stem',
         'menu_icon'           => 'fas fa-book',
-        'permissions'           => ['school-level: list', 'school: list', 'academic-level: list', 'department: list', 'lecturer: list', 'student: list', 'course: list', 'academic-session: list', 'instructor-course:list', 'visitor: list', 'payroll: list', 'trainer: list', 'equipment: list', 'lab: list', 'center: list', 'trainee: list', 'group: list', 'trainee-group: list','group-lab: list','equipment-type: list'],
+        'permissions'           => ['school-level: list', 'school: list', 'academic-level: list', 'department: list', 'lecturer: list', 'student: list', 'course: list', 'academic-session: list', 'instructor-course:list', 'visitor: list', 'payroll: list', 'trainer: list', 'equipment: list', 'lab: list', 'center: list', 'trainee: list', 'group: list', 'trainee-group: list','group-lab: list','equipment-type: list','trainee-session: list','trainee-session-equipment: list'],
         'menu_item'            =>
         [
             [
@@ -106,6 +106,16 @@ return [
                 'title'      =>  'Group Lab',
                 'url'        =>  'admin.group-labs.index',
                 'permission'   => 'group-lab: list'
+            ],
+            [
+                'title'      =>  'Trainee Sessions',
+                'url'        =>  'admin.trainee-sessions.index',
+                'permission'   => 'trainee-session: list'
+            ],
+            [
+                'title'      =>  'Trainee Session Equipment',
+                'url'        =>  'admin.trainee-session-equipment.index',
+                'permission'   => 'trainee-session-equipment: list'
             ],
         ],
 

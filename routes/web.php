@@ -43,6 +43,8 @@ use App\Http\Controllers\InstructorCourseController;
 use App\Http\Controllers\LabController;
 use App\Http\Controllers\TraineeController;
 use App\Http\Controllers\TraineeGroupController;
+use App\Http\Controllers\TraineeSessionController;
+use App\Http\Controllers\TraineeSessionEquipmentController;
 use App\Http\Controllers\TrainerController;
 use App\Http\Controllers\VisitorController;
 use App\Http\Controllers\WelcomeController;
@@ -122,6 +124,8 @@ Route::middleware(['web', 'auth'])->group(function () {
             Route::resource('groups', GroupController::class);
 
             Route::resource('group-labs', GroupLabController::class);
+            Route::resource('trainee-sessions', TraineeSessionController::class);
+            Route::resource('trainee-session-equipment', TraineeSessionEquipmentController::class);
 
             Route::resource('zones', ZoneController::class);
             Route::resource('custom-exceptions', CustomExceptionController::class);

@@ -165,6 +165,7 @@
                             console.log(equipment);
                             $('#equipment_id').val(equipment.id);
                             $('#name').val(equipment.name);
+                            $('#count').val(equipment.count);
                             $('#description').val(equipment.description);
                             if (equipment.lab_id) {
                                 $('.labs_select2').val(equipment.lab.id).trigger('change');

@@ -80,6 +80,8 @@ class DatabaseSeeder extends Seeder
             'group',
             'trainee-group',
             'group-lab',
+            'trainee-session',
+            'trainee-session-equipment',
         ];
         $permission_activities = [
             'list',
