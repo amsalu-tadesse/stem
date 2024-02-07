@@ -125,7 +125,7 @@
                 url = url.replace(':id', row_id);
 
                 $('#trainee_session_update_form :input').val('');
-               
+
                 // AJAX request
                 $.ajax({
                     url: url,
@@ -147,18 +147,26 @@
 
                             //remove all the cloned rows without refreshing the page
                             $('#equip .form-group.row:not(:first)').remove();
-                            
+
                             // Clone and append rows based on equipment data
                             if (response.equipment && response.equipment.length > 0) {
                                 // Set values on the original row
                                 $('#equip .form-group.row:first select').val(response.equipment[0].id);
-                                $('#equip .form-group.row:first input[name="quantity[]"]').val(trainee_session.trainee_session_equipment[0].quantity);
+                                // Set value and data-quantity attribute on the original row
+                                var originalRow = $('#equip .form-group.row:first');
+                                originalRow.find('input[name="quantity[]"]')
+                                    .val(trainee_session.trainee_session_equipment[0].quantity)
+                                    .attr('data-quantity', trainee_session.trainee_session_equipment[0].quantity);
+
+
 
                                 // Clone and append the rest of the rows
                                 for (var i = 1; i < response.equipment.length; i++) {
                                     var newRow = $(".form-group.row:first").clone();
                                     newRow.find('select option[value="' + response.equipment[i].id + '"]').prop('selected', true);
-                                    newRow.find('input[name="quantity[]"]').val(trainee_session.trainee_session_equipment[i].quantity);
+
+                                    var newRow = $('#equip .form-group.row').eq(i);
+                                    newRow.find('input[name="quantity[]"]').data('quantity', trainee_session.trainee_session_equipment[i].quantity);
 
                                     // Append the new row
                                     $('#equip').append(newRow);
@@ -258,6 +266,51 @@
     </script>
     <script>
         $(document).ready(function() {
+            // Function to validate quantity
+            function validateQuantity(input) {
+                var quantity = parseInt(input.val());
+                var selectedQuantity = parseInt(input.closest('.form-group.row').find('.equipment_id_select2 option:selected').data('quantity'));
+                var originalQuantity = parseInt(input.closest('.form-group.row').find('.quantity-input').data('quantity'));
+
+                var total = selectedQuantity + originalQuantity;
+
+
+                console.log(quantity);
+                console.log(selectedQuantity);
+                console.log(originalQuantity);
+                console.log(total);
+
+                if (!isNaN(quantity) && quantity > 0 && quantity <= total) {
+                    input.removeClass('is-invalid');
+                    input.siblings('.invalid-feedback').text("");
+                    return true;
+                } else {
+                    input.addClass('is-invalid');
+                    input.siblings('.invalid-feedback').text("Please enter a valid quantity less than or equal to the available quantity.");
+                    return false;
+                }
+            }
+
+            // Quantity validation for existing and dynamically added rows
+            $('#equip').on('input', '.quantity-input', function() {
+                validateQuantity($(this));
+            });
+
+            // Form submission validation
+            $('form').submit(function(event) {
+                var valid = true;
+                $('.quantity-input').each(function() {
+                    if (!validateQuantity($(this))) {
+                        valid = false;
+                    }
+                });
+                if (!valid) {
+                    event.preventDefault();
+                    return false;
+                }
+            });
+
+            // Add new form group
             $("#addFormGroup").click(function(event) {
                 event.preventDefault();
                 var newRow = $(".form-group.row:first").clone();
@@ -270,7 +323,7 @@
                 }
             });
 
-            // Remove the corresponding row when the remove button is clicked
+            // Remove form group
             $("#equip").on('click', '.removeFormGroup', function() {
                 $(this).closest('.form-group.row').remove();
             });

@@ -44,11 +44,14 @@ class EquipmentController extends Controller
     {
         // dd($request->validated());
         if(request()->ajax()){
-             Equipment::create($request->validated()); 
+            $equipment= Equipment::create($request->validated()); 
+            $equipment->current_quantity = $equipment->count;
+            $equipment->save();
             return response()->json(array('success' => true), 200);
         }
         $equipment = Equipment::create($request->validated());
-
+        $equipment->current_quantity = $equipment->count;
+        $equipment->save();
         return redirect()->route('admin.equipment.index')->with('success_create', ' equipment added!');
     }
 

@@ -97,26 +97,26 @@ return [
                 'url'        =>  'admin.groups.index',
                 'permission'   => 'group: list'
             ],
-            [
-                'title'      =>  'Trainee Groups',
-                'url'        =>  'admin.trainee-groups.index',
-                'permission'   => 'trainee-group: list'
-            ],
-            [
-                'title'      =>  'Group Lab',
-                'url'        =>  'admin.group-labs.index',
-                'permission'   => 'group-lab: list'
-            ],
+            // [
+            //     'title'      =>  'Trainee Groups',
+            //     'url'        =>  'admin.trainee-groups.index',
+            //     'permission'   => 'trainee-group: list'
+            // ],
+            // [
+            //     'title'      =>  'Group Lab',
+            //     'url'        =>  'admin.group-labs.index',
+            //     'permission'   => 'group-lab: list'
+            // ],
             [
                 'title'      =>  'Trainee Sessions',
                 'url'        =>  'admin.trainee-sessions.index',
                 'permission'   => 'trainee-session: list'
             ],
-            [
-                'title'      =>  'Trainee Session Equipment',
-                'url'        =>  'admin.trainee-session-equipment.index',
-                'permission'   => 'trainee-session-equipment: list'
-            ],
+            // [
+            //     'title'      =>  'Trainee Session Equipment',
+            //     'url'        =>  'admin.trainee-session-equipment.index',
+            //     'permission'   => 'trainee-session-equipment: list'
+            // ],
         ],
 
     ],

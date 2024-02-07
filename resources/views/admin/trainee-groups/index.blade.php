@@ -9,7 +9,7 @@
             <div class='col'>
                 <div style='display: flex; justify-content:flex-end'>
                     <div>
-                        @can('trainee-group: create')
+                        @can('trainee-groupp: create')
                         <a href="{{route('admin.trainee-groups.create') }}">
                             <button type='button' class='btn btn-primary'>Add New Trainee Group</button>
                         </a>

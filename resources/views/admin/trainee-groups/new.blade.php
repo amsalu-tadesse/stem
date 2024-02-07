@@ -17,29 +17,30 @@
             <!-- row -->
             <div class='card-body row'>
                 <!-- left column -->
-                <div class='col-md-6'>   <div class='form-group'>
-                    <label for='groups'>Group</label>
-                    <select name='group_id' class='groups_select2 select2 form-control' id='group_id' data-dropdown-css-class='select2-blue'>
-                        <option value='none' selected disabled>Select a groups</option>
-                        @foreach ($groups as  $trainee_group)
-                        <option value='{{$trainee_group->id }}'>
-
-                        {{$trainee_group->name }}                        
-                        </option>
-                        @endforeach
-                    </select>
-                </div>   <div class='form-group'>
-                    <label for='trainees'>Trainee</label>
-                    <select name='trainee_id' class='trainees_select2 select2 form-control' id='trainee_id' data-dropdown-css-class='select2-blue'>
-                        <option value='none' selected disabled>Select a trainees</option>
-                        @foreach ($trainees as  $trainee_group)
-                        <option value='{{$trainee_group->id }}'>
-
-                        {{$trainee_group->name }}                        
-                        </option>
-                        @endforeach
-                    </select>
-                </div></div>
+                <div class='col-md-6'>
+                    <div class='form-group'>
+                        <label for='groups'>Group</label>
+                        <select name='group_id' class='groups_select2 select2 form-control' id='group_id' data-dropdown-css-class='select2-blue'>
+                            <option value=''>Select a groups</option>
+                            @foreach ($groups as $group)
+                            <option value='{{$group->id }}'>
+                                {{ $group->name }}
+                            </option>
+                            @endforeach
+                        </select>
+                    </div>
+                    <div class='form-group'>
+                        <label for='trainees'>Trainee</label>
+                        <select name='trainee_id' class='trainees_select2 select2 form-control' id='trainee_id' data-dropdown-css-class='select2-blue'>
+                            <option value=''>Select a trainees</option>
+                            @foreach ($trainees as $trainee)
+                            <option value='{{$trainee->id }}'>
+                                {{$trainee->full_name }}
+                            </option>
+                            @endforeach
+                        </select>
+                    </div>
+                </div>
                 <!--/.col (left) -->
             </div>
             <!-- /.row -->
@@ -59,7 +60,10 @@
     <!-- Custom Js contents -->
 
     @push('scripts')
-    <script>$('.groups_select2').select2();$('.trainees_select2').select2();</script>
-      @endpush
+    <script>
+        $('.groups_select2').select2();
+        $('.trainees_select2').select2();
+    </script>
+    @endpush
 
 </x-layout>

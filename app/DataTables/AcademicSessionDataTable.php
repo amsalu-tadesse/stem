@@ -42,7 +42,7 @@ class AcademicSessionDataTable extends DataTable
                 } else if ($academic_session->week_type == 0) {
                     return "Weekes";
                 }
-            }) ->addColumn('status', function ($academic_session) {
+            })->addColumn('status', function ($academic_session) {
 
                 $dateToCheck = Carbon::parse($academic_session->end_date); 
                 $isDatePassed = $dateToCheck->isPast();

@@ -5,16 +5,12 @@ namespace App\DataTables;
 use App\Constants\Constants;
 use App\Models\TraineeSession;
 use Illuminate\Database\Eloquent\Builder as QueryBuilder;
-use Illuminate\Support\Facades\DB;
 use Yajra\DataTables\EloquentDataTable;
 use Yajra\DataTables\Html\Builder as HtmlBuilder;
-use Yajra\DataTables\Html\Button;
 use Yajra\DataTables\Html\Column;
-use Yajra\DataTables\Html\Editor\Editor;
-use Yajra\DataTables\Html\Editor\Fields;
 use Yajra\DataTables\Services\DataTable;
 
-use function Termwind\render;
+use Carbon\Carbon;
 
 class TraineeSessionDataTable extends DataTable
 {
@@ -30,6 +26,14 @@ class TraineeSessionDataTable extends DataTable
         return (new EloquentDataTable($query))
             ->addColumn('no', function () use (&$index_column) {
                 return ++$index_column;
+            })->addColumn('status', function ($academic_session) {
+                $dateToCheck = Carbon::parse($academic_session->end_date); 
+                $isDatePassed = $dateToCheck->isPast();
+                if ($isDatePassed) {
+                    return '<span class="badge badge-danger">Closed</span>';
+                } else {
+                    return '<span class="badge badge-success">Active</span>';
+                }
             })
             ->addColumn('action', function ($trainee_session) {
                 return view('components.action-buttons', [
@@ -40,7 +44,7 @@ class TraineeSessionDataTable extends DataTable
                     'permission_view' => 'trainee-session: view',
                 ]);
             })
-            ->rawColumns(['no', 'action']);
+            ->rawColumns(['no','status', 'action']);
     }
 
     /**

@@ -28,6 +28,7 @@ class StoreEquipmentRequest extends FormRequest
             'lab_id' => '',
             'equipment_type_id' => '',
             'count' => '',
+            'current_quantity' => '',
         ];
     }
 }

@@ -60,7 +60,7 @@
                                     <select name='equipment_id[]' class='equipment_id_select2 select2 form-control' id="equipment_id" data-dropdown-css-class='select2-blue'>
                                         <option value=''>Select Equipment</option>
                                         @foreach ($equipment as $equip)
-                                        <option value='{{$equip->id }}'>
+                                        <option value='{{$equip->id }}' data-quantity='{{ $equip->current_quantity}}'>
                                             {{$equip->name }}
                                         </option>
                                         @endforeach
@@ -69,7 +69,7 @@
 
                                 <div class='col-md-5'>
                                     <!-- <label for='quantity'>Quantity</label> -->
-                                    <input type="text" class="form-control" name="quantity[]" placeholder="enter quantity">
+                                    <input type="text" class="form-control quantity-input" name="quantity[]" placeholder="enter quantity">
                                 </div>
 
                                 <div class='col-md-1'>

@@ -42,27 +42,26 @@ class TraineeSessionController extends Controller
         $equipmentIds = request()->input('equipment_id');
         $quantities = request()->input('quantity');
         $trainee_session = TraineeSession::create($request->validated());
-        
+
         foreach ($equipmentIds as $key => $equipId) {
             $equip = Equipment::find($equipId);
-        
+
             // Check if quantity is greater than available count
             if ($quantities[$key] > $equip->count) {
-                // Handle the error, e.g., return a response, redirect, etc.
-                return response()->json(['error' => 'Quantity is greater than available count.'], 422);
+                return response()->json(['error' => 'The request quantity is greater than available quantity.'], 422);
             }
-        
+
             TraineeSessionEquipment::create([
                 'equipment_id' => $equipId,
                 'quantity' => $quantities[$key],
                 'trainee_session_id' => $trainee_session->id,
             ]);
-        
+
             // Update Equipment count
-            $equip->count = $equip->count - $quantities[$key];
+            $equip->current_quantity = $equip->current_quantity - $quantities[$key];
             $equip->save();
         }
-        
+
 
         return redirect()->route('admin.trainee-sessions.index')->with('success_create', ' trainee_session added!');
     }
@@ -105,33 +104,48 @@ class TraineeSessionController extends Controller
     {
         $equipmentIds = request()->input('equipment_id');
         $quantities = request()->input('quantity');
-        $trainee_session = TraineeSession::create($request->validated());
-        
+
         foreach ($equipmentIds as $key => $equipId) {
             $equip = Equipment::find($equipId);
-        
+
             // Check if quantity is greater than available count
             if ($quantities[$key] > $equip->count) {
-                // Handle the error, e.g., return a response, redirect, etc.
                 return response()->json(['error' => 'Quantity is greater than available count.'], 422);
             }
-        
-            // Update or create the TraineeSessionEquipment record
-            TraineeSessionEquipment::updateOrCreate(
-                ['equipment_id' => $equipId, 'trainee_session_id' => $trainee_session->id],
-                ['quantity' => $quantities[$key]]
-            );
-        
-            // Update Equipment count
-            $equip->count = $equip->count - $quantities[$key];
-            $equip->save();
-        }
-        
 
+            // Get the previous quantity
+            $previousQuantity = TraineeSessionEquipment::where('trainee_session_id', $trainee_session->id)
+                ->where('equipment_id', $equipId)
+                ->value('quantity');
+
+            // Calculate the difference between previous and current quantity
+
+
+            $temp = $equip->current_quantity + $previousQuantity;
+            $updated_quantity = $temp - $quantities[$key];
+            // Update or create the TraineeSessionEquipment record
+            TraineeSessionEquipment::updateOrInsert(
+                [
+                    'trainee_session_id' => $trainee_session->id,
+                    'equipment_id' => $equipId,
+                ],
+                [
+                    'quantity' => $quantities[$key]
+                ]
+            );
+            // Update Equipment count
+            
+                $equip->current_quantity = $updated_quantity;
+                $equip->save();
+           
+        }
+
+        // Update TraineeSession if needed
         $trainee_session->update($request->validated());
 
         return response()->json(array('success' => true), 200);
     }
+
 
     /**
      * Remove the specified resource from storage.

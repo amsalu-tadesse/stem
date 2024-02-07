@@ -9,7 +9,7 @@
                 <div class='col'>
                     <div style='display: flex; justify-content:flex-end'>
                         <div>
-                        @can('trainee-session-equipment: create')
+                        @can('trainee-session-equipmentt: create')
                         <a href="{{route('admin.trainee-session-equipment.create') }}">
                             <button type='button' class='btn btn-primary'>Add New Trainee Session Equipment</button>
                         </a>

@@ -22,8 +22,8 @@ class TraineeGroupController extends Controller
      */
     public function index(TraineeGroupDataTable $dataTable)
     {
-        $groups = DB::table('groups')->get();
-        $trainees = DB::table('trainees')->get();
+        $groups = Group::all();
+        $trainees = Trainee::all();
         return $dataTable->render('admin.trainee-groups.index', compact('groups', 'trainees',));
     }
 
@@ -32,8 +32,8 @@ class TraineeGroupController extends Controller
      */
     public function create()
     {
-        $groups = DB::table('groups')->get();
-        $trainees = DB::table('trainees')->get();
+        $groups = Group::all();
+        $trainees = Trainee::all();
         return view('admin.trainee-groups.new', compact('groups', 'trainees',));
     }
 
@@ -48,7 +48,7 @@ class TraineeGroupController extends Controller
         $name = $request->input('name');
         $group_id = $request->input('group_id');
         $validatedTraineeGroupData = $request->input('selectedCheckboxes');
-
+        // dd($validatedTraineeGroupData);
         if ($group_id !== null && $group_id !== '') {
             foreach ($validatedTraineeGroupData as $traineeId) {
                 TraineeGroup::updateOrInsert(

@@ -9,7 +9,7 @@
             <div class='col'>
                 <div style='display: flex; justify-content:flex-end'>
                     <div>
-                        @can('group-lab: create')
+                        @can('group-labb: create')
                         <a href="{{route('admin.group-labs.create') }}">
                             <button type='button' class='btn btn-primary'>Add New Group Lab</button>
                         </a>

@@ -59,7 +59,7 @@
                             <select name='equipment_id[]' class='equipment_id_select2 select2 form-control' id="equipment_id" data-dropdown-css-class='select2-blue'>
                                 <option value=''>Select Equipment</option>
                                 @foreach ($equipment as $equip)
-                                <option value='{{$equip->id }}'>
+                                <option value='{{$equip->id }}' data-quantity='{{ $equip->current_quantity}}'>
                                     {{$equip->name }}
                                 </option>
                                 @endforeach
@@ -68,8 +68,9 @@
 
                         <div class='col-md-5'>
                             <!-- <label for='quantity'>Quantity</label> -->
-                            <input type="text" class="form-control" name="quantity[]" placeholder="enter quantity">
+                            <input type="text" class="form-control quantity-input" name="quantity[]" placeholder="enter quantity">
                         </div>
+
 
                         <div class='col-md-1'>
                             <!-- <label for='remove' class="col-12">Remove Raw</label> -->
@@ -112,6 +113,42 @@
     </script> -->
     <script>
         $(document).ready(function() {
+            // Function to validate quantity
+            function validateQuantity(input) {
+                var quantity = parseInt(input.val());
+                var selectedQuantity = parseInt(input.closest('.form-group.row').find('.equipment_id_select2 option:selected').data('quantity'));
+
+                if (!isNaN(quantity) && quantity > 0 && quantity <= selectedQuantity) {
+                    input.removeClass('is-invalid');
+                    input.siblings('.invalid-feedback').text("");
+                    return true;
+                } else {
+                    input.addClass('is-invalid');
+                    input.siblings('.invalid-feedback').text("Please enter a valid quantity less than or equal to the available quantity.");
+                    return false;
+                }
+            }
+
+            // Quantity validation for existing and dynamically added rows
+            $('#equip').on('input', '.quantity-input', function() {
+                validateQuantity($(this));
+            });
+
+            // Form submission validation
+            $('form').submit(function(event) {
+                var valid = true;
+                $('.quantity-input').each(function() {
+                    if (!validateQuantity($(this))) {
+                        valid = false;
+                    }
+                });
+                if (!valid) {
+                    event.preventDefault();
+                    return false;
+                }
+            });
+
+            // Add new form group
             $("#addFormGroup").click(function(event) {
                 event.preventDefault();
                 var newRow = $(".form-group.row:first").clone();
@@ -124,13 +161,12 @@
                 }
             });
 
-            // Remove the corresponding row when the remove button is clicked
+            // Remove form group
             $("#equip").on('click', '.removeFormGroup', function() {
                 $(this).closest('.form-group.row').remove();
             });
         });
     </script>
-
 
     @endpush
 

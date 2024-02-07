@@ -72,6 +72,7 @@ class EquipmentDataTable extends DataTable
             'equipment.created_at',
             'equipment.name',
             'equipment.count as countName',
+            'equipment.current_quantity',
             'equipment.description',
             'labs.id as labId',
             'labs.name as labName',
@@ -89,7 +90,7 @@ class EquipmentDataTable extends DataTable
         return $this->builder()
             ->setTableId('equipment-table')
             ->columns($this->getColumns())
-            ->orderBy(6)
+            ->orderBy(7)
             ->minifiedAjax()
             ->selectStyleSingle()
             ->ajax([
@@ -158,7 +159,8 @@ class EquipmentDataTable extends DataTable
                 ->orderable(false),
             Column::make('name'),
             Column::make('labName')->title('lab'),
-            Column::make('countName')->title('Count'),
+            Column::make('countName')->title('Actual Quantity'),
+            Column::make('current_quantity'),
             Column::make('typeName')->title('Type'),
             Column::computed('action')
                 ->exportable(false)
