@@ -82,6 +82,7 @@ class DatabaseSeeder extends Seeder
             'group-lab',
             'trainee-session',
             'trainee-session-equipment',
+            'fund-type',
         ];
         $permission_activities = [
             'list',
@@ -804,6 +805,27 @@ class DatabaseSeeder extends Seeder
                 [
                     'name' => $center['name'],
                     'description' => $center['description'],
+                ]
+            );
+        }
+        $fund_types =[
+            [
+                'name'=>'External',
+                'description'=>'External Description',
+            ],
+            [
+                'name'=>'Internal',
+                'description'=>'Internal Description',
+            ],
+           
+        ];
+
+        foreach ($fund_types as $fund_type) {
+
+            \App\Models\FundType::factory()->create(
+                [
+                    'name' => $fund_type['name'],
+                    'description' => $fund_type['description'],
                 ]
             );
         }

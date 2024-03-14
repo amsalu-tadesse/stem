@@ -69,7 +69,7 @@ return [
     'menu_3'                 =>  [
         'name'                 => 'Innovation and incubation',
         'menu_icon'           => 'fas fa-lightbulb',
-        'permissions'           => [ 'center: list', 'trainee: list', 'group: list', 'trainee-group: list','group-lab: list','equipment-type: list','trainee-session: list','trainee-session-equipment: list','trainer: list'],
+        'permissions'           => [ 'center: list', 'trainee: list', 'group: list', 'trainee-group: list','group-lab: list','equipment-type: list','trainee-session: list','trainee-session-equipment: list','trainer: list','fund-type: list'],
         'menu_item'            =>
         [
             [
@@ -121,6 +121,11 @@ return [
                 'title'      =>  'Projects',
                 'url'        =>  'admin.trainee-sessions.index',
                 'permission'   => 'trainee-session: list'
+            ],
+            [
+                'title'      =>  'Fund Types',
+                'url'        =>  'admin.fund-types.index',
+                'permission'   => 'fund-type: list'
             ],
             // [
             //     'title'      =>  'Trainee Session Equipment',

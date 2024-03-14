@@ -4,7 +4,7 @@ namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class StoreTraineeSessionRequest extends FormRequest
+class UpdateFundTypeRequest extends FormRequest
 {
     /**
      * Determine if the row is authorized to make this request.
@@ -22,15 +22,8 @@ class StoreTraineeSessionRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'name' => 'required',
-            'academic_year' => '',
-            'objective' => '',
-            'start_date' => '',
-            'end_date' => '',
-            'status' => '',
-            'center_id' => '',
-            'group_id' => '',
-            'fund_type_id' => '',
+            'name' => '',
+            'description' => '',
         ];
     }
 }

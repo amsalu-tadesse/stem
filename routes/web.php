@@ -48,6 +48,7 @@ use App\Http\Controllers\TraineeSessionEquipmentController;
 use App\Http\Controllers\TrainerController;
 use App\Http\Controllers\VisitorController;
 use App\Http\Controllers\WelcomeController;
+use App\Http\Controllers\FundTypeController;
 
 /*
 |--------------------------------------------------------------------------
@@ -128,6 +129,7 @@ Route::middleware(['web', 'auth'])->group(function () {
             Route::resource('trainee-session-equipment', TraineeSessionEquipmentController::class);
 
             Route::resource('zones', ZoneController::class);
+            Route::resource('fund-types', FundTypeController::class);
             Route::resource('custom-exceptions', CustomExceptionController::class);
             Route::resource('audit', AuditController::class);
             Route::resource('settings', SettingController::class);

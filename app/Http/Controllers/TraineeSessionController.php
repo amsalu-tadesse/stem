@@ -7,11 +7,15 @@ use App\Models\TraineeSession;
 use App\Http\Requests\StoreTraineeSessionRequest;
 use App\Http\Requests\UpdateTraineeSessionRequest;
 use App\Models\Equipment;
+use App\Models\Center;
+use App\Models\Group;
+use App\Models\FundType;
+use App\Models\Lab;
+use App\Models\GroupLab;
 use App\Models\TraineeSessionEquipment;
 use App\Models\User;
 use App\Traits\ModelAuthorizable;
 use Illuminate\Support\Facades\DB;
-
 
 class TraineeSessionController extends Controller
 {
@@ -21,8 +25,14 @@ class TraineeSessionController extends Controller
      */
     public function index(TraineeSessionDataTable $dataTable)
     {
+        $centers = Center::all();
+        $groups = Group::all();
+        $fund_types = FundType::all();
+        $labs = Lab::all();
+        $group_labs = GroupLab::all();
         $equipment = Equipment::all();
-        return $dataTable->render('admin.trainee-sessions.index', compact('equipment'));
+
+        return $dataTable->render('admin.trainee-sessions.index', compact('equipment','centers','groups','fund_types','labs','group_labs','equipment'));
     }
 
     /**
@@ -30,8 +40,15 @@ class TraineeSessionController extends Controller
      */
     public function create()
     {
+        $centers = Center::all();
+        $groups = Group::all();
+        $fund_types = FundType::all();
+        $labs = Lab::all();
+        $group_labs = GroupLab::all();
         $equipment = Equipment::all();
-        return view('admin.trainee-sessions.new', compact('equipment'));
+
+        // dd($centers, $groups,$labs, $group_labs);
+        return view('admin.trainee-sessions.new', compact('equipment', 'centers', 'groups', 'fund_types', 'labs', 'group_labs'));
     }
 
     /**
@@ -62,7 +79,6 @@ class TraineeSessionController extends Controller
             $equip->save();
         }
 
-
         return redirect()->route('admin.trainee-sessions.index')->with('success_create', ' trainee_session added!');
     }
 
@@ -73,7 +89,8 @@ class TraineeSessionController extends Controller
     {
         if (request()->ajax()) {
             $equipment = Equipment::whereIn('id', TraineeSessionEquipment::where('trainee_session_id', $trainee_session->id)->pluck('equipment_id'))->get();
-            $response = array();
+             $trainee_session->load('center:id,name')->load('group:id,name')->load('fundType:id,name');
+            $response = [];
             $response['success'] = 1;
             $response['trainee_session'] = $trainee_session;
             $response['equipment'] = $equipment;
@@ -84,18 +101,22 @@ class TraineeSessionController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(TraineeSession $trainee_session)
-    {
-        if (request()->ajax()) {
-            $trainee_session = TraineeSession::with('traineeSessionEquipment')->find($trainee_session->id);
-            $equipment = Equipment::whereIn('id', TraineeSessionEquipment::where('trainee_session_id', $trainee_session->id)->pluck('equipment_id'))->get();
-            $response = array();
-            $response['success'] = 1;
-            $response['trainee_session'] = $trainee_session;
-            $response['equipment'] = $equipment;
-            return response()->json($response);
-        }
+   public function edit(TraineeSession $trainee_session)
+{
+    if (request()->ajax()) {
+        $trainee_session = TraineeSession::with('traineeSessionEquipment')->find($trainee_session->id);
+        $trainee_session->load('center:id,name')->load('group:id,name')->load('fundType:id,name');
+        $equipment = Equipment::whereIn('id', TraineeSessionEquipment::where('trainee_session_id', $trainee_session->id)->pluck('equipment_id'))->get();
+        
+        $response = [];
+        $response['success'] = 1;
+        $response['trainee_session'] = $trainee_session;
+        $response['equipment'] = $equipment;
+        
+        return response()->json($response);
     }
+}
+
 
     /**
      * Update the specified resource in storage.
@@ -120,7 +141,6 @@ class TraineeSessionController extends Controller
 
             // Calculate the difference between previous and current quantity
 
-
             $temp = $equip->current_quantity + $previousQuantity;
             $updated_quantity = $temp - $quantities[$key];
             // Update or create the TraineeSessionEquipment record
@@ -130,22 +150,20 @@ class TraineeSessionController extends Controller
                     'equipment_id' => $equipId,
                 ],
                 [
-                    'quantity' => $quantities[$key]
-                ]
+                    'quantity' => $quantities[$key],
+                ],
             );
             // Update Equipment count
-            
-                $equip->current_quantity = $updated_quantity;
-                $equip->save();
-           
+
+            $equip->current_quantity = $updated_quantity;
+            $equip->save();
         }
 
         // Update TraineeSession if needed
         $trainee_session->update($request->validated());
 
-        return response()->json(array('success' => true), 200);
+        return response()->json(['success' => true], 200);
     }
-
 
     /**
      * Remove the specified resource from storage.
@@ -156,6 +174,6 @@ class TraineeSessionController extends Controller
             return redirect()->route('admin.trainee-sessions.index')->with('error', 'Unautorized!');
         }
         $trainee_session->delete();
-        return response()->json(array('success' => true), 200);
+        return response()->json(['success' => true], 200);
     }
 }
