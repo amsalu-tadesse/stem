@@ -49,6 +49,30 @@
                             <p name='equipment' id='equipment'></p>
                         </div>
                     </div>
+                    <div class='form-group row'>
+                        <label class='col-sm-2 col-form-label'>Objectives</label>
+                        <div class='col-sm-10'>
+                            <p name='objective' id='objective'></p>
+                        </div>
+                    </div>
+                    <div class='form-group row'>
+                        <label class='col-sm-2 col-form-label'>Center</label>
+                        <div class='col-sm-10'>
+                            <p name='center_id' id='center_id'></p>
+                        </div>
+                    </div>
+                    <div class='form-group row'>
+                        <label class='col-sm-2 col-form-label'>Group</label>
+                        <div class='col-sm-10'>
+                            <p name='group_id' id='group_id'></p>
+                        </div>
+                    </div>
+                    <div class='form-group row'>
+                        <label class='col-sm-2 col-form-label'>Fund Type</label>
+                        <div class='col-sm-10'>
+                            <p name='fund_type_id' id='fund_type_id'></p>
+                        </div>
+                    </div>
                 </div>
                 <!-- /.row -->
                 <!-- /.card-body -->

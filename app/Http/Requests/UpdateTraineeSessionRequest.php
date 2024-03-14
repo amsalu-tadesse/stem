@@ -21,14 +21,16 @@ class UpdateTraineeSessionRequest extends FormRequest
      */
     public function rules(): array
     {
-
         return [
             'name' => '',
-'academic_year' => '',
-'start_date' => '',
-'end_date' => '',
-'status' => '',
-
+            'academic_year' => '',
+            'objective' => '',
+            'start_date' => '',
+            'end_date' => '',
+            'status' => '',
+            'center_id' => '',
+            'group_id' => '',
+            'fund_type_id' => '',
         ];
     }
 }
