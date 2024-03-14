@@ -50,6 +50,9 @@ use App\Http\Controllers\VisitorController;
 use App\Http\Controllers\WelcomeController;
 use App\Http\Controllers\FundTypeController;
 use App\Http\Controllers\MeasurementController;
+use App\Http\Controllers\CountryController;
+use App\Http\Controllers\InstitutionTypeController;
+use App\Http\Controllers\InstitutionController;
 
 /*
 |--------------------------------------------------------------------------
@@ -130,7 +133,10 @@ Route::middleware(['web', 'auth'])->group(function () {
             Route::resource('trainee-session-equipment', TraineeSessionEquipmentController::class);
 
             Route::resource('zones', ZoneController::class);
+            Route::resource('institutions', InstitutionController::class);
+            Route::resource('institution-types', InstitutionTypeController::class);
             Route::resource('measurements', MeasurementController::class);
+            Route::resource('countries', CountryController::class);
             Route::resource('fund-types', FundTypeController::class);
             Route::resource('custom-exceptions', CustomExceptionController::class);
             Route::resource('audit', AuditController::class);

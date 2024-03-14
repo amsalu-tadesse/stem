@@ -22,7 +22,9 @@ class StoreVisitorRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'organization_name' => 'required',
+            'institution_id' => 'required',
+            'institution_type_id' => '',
+            'country_id' => '',
             'visitor_count' => 'required|numeric|max:5000',
             'responsible_person' => 'required|string',
             'phone' => 'required',

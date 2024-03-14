@@ -94,7 +94,8 @@
         <div class="container position-relative" data-aos="zoom-in" data-aos-delay="100">
 
             <h1>Inside Every Child is a Scientist.<br></h1>
-            <h2 class="text-info" style="font-weight: bold;">Welcome to Addis Ababa Science & Technology University STEM Center Appointment Portal</h2>
+            <h2 class="text-info" style="font-weight: bold;">Welcome to Addis Ababa Science & Technology University STEM
+                Center Appointment Portal</h2>
             {{-- <a href="courses.html" class="btn-get-started">Get Started</a> --}}
         </div>
     </section><!-- End Hero -->
@@ -201,10 +202,9 @@
                                     <p>{{ $site_admin->telephone }}</p>
                                 </div>
 
-                                <iframe
-                                    src="{{ $site_admin->location }}"
-                                    class="my-4" style="border:0; width: 100%; height: 290px;" allowfullscreen=""
-                                    loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+                                <iframe src="{{ $site_admin->location }}" class="my-4"
+                                    style="border:0; width: 100%; height: 290px;" allowfullscreen="" loading="lazy"
+                                    referrerpolicy="no-referrer-when-downgrade"></iframe>
                             </div>
 
                         </div>
@@ -221,14 +221,14 @@
                                         <label for="name">Your Email</label>
                                         <input type="email" class="form-control" name="email" id="email"
                                             required="">
-                                            <span class="text-danger error" id="email_error"></span>
+                                        <span class="text-danger error" id="email_error"></span>
                                     </div>
                                 </div>
                                 <div class="form-group">
                                     <label for="name">Subject</label>
                                     <input type="text" class="form-control" name="subject" id="subject"
                                         required="">
-                                        <span class="text-danger error" id="subject_error"></span>
+                                    <span class="text-danger error" id="subject_error"></span>
 
                                 </div>
                                 <div class="form-group">
@@ -269,8 +269,10 @@
                             {{ $site_admin->address }}
                             ETHIOPIA <br><br>
 
-                            <strong>Phone:</strong> <a href="tel:{{ $site_admin->telephone }}">{{ $site_admin->telephone }}</a><br>
-                            <strong>Email:</strong> <a href="mailto:{{ $site_admin->email }}">{{ $site_admin->email }}</a> <br>
+                            <strong>Phone:</strong> <a
+                                href="tel:{{ $site_admin->telephone }}">{{ $site_admin->telephone }}</a><br>
+                            <strong>Email:</strong> <a
+                                href="mailto:{{ $site_admin->email }}">{{ $site_admin->email }}</a> <br>
                         </p>
                     </div>
 
@@ -336,7 +338,7 @@
         </div>
     </footer><!-- End Footer -->
 
-    <x-partials.visitor-modal />
+    <x-partials.visitor-modal :institutions="$institutions" :institution_types="$institution_types" :countries="$countries" />
 
 
     <div id="preloader"></div>
@@ -383,6 +385,8 @@
                 console.log(errorFlashMessage);
                 toastr.error(errorFlashMessage);
             }
+
+            
         });
     </script>
     <script>
@@ -458,9 +462,10 @@
                             true);
                     }
                     if (visitor.visiting_hr == '9-11') {
-                        $('#time_9-11').toggleClass('btn-success btn-secondary').text('9-11 (Reserved)').prop(
-                            'disabled',
-                            true);
+                        $('#time_9-11').toggleClass('btn-success btn-secondary').text('9-11 (Reserved)')
+                            .prop(
+                                'disabled',
+                                true);
                     }
                 }
             });
@@ -477,7 +482,7 @@
 
         $('#visitor_create_modal #visitor_create_form').on('submit', function(e) {
             e.preventDefault();
-            $('#organization_name_error, #responsible_person_error, #phone_error, #email_error, #visitor_count_error, #appointment_date_error')
+            $('#institution_id_error,#institution_type_id_error,#country_id, #responsible_person_error, #phone_error, #email_error, #visitor_count_error, #appointment_date_error')
                 .text('');
 
             var organization_name = $('#visitor_create_modal #organization_name').val();
@@ -495,7 +500,9 @@
                 type: "POST",
                 url: "{{ route('visitors.store') }}",
                 data: {
-                    'organization_name': organization_name,
+                    'institution_id': institution_id,
+                    'institution_type_id': institution_type_id,
+                    'country_id': country_id,
                     'visitor_count': visitor_count,
                     'responsible_person': responsible_person,
                     'phone': phone_number,
@@ -580,6 +587,8 @@
             });
         })
     </script>
+
+
 
 </body>
 

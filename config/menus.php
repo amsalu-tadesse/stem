@@ -132,6 +132,16 @@ return [
                 'url'        =>  'admin.measurements.index',
                 'permission'   => 'measurement: list'
             ],
+            [
+                'title'      =>  'Institutions',
+                'url'        =>  'admin.institutions.index',
+                'permission'   => 'institution: list'
+            ],
+            [
+                'title'      =>  'Institution Types',
+                'url'        =>  'admin.institution-types.index',
+                'permission'   => 'institution-type: list'
+            ],
             // [
             //     'title'      =>  'Trainee Session Equipment',
             //     'url'        =>  'admin.trainee-session-equipment.index',
@@ -168,6 +178,21 @@ return [
                 'title'      =>  'Departments',
                 'url'        =>  'admin.departments.index',
                 'permission'   => 'department: list'
+            ],
+
+        ],
+
+    ],
+    'menu_5'                 =>  [
+        'name'                 => 'Countries',
+        'menu_icon'           => 'fas fa-country',
+        'permissions'           => ['country: list'],
+        'menu_item'            =>
+        [
+            [
+                'title'      =>  'Countries',
+                'url'        =>  'admin.countries.index',
+                'permission'   => 'country: list'
             ],
 
         ],
