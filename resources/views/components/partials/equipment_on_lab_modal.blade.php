@@ -1,4 +1,4 @@
-@props(['equipment_types'])
+@props(['equipment_types','measurements'])
 
 <!-- /.modal -->
 <div class='modal fade' id='update_modal'>
@@ -22,29 +22,47 @@
                         <div class='col-md-6'>
                             <div class='form-group'>
                                 <label class='col-12'>Name</label>
-                                <input type='text' class='form-control' id='name' name='name' placeholder='Enter Name'>
+                                <input type='text' class='form-control' id='name' name='name'
+                                    placeholder='Enter Name'>
                             </div>
-
                             <div class='form-group'>
-                                <label class='col-12 '>Description</label>
-                                <textarea rows='4' cols='30' class='form-control' id=description name='description'></textarea>
+                                <label class='col-12'>Quantity</label>
+                                <input type='text' class='form-control' id='count' name='count'
+                                    placeholder='Enter quantity'>
                             </div>
                         </div>
                         <div class='col-md-6'>
                             <div class='form-group'>
                                 <label for='equipment_types'>Equipment Type</label>
-                                <select name='equipment_type_id' class='equipment_typess_select2 select2 form-control' id='equipment_type_idd' data-dropdown-css-class='select2-blue'>
-                                    <option value=''>select type</option>
+                                <select name='equipment_type_id'
+                                    class='equipment_types_onnn_add_select2 select2 form-control' id='equipment_type_id'
+                                    data-dropdown-css-class='select2-blue'>
+                                    <option value=''> select type</option>
                                     @foreach ($equipment_types as $equip)
-                                    <option value='{{$equip->id }}'>
-                                        {{$equip->name }}
-                                    </option>
+                                        <option value='{{ $equip->id }}'>
+                                            {{ $equip->name }}
+                                        </option>
                                     @endforeach
                                 </select>
                             </div>
                             <div class='form-group'>
-                                <label class='col-12'>Quantity</label>
-                                <input type='text' class='form-control' id='count' name='count' placeholder='Enter quantity'>
+                                <label for='measurements'>Measurement</label>
+                                <select name='measurement_id' class='measurements_onn_add_select2 select2 form-control'
+                                    id='measurement_id' data-dropdown-css-class='select2-blue'>
+                                    <option value=''> select type</option>
+                                    @foreach ($measurements as $equip)
+                                        <option value='{{ $equip->id }}'>
+                                            {{ $equip->name }}
+                                        </option>
+                                    @endforeach
+                                </select>
+                            </div>
+
+                        </div>
+                        <div class='col-md-12'>
+                            <div class='form-group'>
+                                <label class='col-12 '>Description</label>
+                                <textarea rows='4' cols='30' class='form-control' id=description name='description'></textarea>
                             </div>
                         </div>
                     </div>

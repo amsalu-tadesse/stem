@@ -83,6 +83,7 @@ class DatabaseSeeder extends Seeder
             'trainee-session',
             'trainee-session-equipment',
             'fund-type',
+            'measurement',
         ];
         $permission_activities = [
             'list',

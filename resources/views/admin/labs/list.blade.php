@@ -18,16 +18,18 @@
             {{ $dataTable->table(['class' => 'table table-bordered table-striped']) }}
         </div>
     </div>
-    <x-partials.equipment_on_lab_modal :equipment_types="$equipment_types" />
-    <x-partials.add_equipment_modal :lab="$lab" :equipment_types="$equipment_types" />
+    <x-partials.equipment_on_lab_modal :equipment_types="$equipment_types" :measurements="$measurements" />
+    <x-partials.add_equipment_modal :lab="$lab" :equipment_types="$equipment_types" :measurements="$measurements" />
     <x-show-modals.equipment_show_modal />
     @push('scripts')
     {{ $dataTable->scripts(attributes: ['type' => 'module']) }}
     <script>
         $('.labs_select2').select2();
         $('.filter_by_lab_select2').select2();
-        $('.equipment_types_on_add_select2').select2();
+        $('.equipment_types_onnn_add_select2').select2();
         $('.equipment_typess_select2').select2();
+        $('.measurements_on_add_select2').select2();
+        $('.measurements_onn_add_select2').select2();
     </script>
     <script>
         //delete row
@@ -123,8 +125,11 @@
                             if (equipment.lab_id) {
                                 $('.labs_select2').val(equipment.lab.id).trigger('change');
                             }
+                            if (equipment.measurement_id) {
+                                $('.measurements_onn_add_select2').val(equipment.measurement.id).trigger('change');
+                            }
                             if (equipment.equipment_type_id) {
-                                $('.equipment_typess_select2').val(equipment.equipment_type.id).trigger('change');
+                                $('.equipment_types_onnn_add_select2').val(equipment.equipment_type.id).trigger('change');
                             }
                             $('#update_modal').modal('show');
 
@@ -157,6 +162,9 @@
                             $('#show_modal #description').html(equipment.description);
                             if (equipment.lab_id) {
                                 $('#show_modal #lab_id').html(equipment.lab.name);
+                            }
+                             if (equipment.measurement_id) {
+                                $('#show_modal #measurement_id').html(equipment.measurement.name);
                             }
                             if (equipment.equipment_type_id) {
                                 $('#show_modal #equipment_type_id').html(equipment.equipment_type.name);

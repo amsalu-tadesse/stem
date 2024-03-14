@@ -61,8 +61,7 @@ class EquipmentController extends Controller
     public function show(Equipment $equipment)
     {
         if (request()->ajax()) {
-            $equipment->load('lab:id,name')->load('equipmentType:id,name');
-            $response = array();
+            $equipment->load('lab:id,name')->load('equipmentType:id,name')->load('measurement:id,name');
             $response['success'] = 1;
             $response['equipment'] = $equipment;
             return response()->json($response);
@@ -75,7 +74,7 @@ class EquipmentController extends Controller
     public function edit(Equipment $equipment)
     {
         if (request()->ajax()) {
-            $equipment->load('lab:id,name')->load('equipmentType:id,name');
+            $equipment->load('lab:id,name')->load('equipmentType:id,name')->load('measurement:id,name');
             $response = array();
             $response['success'] = 1;
             $response['equipment'] = $equipment;

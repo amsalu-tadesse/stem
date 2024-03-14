@@ -38,6 +38,12 @@
                         </div>
                     </div>
                     <div class='form-group row'>
+                        <label class='col-sm-2 col-form-label'>Measurement</label>
+                        <div class='col-sm-10'>
+                            <p name='measurement_id' id='measurement_id'></p>
+                        </div>
+                    </div>
+                    <div class='form-group row'>
                         <label class='col-sm-2 col-form-label'>Description</label>
                         <div class='col-sm-10'>
                             <p name='description' id='description'></p>
