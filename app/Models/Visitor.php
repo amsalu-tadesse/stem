@@ -9,4 +9,17 @@ class Visitor extends Model
 {
     use HasFactory;
     protected $guarded = ['id'];
+
+    public function institution()
+    {
+        return $this->belongsTo(Institution::class, 'institution_id');
+    }
+    public function institutionType()
+    {
+        return $this->belongsTo(InstitutionType::class, 'institution_type_id');
+    }
+    public function country()
+    {
+        return $this->belongsTo(Country::class, 'country_id');
+    }
 }

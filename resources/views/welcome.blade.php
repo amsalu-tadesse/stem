@@ -28,7 +28,7 @@
     <link href="{{ asset('frontend/assets/vendor/boxicons/css/boxicons.min.css') }}" rel="stylesheet">
     <link href="{{ asset('frontend/assets/vendor/remixicon/remixicon.css') }}" rel="stylesheet">
     <link href="{{ asset('frontend/assets/vendor/swiper/swiper-bundle.min.css') }}" rel="stylesheet">
-  
+
     <!-- Template Main CSS File -->
     <link href="{{ asset('frontend/assets/css/style.css') }}" rel="stylesheet">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.2.0/css/datepicker.min.css"
@@ -64,6 +64,11 @@
         .disabled-input {
             background-color: #f8f9fa;
         }
+
+        .center-bold {
+            text-align: center;
+            font-weight: bold;
+        }
     </style>
 </head>
 
@@ -81,6 +86,7 @@
                 <ul>
                     <li><a class="active" href="#">Home</a></li>
                     <li><a href="#appointment">Make Appointment</a></li>
+                    <li><a href="#visitors">Visitors</a></li>
                     <li><a href="#contact">Contact</a></li>
                     <li><a href="{{ route('login') }}">Login</a></li>
                 </ul>
@@ -149,6 +155,79 @@
                         </div>
                     </div>
                     <!-- /.row -->
+                </div>
+            </div>
+        </section>
+        <section id="visitors" class="about">
+            <div class="container" data-aos="fade-up">
+                <div class="row">
+                    <div class="text-center my-3">
+                        <h2 class="text-info text-uppercase">Visitors</h2>
+                    </div>
+                    @foreach ($visitors->sortByDesc('appointment_date') as $visitor)
+                        <div class="accordion" id="accordionExample{{ $loop->index }}">
+                            <div class="accordion-item">
+                                <h2 class="accordion-header" id="headingOne{{ $loop->index }}">
+                                    <button class="accordion-button{{ $loop->first ? '' : ' collapsed' }}"
+                                        type="button" data-bs-toggle="collapse"
+                                        data-bs-target="#collapseOne{{ $loop->index }}"
+                                        aria-expanded="{{ $loop->first ? 'true' : 'false' }}"
+                                        aria-controls="collapseOne{{ $loop->index }}">
+                                        {{ \Carbon\Carbon::parse($visitor->appointment_date)->format('Y') }}
+
+                                    </button>
+                                </h2>
+                                <div id="collapseOne{{ $loop->index }}"
+                                    class="accordion-collapse collapse{{ $loop->first ? ' show' : '' }}"
+                                    aria-labelledby="headingOne{{ $loop->index }}"
+                                    data-bs-parent="#accordionExample{{ $loop->index }}">
+                                    <div class="accordion-body">
+
+                                        @php
+                                            $countrrry = ['Country1', 'Country2', 'Country3']; // Replace this with your actual array of countries
+                                        @endphp
+
+                                        <table class="table table-striped table-bordered text-center">
+                                            <thead>
+                                                <tr>
+                                                    <th style="width: 10px">#</th>
+                                                    <th scope="col">Institution</th>
+                                                    <th scope="col">Number/Gov</th>
+                                                    <th scope="col">Number/Private</th>
+                                                    <th colspan="{{ count($countrrry) + 1 }}">Number/Abroad</th>
+
+                                                </tr>
+                                                <tr>
+                                                    <th colspan="4"></th>
+                                                    @foreach ($countrrry as $country)
+                                                        <th style="width: 33.333%;">{{ $country }}</th>
+                                                    @endforeach
+                                                    <th scope="col">Total</th>
+
+                                            </thead>
+                                            <tbody>
+                                                @foreach ($visitors as $index => $visitor)
+                                                    @if ($visitor->appointment_date == $visitors->first()->appointment_date)
+                                                        <tr>
+                                                            <th scope="row">{{ $index + 1 }}</th>
+                                                            <td>{{ $visitor->institution?->name }}</td>
+                                                            <td>{{ $visitor->gov_number }}</td>
+                                                            <td>{{ $visitor->private_number }}</td>
+                                                            @foreach ($countrrry as $country)
+                                                                <td>5</td>
+                                                            @endforeach
+                                                            <td>100</td>
+                                                        </tr>
+                                                    @endif
+                                                @endforeach
+                                            </tbody>
+                                        </table>
+
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    @endforeach
                 </div>
             </div>
         </section>
@@ -389,7 +468,7 @@
 
         });
     </script>
-   
+
     <script>
         var visitors = @json($visitors);
 
@@ -475,7 +554,8 @@
         });
 
         function makeAppointment(elemnet, start_time, end_time) {
-            $('#organization_name,#institution_id, #institution_type_id, #country_id, #responsible_person, #phone_number, #email, #visitor_count').val('');
+            $('#organization_name,#institution_id, #institution_type_id, #country_id, #responsible_person, #phone_number, #email, #visitor_count')
+                .val('');
             $('#visitor_create_modal').modal('toggle');
             $('#create_selected_date').val($('#selected_date').val());
             $('#create_selected_day_range').val(start_time + '-' + end_time);
