@@ -1,14 +1,14 @@
 <x-layout>
-    <x-breadcrump title="Departments List" parent="Departments" child="List" />
+    <x-breadcrump title="Project Status List" parent="ProjectStatus" child="List" />
 
     <div class="card">
         <div class="card-header">
             <div class="col">
                 <div style="display: flex; justify-content:flex-end">
                     <div>
-                        @can('department: create')
-                        <a href="{{route('admin.departments.create') }}">
-                            <button type="button" class="btn btn-primary">Add New Department</button>
+                        @can('projectStatus: create')
+                        <a href="{{route('admin.project-status.create') }}">
+                            <button type="button" class="btn btn-primary">Add New Project Status</button>
                         </a>
                         @endcan
                     </div>
@@ -24,7 +24,7 @@
     </div>
     <!-- /.card -->
     <!-- /#updateModal -->
-    <x-partials.department_modal />
+    <x-partials.project-status_modal />
     <!-- /#updateModal -->
     <!-- /.content -->
     <!-- Custom Js contents -->
@@ -33,7 +33,7 @@
     <script>
         //delete row
         function delete_row(element, user_id) {
-            var url = "{{ route('admin.departments.destroy', ':id') }}";
+            var url = "{{ route('admin.project-status.destroy', ':id') }}";
             url = url.replace(':id', user_id);
             console.log(url);
 
@@ -65,7 +65,7 @@
                         success: function(data) {
                             console.log(data);
                             if (data.success) {
-                                window.LaravelDataTables["departments-table"].ajax.reload();
+                                window.LaravelDataTables["projectstatus-table"].ajax.reload();
                             }
                         },
                         error: function(error) {
@@ -95,18 +95,20 @@
         }
 
         if ( @json(session('success_create')) ) {
-            toastr.success('You have successfuly added a new Department.')
+            toastr.success('You have successfuly added a new Progress.')
         }
 
 
         $(document).ready(function() {
             // Update record popup
-            $('#departments-table').on('click', '#update_row', function() {
+          
+            $('#projectstatus-table').on('click', '#update_row', function() {
+               
                 var row_id = $(this).data('row_id');
-                var url = "{{ route('admin.departments.edit', ':id') }}";
+                var url = "{{ route('admin.project-status.edit', ':id') }}";
                 url = url.replace(':id', row_id);
 
-                $(' :input').val('');
+                $('#projectStatus_update_form :input').val('');
                 // AJAX request
                 $.ajax({
                     url: url,
@@ -115,11 +117,11 @@
                     success: function(response) {
                         console.log('success');
                         if (response.success == 1) {
-                            var department = response.department;
+                            var projectStatus = response.projectStatus;
                             console.log(response);
-                            $('#department_id').val(department.id);
-                            $('#name').val(department.name);
-                            $('#description').val(department.description);
+                            $('#projectStatus_id').val(projectStatus.id);
+                            $('#name').val(projectStatus.name);
+                            $('#description').val(projectStatus.description);
                             $('#update_modal').modal('show');
 
                         } else {
@@ -131,12 +133,12 @@
         });
 
 
-        $('#department_update_form').on('submit', function(e) {
+        $('#projectStatus_update_form').on('submit', function(e) {
             e.preventDefault();
             form_data = $(this).serialize();
-            row_id = $('#department_id', $(this)).val()
+            row_id = $('#projectStatus_id', $(this)).val()
             console.log(row_id);
-            var url = "{{ route('admin.departments.update', ':id') }}";
+            var url = "{{ route('admin.project-status.update', ':id') }}";
             url = url.replace(':id', row_id);
 
             // AJAX request
@@ -149,7 +151,7 @@
                     if (data.success) {
                         console.log(data);
                         $('#update_modal').modal('toggle');
-                        window.LaravelDataTables["departments-table"].ajax.reload();
+                        window.LaravelDataTables["projectstatus-table"].ajax.reload();
                         toastr.success('You have successfuly updated a Course.')
                     }
                 },
