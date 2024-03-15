@@ -164,6 +164,11 @@ return [
                 'url'        =>  'admin.departments.index',
                 'permission'   => 'department: list'
             ],
+            [
+                'title'      =>  'Project Status',
+                'url'        =>  'admin.project-status.index',
+                'permission'   => 'projectStatus: list'
+            ]
 
         ],
 
