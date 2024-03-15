@@ -164,29 +164,42 @@
                     <div class="text-center my-3">
                         <h2 class="text-info text-uppercase">Visitors</h2>
                     </div>
-                    @foreach ($visitors->sortByDesc('appointment_date') as $visitor)
-                        <div class="accordion" id="accordionExample{{ $loop->index }}">
+                    @php
+                        $visitorsByYear = $visitors->sortByDesc('appointment_date')->groupBy(function ($visitor) {
+                            return $visitor->appointment_date->format('Y');
+                        });
+                    @endphp
+
+                    @foreach ($visitorsByYear as $year => $visitorsInYear)
+                        <div class="accordion" id="accordionExample{{ $year }}">
                             <div class="accordion-item">
-                                <h2 class="accordion-header" id="headingOne{{ $loop->index }}">
+                                <h2 class="accordion-header" id="headingOne{{ $year }}">
                                     <button class="accordion-button{{ $loop->first ? '' : ' collapsed' }}"
                                         type="button" data-bs-toggle="collapse"
-                                        data-bs-target="#collapseOne{{ $loop->index }}"
+                                        data-bs-target="#collapseOne{{ $year }}"
                                         aria-expanded="{{ $loop->first ? 'true' : 'false' }}"
-                                        aria-controls="collapseOne{{ $loop->index }}">
-                                        {{ \Carbon\Carbon::parse($visitor->appointment_date)->format('Y') }}
-
+                                        aria-controls="collapseOne{{ $year }}">
+                                        {{ $year }}
                                     </button>
                                 </h2>
-                                <div id="collapseOne{{ $loop->index }}"
+                                <div id="collapseOne{{ $year }}"
                                     class="accordion-collapse collapse{{ $loop->first ? ' show' : '' }}"
-                                    aria-labelledby="headingOne{{ $loop->index }}"
-                                    data-bs-parent="#accordionExample{{ $loop->index }}">
+                                    aria-labelledby="headingOne{{ $year }}"
+                                    data-bs-parent="#accordionExample{{ $year }}">
                                     <div class="accordion-body">
 
                                         @php
-                                            $countrrry = ['Country1', 'Country2', 'Country3']; // Replace this with your actual array of countries
+                                            $countrrry = $visitorsInYear
+                                                ->pluck('country_id')
+                                                ->unique()
+                                                ->map(function ($countryId) {
+                                                    return \App\Models\Country::find($countryId)->name;
+                                                });
                                         @endphp
 
+                                        @php
+                                            $institutionss = $visitorsInYear->groupBy('institution_id');
+                                        @endphp
                                         <table class="table table-striped table-bordered text-center">
                                             <thead>
                                                 <tr>
@@ -195,7 +208,6 @@
                                                     <th scope="col">Number/Gov</th>
                                                     <th scope="col">Number/Private</th>
                                                     <th colspan="{{ count($countrrry) + 1 }}">Number/Abroad</th>
-
                                                 </tr>
                                                 <tr>
                                                     <th colspan="4"></th>
@@ -203,31 +215,54 @@
                                                         <th style="width: 33.333%;">{{ $country }}</th>
                                                     @endforeach
                                                     <th scope="col">Total</th>
-
+                                                </tr>
                                             </thead>
                                             <tbody>
-                                                @foreach ($visitors as $index => $visitor)
-                                                    @if ($visitor->appointment_date == $visitors->first()->appointment_date)
-                                                        <tr>
-                                                            <th scope="row">{{ $index + 1 }}</th>
-                                                            <td>{{ $visitor->institution?->name }}</td>
-                                                            <td>{{ $visitor->gov_number }}</td>
-                                                            <td>{{ $visitor->private_number }}</td>
-                                                            @foreach ($countrrry as $country)
-                                                                <td>5</td>
-                                                            @endforeach
-                                                            <td>100</td>
-                                                        </tr>
-                                                    @endif
+                                                @foreach ($institutionss as $institution)
+                                                    @php
+                                                        $govCount = $institution
+                                                            ->where('institutionType.name', 'Governmental')
+                                                            ->sum('visitor_count');
+                                                        $privateCount = $institution
+                                                            ->where('institutionType.name', 'Private')
+                                                            ->sum('visitor_count');
+                                                    @endphp
+                                                    @php
+                                                        $total = 0;
+                                                    @endphp
+                                                    <tr>
+                                                        <td>{{ $loop->iteration }}</td>
+                                                        <td>{{ $institution->first()->institution->name }}</td>
+                                                        <td>{{ $govCount }}</td>
+                                                        <td>{{ $privateCount }}</td>
+                                                        
+                                                        @foreach ($countrrry as $country)
+                                                            @php
+                                                                
+                                                                $countryVisitors = $institution
+                                                                    ->where('institutionType.name', 'Abroad')
+                                                                    ->where('country_id', $country)
+                                                                    ->sum('visitor_count');
+
+                                                                // Output the visitor count for this country
+                                                                echo '<td>' . $countryVisitors . '</td>';
+
+                                                                // Add the country's visitor count to the total
+                                                                $total += $countryVisitors;
+                                                            @endphp
+                                                        @endforeach
+                                                        <td>{{ $total }}</td>
+                                                        <!-- Total visitor count for this institution -->
+                                                    </tr>
                                                 @endforeach
                                             </tbody>
                                         </table>
-
                                     </div>
                                 </div>
                             </div>
                         </div>
                     @endforeach
+
                 </div>
             </div>
         </section>

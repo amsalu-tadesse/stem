@@ -53,6 +53,8 @@ use App\Http\Controllers\MeasurementController;
 use App\Http\Controllers\CountryController;
 use App\Http\Controllers\InstitutionTypeController;
 use App\Http\Controllers\InstitutionController;
+use App\Http\Controllers\ProjectStatusController;
+use App\Models\ProjectStatus;
 
 /*
 |--------------------------------------------------------------------------
@@ -140,6 +142,7 @@ Route::middleware(['web', 'auth'])->group(function () {
             Route::resource('fund-types', FundTypeController::class);
             Route::resource('custom-exceptions', CustomExceptionController::class);
             Route::resource('audit', AuditController::class);
+            Route::resource('project-status', ProjectStatusController::class);
             Route::resource('settings', SettingController::class);
             Route::resource('contact-us', ContactUsController::class)->except('store');
 
@@ -160,6 +163,12 @@ Route::middleware(['web', 'auth'])->group(function () {
             Route::post('/change-profile', [ProfileController::class, 'changeProfile'])->name('postProfile');
             Route::get('/dashboard', [DashboardController::class, 'dashboard'])->name('dashboard');
             Route::get('/analysis', [AnalysisController::class, 'visualize'])->name('analysis');
+
+
+
+            
+
+            
 
 
                    

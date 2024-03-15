@@ -58,7 +58,7 @@ class DatabaseSeeder extends Seeder
             ]);
         }
 
-        $permissions = ['user', 'role', 'school-level', 'school', 'department', 'academic-level', 'lecturer', 'student', 'course', 'academic-session', 'instructor-course', 'visitor', 'center', 'lab', 'equipment', 'equipment-type', 'trainer', 'trainee', 'group', 'trainee-group', 'group-lab', 'trainee-session', 'trainee-session-equipment', 'fund-type', 'measurement', 'institution', 'institution-type','country'];
+        $permissions = ['user', 'role', 'school-level', 'school', 'department', 'academic-level', 'lecturer', 'student', 'course', 'academic-session', 'instructor-course', 'visitor', 'center', 'lab', 'equipment', 'equipment-type', 'trainer', 'trainee', 'group', 'trainee-group', 'group-lab', 'trainee-session', 'trainee-session-equipment', 'fund-type', 'measurement', 'institution', 'institution-type','country','projectStatus'];
         $permission_activities = [
             'list',
             'view',
@@ -523,6 +523,31 @@ class DatabaseSeeder extends Seeder
                 'description' => $department['description'],
             ]);
         }
+        $projectStatus =[
+            [
+                'name' => 'projectStatus1',
+                'description' => 'Description of projectStatus1',
+            ],
+            [
+                'name' => 'projectStatus2',
+                'description' => 'Description of projectStatus2',
+            ],
+            [
+                'name' => 'projectStatus3',
+                'description' => 'Description of projectStatus3',
+            ],
+        ];
+
+        foreach ($projectStatus as $projectStat) {
+
+            \App\Models\ProjectStatus::factory()->create(
+                [
+                    'name' => $projectStat['name'],
+                    'description' => $projectStat['description'],
+                ]
+            );
+        }
+
 
         $academic_sessions = [
             [
@@ -965,6 +990,7 @@ class DatabaseSeeder extends Seeder
         $institution_types =[
             ['name'=>'Private'],
             ['name'=>'Governmental'],
+            ['name'=>'Abroad'],
         ];
          foreach ($institution_types as $institution_type) {
             \App\Models\InstitutionType::factory()->create([
