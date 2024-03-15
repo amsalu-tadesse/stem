@@ -28,7 +28,7 @@
     <link href="{{ asset('frontend/assets/vendor/boxicons/css/boxicons.min.css') }}" rel="stylesheet">
     <link href="{{ asset('frontend/assets/vendor/remixicon/remixicon.css') }}" rel="stylesheet">
     <link href="{{ asset('frontend/assets/vendor/swiper/swiper-bundle.min.css') }}" rel="stylesheet">
-
+  
     <!-- Template Main CSS File -->
     <link href="{{ asset('frontend/assets/css/style.css') }}" rel="stylesheet">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.2.0/css/datepicker.min.css"
@@ -386,9 +386,10 @@
                 toastr.error(errorFlashMessage);
             }
 
-            
+
         });
     </script>
+   
     <script>
         var visitors = @json($visitors);
 
@@ -474,7 +475,7 @@
         });
 
         function makeAppointment(elemnet, start_time, end_time) {
-            $('#organization_name, #responsible_person, #phone_number, #email, #visitor_count').val('');
+            $('#organization_name,#institution_id, #institution_type_id, #country_id, #responsible_person, #phone_number, #email, #visitor_count').val('');
             $('#visitor_create_modal').modal('toggle');
             $('#create_selected_date').val($('#selected_date').val());
             $('#create_selected_day_range').val(start_time + '-' + end_time);
@@ -482,9 +483,12 @@
 
         $('#visitor_create_modal #visitor_create_form').on('submit', function(e) {
             e.preventDefault();
-            $('#institution_id_error,#institution_type_id_error,#country_id, #responsible_person_error, #phone_error, #email_error, #visitor_count_error, #appointment_date_error')
+            $('#institution_id_error, #institution_type_id_error, #country_id_error, #responsible_person_error, #phone_error, #email_error, #visitor_count_error, #appointment_date_error')
                 .text('');
 
+            var institution_id = $('#visitor_create_modal #institution_id').val();
+            var institution_type_id = $('#visitor_create_modal #institution_type_id').val();
+            var country_id = $('#visitor_create_modal #country_id').val();
             var organization_name = $('#visitor_create_modal #organization_name').val();
             var responsible_person = $('#visitor_create_modal #responsible_person').val();
             var phone_number = $('#visitor_create_modal #phone_number').val();
