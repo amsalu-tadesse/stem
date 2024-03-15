@@ -118,6 +118,8 @@ Route::middleware(['web', 'auth'])->group(function () {
             Route::resource('students', StudentController::class);
             Route::resource('courses', CourseController::class);
             Route::resource('academic-sessions', AcademicSessionController::class);
+            Route::post('/save-marks', [AcademicSessionController::class,"saveMarks"]);
+            Route::post('/get-student-course', [AcademicSessionController::class,"getStudent"]);
             Route::resource('visitors', VisitorController::class)->except('store');
             Route::resource('instructor-courses', InstructorCourseController::class);
 
@@ -166,12 +168,12 @@ Route::middleware(['web', 'auth'])->group(function () {
 
 
 
-            
-
-            
 
 
-                   
+
+
+
+
               #CRUD
               Route::resource('crud-generator', CrudGeneratorController::class);
               Route::post('crud-generator', [CrudGeneratorController::class, 'crudGenerator'])->name('crud-generator');

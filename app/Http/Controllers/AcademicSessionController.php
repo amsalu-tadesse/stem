@@ -12,6 +12,8 @@ use App\Models\Course;
 use App\Models\InstructorCourse;
 use App\Models\Lecturer;
 use App\Models\Student;
+use Illuminate\Http\Request;
+use App\Models\StudentInstructorCourse;
 
 class AcademicSessionController extends Controller
 {
@@ -64,10 +66,15 @@ class AcademicSessionController extends Controller
         ->whereDoesntHave('instructorCourses')->select(['lecturers.name as name','lecturers.id as id'])
         ->get();
 
+        $existingMarks = StudentInstructorCourse::whereIn('instructor_course_id', $courses->pluck('id'))
+        ->get()
+        ->groupBy('instructor_course_id');
+
         $student_not_add_in_this_as = Student::whereNull('academic_session')->get();
 
-    
-        return view('admin.academic-sessions.show', compact('students', 'courses', 'academic_session', 'coursesNotInInstructorCourse', 'lect','labAssistantNotInInstructorCourse','student_not_add_in_this_as'));
+
+
+        return view('admin.academic-sessions.show', compact('students','existingMarks', 'courses', 'academic_session', 'coursesNotInInstructorCourse', 'lect','labAssistantNotInInstructorCourse','student_not_add_in_this_as'));
     }
 
     /**
@@ -90,11 +97,11 @@ class AcademicSessionController extends Controller
     {
         // if (request()->ajax()) {
         //     if($academic_session->status == 0){
-        //         $academic_session->status = 1; 
-        //         $academic_session->save(); 
+        //         $academic_session->status = 1;
+        //         $academic_session->save();
         //     }else{
-        //         $academic_session->status = 0; 
-        //         $academic_session->save();  
+        //         $academic_session->status = 0;
+        //         $academic_session->save();
         //     }
         // }
         $academic_session->update($request->validated());
@@ -113,4 +120,66 @@ class AcademicSessionController extends Controller
         $academic_session->delete();
         return response()->json(array("success" => true), 200);
     }
+
+
+
+    public function saveMarks(Request $request)
+    {
+        $marksData = $request->input('marksData');
+
+        foreach ($marksData as $data) {
+            // Check if a record already exists for this student and course
+            $existingMark = StudentInstructorCourse::where('student_id', $data['studentId'])
+                ->where('instructor_course_id', $data['courseId'])
+                ->first();
+
+            if ($existingMark) {
+                // If a record exists, update it
+                $existingMark->update([
+                    'mark' => $data['mark'],
+                    // You might want to update other fields here if needed
+                ]);
+            } else {
+                // If no record exists, create a new one
+                StudentInstructorCourse::create([
+                    'student_id' => $data['studentId'],
+                    'instructor_course_id' => $data['courseId'],
+                    'mark' => $data['mark'],
+                    // You might want to handle other fields here
+                ]);
+            }
+        }
+
+        return response()->json(['success' => true]);
+    }
+
+
+    public function getStudent() {
+        $academic_session_id = request()->academic_session;
+        $course_id = request()->course_id;
+
+        $students = AcademicSession::with('students.school')->find($academic_session_id);
+        $courses = InstructorCourse::where('academic_session_id', $academic_session_id)
+            ->with('course', 'instructor', 'labAssistant')
+            ->where("course_id", $course_id)
+            ->get();
+
+        $existingMarks = StudentInstructorCourse::whereIn('instructor_course_id', $courses->pluck('id'))
+            ->get()
+            ->groupBy('instructor_course_id');
+        $academic_session = AcademicSession::find($academic_session_id);
+           // Prepare response data
+           $response = [
+            "students" => $students,
+            "existing_marks" => $existingMarks
+        ];
+
+        // Return JSON response
+        return response()->json($response);
+    }
+
+
+
+
+
 }
