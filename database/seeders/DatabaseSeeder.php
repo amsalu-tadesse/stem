@@ -64,6 +64,7 @@ class DatabaseSeeder extends Seeder
             'school-level',
             'school',
             'department',
+            'projectStatus',
             'academic-level',
             'lecturer',
             'student',
@@ -607,6 +608,31 @@ class DatabaseSeeder extends Seeder
                 ]
             );
         }
+        $projectStatus =[
+            [
+                'name' => 'projectStatus1',
+                'description' => 'Description of projectStatus1',
+            ],
+            [
+                'name' => 'projectStatus2',
+                'description' => 'Description of projectStatus2',
+            ],
+            [
+                'name' => 'projectStatus3',
+                'description' => 'Description of projectStatus3',
+            ],
+        ];
+
+        foreach ($projectStatus as $projectStat) {
+
+            \App\Models\ProjectStatus::factory()->create(
+                [
+                    'name' => $projectStat['name'],
+                    'description' => $projectStat['description'],
+                ]
+            );
+        }
+
 
         $academic_sessions = [
             [
