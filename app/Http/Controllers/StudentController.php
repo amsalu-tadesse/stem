@@ -82,4 +82,8 @@ class StudentController extends Controller
         $student->delete();
         return response()->json(array("success" => true), 200);
     }
+
+    public function certificate(){
+        return "hello";
+    }
 }
