@@ -5,6 +5,9 @@ namespace App\Http\Controllers;
 use App\Http\Requests\StoreVisitorRequest;
 use App\Models\SiteAdmin;
 use App\Models\Visitor;
+use App\Models\InstitutionType;
+use App\Models\Institution;
+use App\Models\Country;
 use Illuminate\Http\Request;
 
 class WelcomeController extends Controller
@@ -16,7 +19,12 @@ class WelcomeController extends Controller
     {
         $visitors = Visitor::all();
         $site_admin = SiteAdmin::first();
-        return view('welcome', compact('visitors', 'site_admin'));
+        $institution_types = InstitutionType::all();
+        $institutions = Institution::all();
+        $countries = Country::all();
+
+       
+        return view('welcome', compact('visitors', 'site_admin','institution_types','institutions','countries'));
     }
 
     // /**

@@ -27,6 +27,7 @@ class UpdateEquipmentRequest extends FormRequest
             'description' => '',
             'lab_id' => '',
             'equipment_type_id' => '',
+            'measurement_id' => '',
             'count' => '',
             'current_quantity' => '',
         ];

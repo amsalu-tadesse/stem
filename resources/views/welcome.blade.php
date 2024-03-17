@@ -64,6 +64,11 @@
         .disabled-input {
             background-color: #f8f9fa;
         }
+
+        .center-bold {
+            text-align: center;
+            font-weight: bold;
+        }
     </style>
 </head>
 
@@ -81,6 +86,7 @@
                 <ul>
                     <li><a class="active" href="#">Home</a></li>
                     <li><a href="#appointment">Make Appointment</a></li>
+                    <li><a href="#visitors">Visitors</a></li>
                     <li><a href="#contact">Contact</a></li>
                     <li><a href="{{ route('login') }}">Login</a></li>
                 </ul>
@@ -94,7 +100,8 @@
         <div class="container position-relative" data-aos="zoom-in" data-aos-delay="100">
 
             <h1>Inside Every Child is a Scientist.<br></h1>
-            <h2 class="text-info" style="font-weight: bold;">Welcome to Addis Ababa Science & Technology University STEM Center Appointment Portal</h2>
+            <h2 class="text-info" style="font-weight: bold;">Welcome to Addis Ababa Science & Technology University STEM
+                Center Appointment Portal</h2>
             {{-- <a href="courses.html" class="btn-get-started">Get Started</a> --}}
         </div>
     </section><!-- End Hero -->
@@ -151,6 +158,114 @@
                 </div>
             </div>
         </section>
+        <section id="visitors" class="about">
+            <div class="container" data-aos="fade-up">
+                <div class="row">
+                    <div class="text-center my-3">
+                        <h2 class="text-info text-uppercase">Visitors</h2>
+                    </div>
+                    @php
+                        $visitorsByYear = $visitors->sortByDesc('appointment_date')->groupBy(function ($visitor) {
+                            return $visitor->appointment_date->format('Y');
+                        });
+                    @endphp
+
+                    @foreach ($visitorsByYear as $year => $visitorsInYear)
+                        <div class="accordion" id="accordionExample{{ $year }}">
+                            <div class="accordion-item">
+                                <h2 class="accordion-header" id="headingOne{{ $year }}">
+                                    <button class="accordion-button{{ $loop->first ? '' : ' collapsed' }}"
+                                        type="button" data-bs-toggle="collapse"
+                                        data-bs-target="#collapseOne{{ $year }}"
+                                        aria-expanded="{{ $loop->first ? 'true' : 'false' }}"
+                                        aria-controls="collapseOne{{ $year }}">
+                                        {{ $year }}
+                                    </button>
+                                </h2>
+                                <div id="collapseOne{{ $year }}"
+                                    class="accordion-collapse collapse{{ $loop->first ? ' show' : '' }}"
+                                    aria-labelledby="headingOne{{ $year }}"
+                                    data-bs-parent="#accordionExample{{ $year }}">
+                                    <div class="accordion-body">
+
+                                        @php
+                                            $countrrry = $visitorsInYear
+                                                ->pluck('country_id')
+                                                ->unique()
+                                                ->map(function ($countryId) {
+                                                    return \App\Models\Country::find($countryId)->name;
+                                                });
+                                        @endphp
+
+                                        @php
+                                            $institutionss = $visitorsInYear->groupBy('institution_id');
+                                        @endphp
+                                        <table class="table table-striped table-bordered text-center">
+                                            <thead>
+                                                <tr>
+                                                    <th style="width: 10px">#</th>
+                                                    <th scope="col">Institution</th>
+                                                    <th scope="col">Number/Gov</th>
+                                                    <th scope="col">Number/Private</th>
+                                                    <th colspan="{{ count($countrrry) + 1 }}">Number/Abroad</th>
+                                                </tr>
+                                                <tr>
+                                                    <th colspan="4"></th>
+                                                    @foreach ($countrrry as $country)
+                                                        <th style="width: 33.333%;">{{ $country }}</th>
+                                                    @endforeach
+                                                    <th scope="col">Total</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                @foreach ($institutionss as $institution)
+                                                    @php
+                                                        $govCount = $institution
+                                                            ->where('institutionType.name', 'Governmental')
+                                                            ->sum('visitor_count');
+                                                        $privateCount = $institution
+                                                            ->where('institutionType.name', 'Private')
+                                                            ->sum('visitor_count');
+                                                    @endphp
+                                                    @php
+                                                        $total = 0;
+                                                    @endphp
+                                                    <tr>
+                                                        <td>{{ $loop->iteration }}</td>
+                                                        <td>{{ $institution->first()->institution->name }}</td>
+                                                        <td>{{ $govCount }}</td>
+                                                        <td>{{ $privateCount }}</td>
+                                                        
+                                                        @foreach ($countrrry as $country)
+                                                            @php
+                                                                
+                                                                $countryVisitors = $institution
+                                                                    ->where('institutionType.name', 'Abroad')
+                                                                    ->where('country_id', $country)
+                                                                    ->sum('visitor_count');
+
+                                                                // Output the visitor count for this country
+                                                                echo '<td>' . $countryVisitors . '</td>';
+
+                                                                // Add the country's visitor count to the total
+                                                                $total += $countryVisitors;
+                                                            @endphp
+                                                        @endforeach
+                                                        <td>{{ $total }}</td>
+                                                        <!-- Total visitor count for this institution -->
+                                                    </tr>
+                                                @endforeach
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    @endforeach
+
+                </div>
+            </div>
+        </section>
         <!-- /.card -->
         {{-- <section id="about" class="about">
             <div class="container" data-aos="fade-up">
@@ -201,10 +316,9 @@
                                     <p>{{ $site_admin->telephone }}</p>
                                 </div>
 
-                                <iframe
-                                    src="{{ $site_admin->location }}"
-                                    class="my-4" style="border:0; width: 100%; height: 290px;" allowfullscreen=""
-                                    loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+                                <iframe src="{{ $site_admin->location }}" class="my-4"
+                                    style="border:0; width: 100%; height: 290px;" allowfullscreen="" loading="lazy"
+                                    referrerpolicy="no-referrer-when-downgrade"></iframe>
                             </div>
 
                         </div>
@@ -221,14 +335,14 @@
                                         <label for="name">Your Email</label>
                                         <input type="email" class="form-control" name="email" id="email"
                                             required="">
-                                            <span class="text-danger error" id="email_error"></span>
+                                        <span class="text-danger error" id="email_error"></span>
                                     </div>
                                 </div>
                                 <div class="form-group">
                                     <label for="name">Subject</label>
                                     <input type="text" class="form-control" name="subject" id="subject"
                                         required="">
-                                        <span class="text-danger error" id="subject_error"></span>
+                                    <span class="text-danger error" id="subject_error"></span>
 
                                 </div>
                                 <div class="form-group">
@@ -269,8 +383,10 @@
                             {{ $site_admin->address }}
                             ETHIOPIA <br><br>
 
-                            <strong>Phone:</strong> <a href="tel:{{ $site_admin->telephone }}">{{ $site_admin->telephone }}</a><br>
-                            <strong>Email:</strong> <a href="mailto:{{ $site_admin->email }}">{{ $site_admin->email }}</a> <br>
+                            <strong>Phone:</strong> <a
+                                href="tel:{{ $site_admin->telephone }}">{{ $site_admin->telephone }}</a><br>
+                            <strong>Email:</strong> <a
+                                href="mailto:{{ $site_admin->email }}">{{ $site_admin->email }}</a> <br>
                         </p>
                     </div>
 
@@ -336,7 +452,7 @@
         </div>
     </footer><!-- End Footer -->
 
-    <x-partials.visitor-modal />
+    <x-partials.visitor-modal :institutions="$institutions" :institution_types="$institution_types" :countries="$countries" />
 
 
     <div id="preloader"></div>
@@ -383,8 +499,11 @@
                 console.log(errorFlashMessage);
                 toastr.error(errorFlashMessage);
             }
+
+
         });
     </script>
+
     <script>
         var visitors = @json($visitors);
 
@@ -458,9 +577,10 @@
                             true);
                     }
                     if (visitor.visiting_hr == '9-11') {
-                        $('#time_9-11').toggleClass('btn-success btn-secondary').text('9-11 (Reserved)').prop(
-                            'disabled',
-                            true);
+                        $('#time_9-11').toggleClass('btn-success btn-secondary').text('9-11 (Reserved)')
+                            .prop(
+                                'disabled',
+                                true);
                     }
                 }
             });
@@ -469,7 +589,8 @@
         });
 
         function makeAppointment(elemnet, start_time, end_time) {
-            $('#organization_name, #responsible_person, #phone_number, #email, #visitor_count').val('');
+            $('#organization_name,#institution_id, #institution_type_id, #country_id, #responsible_person, #phone_number, #email, #visitor_count')
+                .val('');
             $('#visitor_create_modal').modal('toggle');
             $('#create_selected_date').val($('#selected_date').val());
             $('#create_selected_day_range').val(start_time + '-' + end_time);
@@ -477,9 +598,12 @@
 
         $('#visitor_create_modal #visitor_create_form').on('submit', function(e) {
             e.preventDefault();
-            $('#organization_name_error, #responsible_person_error, #phone_error, #email_error, #visitor_count_error, #appointment_date_error')
+            $('#institution_id_error, #institution_type_id_error, #country_id_error, #responsible_person_error, #phone_error, #email_error, #visitor_count_error, #appointment_date_error')
                 .text('');
 
+            var institution_id = $('#visitor_create_modal #institution_id').val();
+            var institution_type_id = $('#visitor_create_modal #institution_type_id').val();
+            var country_id = $('#visitor_create_modal #country_id').val();
             var organization_name = $('#visitor_create_modal #organization_name').val();
             var responsible_person = $('#visitor_create_modal #responsible_person').val();
             var phone_number = $('#visitor_create_modal #phone_number').val();
@@ -495,7 +619,9 @@
                 type: "POST",
                 url: "{{ route('visitors.store') }}",
                 data: {
-                    'organization_name': organization_name,
+                    'institution_id': institution_id,
+                    'institution_type_id': institution_type_id,
+                    'country_id': country_id,
                     'visitor_count': visitor_count,
                     'responsible_person': responsible_person,
                     'phone': phone_number,
@@ -580,6 +706,8 @@
             });
         })
     </script>
+
+
 
 </body>
 

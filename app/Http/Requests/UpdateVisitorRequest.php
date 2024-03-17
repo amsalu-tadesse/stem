@@ -22,7 +22,15 @@ class UpdateVisitorRequest extends FormRequest
     public function rules(): array
     {
         return [
-            //
+            'institution_id' => '',
+            'institution_type_id' => '',
+            'country_id' => '',
+            'visitor_count' => '|numeric|max:5000',
+            'responsible_person' => '|string',
+            'phone' => '',
+            'email' => '|email',
+            'visiting_hr' => '|string',
+            'appointment_date' => ['', 'date', 'date_format:Y-m-d'],
         ];
     }
 }

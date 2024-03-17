@@ -18,18 +18,22 @@ class DatabaseSeeder extends Seeder
      */
     public function run(): void
     {
-
-
         $emails_setting = [
             'email:on_user_signup' => [
                 'subject' => 'Registration was successful',
-                'body' => 'Dear {user}, <br> You have been successfully registered on ' . Constants::APP_NAME . '. Please use your email and the following password to login into the system.
+                'body' =>
+                    'Dear {user}, <br> You have been successfully registered on ' .
+                    Constants::APP_NAME .
+                    '. Please use your email and the following password to login into the system.
                 <br> We strongly advise you to change your default password. <br><br> Link: {link} <br> Password: <b> {password} </b>',
                 'status' => 1,
             ],
             'email:on_user_registration' => [
                 'subject' => 'Registration was successful',
-                'body' => 'Dear {user}, <br> You have been successfully registered on ' . Constants::APP_NAME . '. Please use your email and the following password to login into the system.
+                'body' =>
+                    'Dear {user}, <br> You have been successfully registered on ' .
+                    Constants::APP_NAME .
+                    '. Please use your email and the following password to login into the system.
                 <br> We strongly advise you to change your default password. <br><br> Link: {link} <br> Password: <b> {password} </b>',
                 'status' => 1,
             ],
@@ -43,8 +47,6 @@ class DatabaseSeeder extends Seeder
                 'body' => 'Dear {user} <br> Thank you for Your message on ' . Constants::APP_NAME . ' platform. We always appreciate feedback and suggestions.',
                 'status' => 1,
             ],
-
-
         ];
 
         foreach ($emails_setting as $code => $subject_body) {
@@ -56,35 +58,7 @@ class DatabaseSeeder extends Seeder
             ]);
         }
 
-
-        $permissions = [
-
-            'user',
-            'role',
-            'school-level',
-            'school',
-            'department',
-            'projectStatus',
-            'academic-level',
-            'lecturer',
-            'student',
-            'course',
-            'academic-session',
-            'instructor-course',
-            'visitor',
-            'center',
-            'lab',
-            'equipment',
-            'equipment-type',
-            'trainer',
-            'trainee',
-            'group',
-            'trainee-group',
-            'group-lab',
-            'trainee-session',
-            'trainee-session-equipment',
-            'fund-type',
-        ];
+        $permissions = ['user', 'role', 'school-level', 'school', 'department', 'academic-level', 'lecturer', 'student', 'course', 'academic-session', 'instructor-course', 'visitor', 'center', 'lab', 'equipment', 'equipment-type', 'trainer', 'trainee', 'group', 'trainee-group', 'group-lab', 'trainee-session', 'trainee-session-equipment', 'fund-type', 'measurement', 'institution', 'institution-type','country','projectStatus'];
         $permission_activities = [
             'list',
             'view',
@@ -94,25 +68,19 @@ class DatabaseSeeder extends Seeder
             // 'restore',
         ];
 
-
-
         $permission_counter = 0;
         $arrayOfPermissionNames = [];
-        foreach ($permissions as  $permission) {
-
+        foreach ($permissions as $permission) {
             foreach ($permission_activities as $activity) {
                 $permission_counter++;
                 $arrayOfPermissionNames[] = $permission . ': ' . $activity;
             }
         }
 
-
         //other non CRUD permissions
         $arrayOfPermissionNames[] = 'payroll: list';
 
         // $arrayOfPermissionNames[] = 'access-domain: zonal';
-
-
 
         $permissions = collect($arrayOfPermissionNames)->map(function ($permission) {
             return ['name' => $permission, 'guard_name' => 'web'];
@@ -120,25 +88,18 @@ class DatabaseSeeder extends Seeder
 
         Permission::insert($permissions->toArray());
 
-
-        $roles = [
-            'Instructor',
-            'Super Admin',
-        ];
-
-
+        $roles = ['Instructor', 'Super Admin'];
 
         foreach ($roles as $role) {
             $myrole = Role::create([
                 'name' => $role,
-                'code' => $role
+                'code' => $role,
             ]);
 
             // if ($role == 'Super Admin') {
             // $myrole->givePermissionTo(Permission::all());
             // }
         }
-
 
         $initial_users = [
             [
@@ -165,8 +126,6 @@ class DatabaseSeeder extends Seeder
                 'created_by' => 1,
                 'updated_by' => 1,
             ],
-
-
         ];
 
         foreach ($initial_users as $user) {
@@ -175,7 +134,7 @@ class DatabaseSeeder extends Seeder
                 'middle_name' => $user['middle_name'],
                 'last_name' => $user['last_name'],
                 'mobile' => $user['mobile'],
-                'password' => "12345678",
+                'password' => '12345678',
                 'password_changed' => $user['password_changed'],
                 'status' => $user['status'],
                 'is_superadmin' => $user['is_superadmin'],
@@ -184,14 +143,12 @@ class DatabaseSeeder extends Seeder
                 'email' => $user['email'],
             ]);
 
-
-
             if ($user['is_superadmin']) {
                 $role = Role::findByName('Super Admin');
                 $role->givePermissionTo(Permission::all());
                 $createdUser->assignRole($role);
-            } else if ($user['email'] == 'belete@gmail.com') {
-                $createdUser->assignRole("Instructor");
+            } elseif ($user['email'] == 'belete@gmail.com') {
+                $createdUser->assignRole('Instructor');
             }
 
             /*if ($role) {
@@ -200,14 +157,12 @@ class DatabaseSeeder extends Seeder
         }
 
         $settings = [
-
             [
                 'code' => 'allow_user_signup',
                 'name' => 'allow user signup',
                 'value1' => '0',
                 'value2' => 'null',
                 'type' => 0,
-
             ],
             [
                 'code' => 'allow_telegram_message',
@@ -215,7 +170,6 @@ class DatabaseSeeder extends Seeder
                 'value1' => '1',
                 'value2' => 'null',
                 'type' => 0,
-
             ],
             [
                 'code' => 'page_number',
@@ -223,7 +177,6 @@ class DatabaseSeeder extends Seeder
                 'value1' => '10,25,50,100,300,500',
                 'value2' => 'null',
                 'type' => 1,
-
             ],
             [
                 'code' => 'privacy_policy',
@@ -231,7 +184,6 @@ class DatabaseSeeder extends Seeder
                 'value1' => 'value2',
                 'value2' => 'We may collect personal information, such as your name, email address, and contact details, when you voluntarily submit it to us through our website. We will not sell, rent, or share your personal information with third parties without your consent, except as required by law',
                 'type' => 2,
-
             ],
             [
                 'code' => 'terms_and_conditions',
@@ -273,26 +225,20 @@ class DatabaseSeeder extends Seeder
 
                 Aenean lacinia bibendum nulla sed consectetur. Praesent commodo cursus magna, vel scelerisque nisl consectetur et. Donec sed odio dui. Donec ullamcorper nulla non metus auctor fringilla.',
                 'type' => 2,
-
             ],
-
         ];
 
         foreach ($settings as $setting) {
-
-            \App\Models\Setting::factory()->create(
-                [
-                    'code' => $setting['code'],
-                    'name' => $setting['name'],
-                    'value1' => $setting['value1'],
-                    'value2' => $setting['value2'],
-                    'type' => $setting['type'],
-                    'created_by' => 1,
-                    'updated_by' => 1,
-                ]
-            );
+            \App\Models\Setting::factory()->create([
+                'code' => $setting['code'],
+                'name' => $setting['name'],
+                'value1' => $setting['value1'],
+                'value2' => $setting['value2'],
+                'type' => $setting['type'],
+                'created_by' => 1,
+                'updated_by' => 1,
+            ]);
         }
-
 
         $helps = [
             [
@@ -317,7 +263,7 @@ class DatabaseSeeder extends Seeder
             [
                 'title' => '  helps List help',
                 'url' => null,
-                'body' => "This page shows the list of helps in the system. According the logged in user privileges buttons for editing existing helps, show all the detail of helps and deleting helps could be visible." . PHP_EOL . " By default the page shows only ten latest helps. You can change the number of helps per page by clicking on 'records per page' box on the left top side. Also, you can search helps by their name,url or by their route." . PHP_EOL . " Additionally, you can download the list being visible by the formats provided on the top of the table. (CSV,Excel,PDF,Print) ",
+                'body' => 'This page shows the list of helps in the system. According the logged in user privileges buttons for editing existing helps, show all the detail of helps and deleting helps could be visible.' . PHP_EOL . " By default the page shows only ten latest helps. You can change the number of helps per page by clicking on 'records per page' box on the left top side. Also, you can search helps by their name,url or by their route." . PHP_EOL . ' Additionally, you can download the list being visible by the formats provided on the top of the table. (CSV,Excel,PDF,Print) ',
                 'route' => 'admin.helps.index',
                 'active' => '1',
                 'created_by' => 1,
@@ -328,8 +274,8 @@ class DatabaseSeeder extends Seeder
             [
                 'title' => 'Contact Us List help',
                 'url' => null,
-                'body' => "This page presents a comprehensive list of Contact Us within the system. The visibility of button for editing existing details depends on the privileges of the logged-in user." . PHP_EOL . " By default, the page shows the ten latest Contact Us. However, you can change the number of Contact Us displayed per page by clicking on the 'records per page' box located on the top left side of the page." . PHP_EOL . " You also have the ability to search for Contact Us by their name,email or by their subject, allowing you to quickly find specific Contact Us of interest." . PHP_EOL . " Additionally, you can download the visible list of Contact Us in various formats provided at the top of the table. The available formats include CSV, Excel, PDF, and Print.",
-                'route' => "admin.contact-us.index",
+                'body' => 'This page presents a comprehensive list of Contact Us within the system. The visibility of button for editing existing details depends on the privileges of the logged-in user.' . PHP_EOL . " By default, the page shows the ten latest Contact Us. However, you can change the number of Contact Us displayed per page by clicking on the 'records per page' box located on the top left side of the page." . PHP_EOL . ' You also have the ability to search for Contact Us by their name,email or by their subject, allowing you to quickly find specific Contact Us of interest.' . PHP_EOL . ' Additionally, you can download the visible list of Contact Us in various formats provided at the top of the table. The available formats include CSV, Excel, PDF, and Print.',
+                'route' => 'admin.contact-us.index',
                 'active' => '1',
                 'created_by' => 1,
                 'updated_by' => 1,
@@ -337,8 +283,8 @@ class DatabaseSeeder extends Seeder
             [
                 'title' => 'Site admin help',
                 'url' => null,
-                'body' => "This page presents a site admin of the system. The visibility of button for update existing details of site admin depends on the privileges of the logged-in user." . PHP_EOL . " By default, the page shows the details of the site admin.",
-                'route' => "admin.site-admin.index",
+                'body' => 'This page presents a site admin of the system. The visibility of button for update existing details of site admin depends on the privileges of the logged-in user.' . PHP_EOL . ' By default, the page shows the details of the site admin.',
+                'route' => 'admin.site-admin.index',
                 'active' => '1',
                 'created_by' => 1,
                 'updated_by' => 1,
@@ -346,8 +292,8 @@ class DatabaseSeeder extends Seeder
             [
                 'title' => 'Dashboard help',
                 'url' => null,
-                'body' => "Dashboard page is a landing page for every logged in user. ",
-                'route' => "admin.dashboard",
+                'body' => 'Dashboard page is a landing page for every logged in user. ',
+                'route' => 'admin.dashboard',
                 'active' => '1',
                 'created_by' => 1,
                 'updated_by' => 1,
@@ -355,32 +301,27 @@ class DatabaseSeeder extends Seeder
             [
                 'title' => 'Profile help',
                 'url' => null,
-                'body' => "Your account settings page offers simple, one-click control. You can enhance security by changing your password and fine-tune your profile with options to update your name, profile photo, educational background and other details.",
-                'route' => "admin.profile",
+                'body' => 'Your account settings page offers simple, one-click control. You can enhance security by changing your password and fine-tune your profile with options to update your name, profile photo, educational background and other details.',
+                'route' => 'admin.profile',
                 'active' => '1',
                 'created_by' => 1,
                 'updated_by' => 1,
             ],
-
         ];
 
         foreach ($helps as $help) {
-
-            \App\Models\Help::factory()->create(
-                [
-                    'title' => $help['title'],
-                    'url' => $help['url'],
-                    'body' => $help['body'],
-                    'route' => $help['route'],
-                    'active' => $help['active'],
-                    'created_by' => $help['created_by'],
-                    'updated_by' => $help['updated_by'],
-                ]
-            );
+            \App\Models\Help::factory()->create([
+                'title' => $help['title'],
+                'url' => $help['url'],
+                'body' => $help['body'],
+                'route' => $help['route'],
+                'active' => $help['active'],
+                'created_by' => $help['created_by'],
+                'updated_by' => $help['updated_by'],
+            ]);
         }
 
         $siteAdmins = [
-
             [
                 'name' => Constants::APP_NAME,
                 'aboutus' => 'Lorem ipsum, dolor sit amet consectetur adipisicing elit. Iure non blanditiis, impedit earum sapiente laudantium commodi doloribus mollitia? Eos omnis totam sint dolore vitae autem, dolorum repudiandae! Iusto quos consequuntur provident ea quas fuga recusandae vel quia assumenda, id, sequi blanditiis placeat ipsa labore doloremque delectus officiis esse, obcaecati est exercitationem! Nesciunt iusto voluptatibus sapiente atque possimus aperiam dolores a vitae nostrum cumque, minus in iure ipsum animi quod aut fugiat saepe expedita labore sunt velit sed, eveniet ratione. Nihil deleniti hic accusamus aspernatur, aut autem, corporis quod, repellendus vero iste nisi! Culpa, adipisci id. Vel sapiente ratione impedit quibusdam!',
@@ -397,22 +338,19 @@ class DatabaseSeeder extends Seeder
         ];
 
         foreach ($siteAdmins as $siteAdmin) {
-
-            \App\Models\SiteAdmin::factory()->create(
-                [
-                    'name' => $siteAdmin['name'],
-                    'aboutus' => $siteAdmin['aboutus'],
-                    'location' => $siteAdmin['location'],
-                    'address' => $siteAdmin['address'],
-                    'email' => $siteAdmin['email'],
-                    'telephone' => $siteAdmin['telephone'],
-                    'facebook' => $siteAdmin['facebook'],
-                    'twitter' => $siteAdmin['twitter'],
-                    'youtube' => $siteAdmin['youtube'],
-                    'intro_video' => $siteAdmin['intro_video'],
-                    'linkedin' => $siteAdmin['linkedin'],
-                ]
-            );
+            \App\Models\SiteAdmin::factory()->create([
+                'name' => $siteAdmin['name'],
+                'aboutus' => $siteAdmin['aboutus'],
+                'location' => $siteAdmin['location'],
+                'address' => $siteAdmin['address'],
+                'email' => $siteAdmin['email'],
+                'telephone' => $siteAdmin['telephone'],
+                'facebook' => $siteAdmin['facebook'],
+                'twitter' => $siteAdmin['twitter'],
+                'youtube' => $siteAdmin['youtube'],
+                'intro_video' => $siteAdmin['intro_video'],
+                'linkedin' => $siteAdmin['linkedin'],
+            ]);
         }
 
         $arr = [
@@ -431,37 +369,28 @@ class DatabaseSeeder extends Seeder
             ['name' => 'Dire Dawa', 'ordering' => 2, 'is_cityadministration' => 1, 'zones' => ['Dire Dawa city', 'Gurgura']],
         ];
 
-
-
-
         $cc = 0;
         foreach ($arr as $key => $val) {
             $cc++;
-            \App\Models\Region::factory()->create(
-                [
-                    'name' => $val['name'],
-                    'ordering' => $val['ordering'],
-                    'is_cityadministration' => $val['is_cityadministration'],
-                    'created_by' => 1,
-                    'updated_by' => 1,
-                ]
-            );
+            \App\Models\Region::factory()->create([
+                'name' => $val['name'],
+                'ordering' => $val['ordering'],
+                'is_cityadministration' => $val['is_cityadministration'],
+                'created_by' => 1,
+                'updated_by' => 1,
+            ]);
 
             $zones = $val['zones'];
 
             foreach ($zones as $zone) {
-
-                \App\Models\Zone::factory()->create(
-                    [
-                        'name' => $zone,
-                        'region_id' => $cc,
-                        'created_by' => 1,
-                        'updated_by' => 1,
-                    ]
-                );
+                \App\Models\Zone::factory()->create([
+                    'name' => $zone,
+                    'region_id' => $cc,
+                    'created_by' => 1,
+                    'updated_by' => 1,
+                ]);
             }
-        };
-
+        }
 
         $users = User::all();
 
@@ -514,19 +443,14 @@ class DatabaseSeeder extends Seeder
                 'name' => 'ARA',
                 'price' => '100',
             ],
-
-
         ];
 
         foreach ($academic_levels as $academic_level) {
-
-            \App\Models\AcademicLevel::factory()->create(
-                [
-                    'type' => $academic_level['type'],
-                    'name' => $academic_level['name'],
-                    'price' => $academic_level['price'],
-                ]
-            );
+            \App\Models\AcademicLevel::factory()->create([
+                'type' => $academic_level['type'],
+                'name' => $academic_level['name'],
+                'price' => $academic_level['price'],
+            ]);
         }
         $school_levels = [
             [
@@ -548,13 +472,10 @@ class DatabaseSeeder extends Seeder
         ];
 
         foreach ($school_levels as $school_level) {
-
-            \App\Models\SchoolLevel::factory()->create(
-                [
-                    'name' => $school_level['name'],
-                    'description' => $school_level['description'],
-                ]
-            );
+            \App\Models\SchoolLevel::factory()->create([
+                'name' => $school_level['name'],
+                'description' => $school_level['description'],
+            ]);
         }
         $schools = [
             [
@@ -575,14 +496,11 @@ class DatabaseSeeder extends Seeder
         ];
 
         foreach ($schools as $school) {
-
-            \App\Models\School::factory()->create(
-                [
-                    'name' => $school['name'],
-                    'address' => $school['address'],
-                    'school_level' => $school['school_level'],
-                ]
-            );
+            \App\Models\School::factory()->create([
+                'name' => $school['name'],
+                'address' => $school['address'],
+                'school_level' => $school['school_level'],
+            ]);
         }
         $departments = [
             [
@@ -600,13 +518,10 @@ class DatabaseSeeder extends Seeder
         ];
 
         foreach ($departments as $department) {
-
-            \App\Models\Department::factory()->create(
-                [
-                    'name' => $department['name'],
-                    'description' => $department['description'],
-                ]
-            );
+            \App\Models\Department::factory()->create([
+                'name' => $department['name'],
+                'description' => $department['description'],
+            ]);
         }
         $projectStatus =[
             [
@@ -659,18 +574,14 @@ class DatabaseSeeder extends Seeder
         ];
 
         foreach ($academic_sessions as $academic_session) {
-
-            \App\Models\AcademicSession::factory()->create(
-                [
-                    'label' => $academic_session['label'],
-                    'academic_year' => $academic_session['academic_year'],
-                    'start_date' => $academic_session['start_date'],
-                    'end_date' => $academic_session['end_date'],
-                    'week_type' => $academic_session['week_type'],
-                ]
-            );
+            \App\Models\AcademicSession::factory()->create([
+                'label' => $academic_session['label'],
+                'academic_year' => $academic_session['academic_year'],
+                'start_date' => $academic_session['start_date'],
+                'end_date' => $academic_session['end_date'],
+                'week_type' => $academic_session['week_type'],
+            ]);
         }
-
 
         /*$students = [
             [
@@ -713,9 +624,6 @@ class DatabaseSeeder extends Seeder
             );
         }*/
 
-
-
-
         $lecturers = [
             [
                 'name' => 'Amsalu Tadesse',
@@ -748,16 +656,13 @@ class DatabaseSeeder extends Seeder
         ];
 
         foreach ($lecturers as $lecturer) {
-
-            \App\Models\Lecturer::factory()->create(
-                [
-                    'name' => $lecturer['name'],
-                    'department' => $lecturer['department'],
-                    'phone' => $lecturer['phone'],
-                    'academic_level_id' => $lecturer['academic_level_id'],
-                    'email' => $lecturer['email'],
-                ]
-            );
+            \App\Models\Lecturer::factory()->create([
+                'name' => $lecturer['name'],
+                'department' => $lecturer['department'],
+                'phone' => $lecturer['phone'],
+                'academic_level_id' => $lecturer['academic_level_id'],
+                'email' => $lecturer['email'],
+            ]);
         }
         $courses = [
             [
@@ -778,16 +683,12 @@ class DatabaseSeeder extends Seeder
         ];
 
         foreach ($courses as $course) {
-
-            \App\Models\Course::factory()->create(
-                [
-                    'name' => $course['name'],
-                    'lecture_hr_per_week' => $course['lecture_hr_per_week'],
-                    'lab_hr_per_week' => $course['lab_hr_per_week'],
-                ]
-            );
+            \App\Models\Course::factory()->create([
+                'name' => $course['name'],
+                'lecture_hr_per_week' => $course['lecture_hr_per_week'],
+                'lab_hr_per_week' => $course['lab_hr_per_week'],
+            ]);
         }
-
 
         \App\Models\InstructorCourse::factory()->create([
             'course_id' => 1,
@@ -800,7 +701,6 @@ class DatabaseSeeder extends Seeder
 
         \App\Models\Student::factory()->count($students)->create();
 
-
         for ($i = 1; $i < $students; $i++) {
             \App\Models\StudentInstructorCourse::factory()->create([
                 'student_id' => $i,
@@ -810,71 +710,292 @@ class DatabaseSeeder extends Seeder
             ]);
         }
 
-        $centers =[
+        $centers = [
             [
-                'name'=>'Incubation',
-                'description'=>'Incubation Description',
+                'name' => 'Incubation',
+                'description' => 'Incubation Description',
             ],
             [
-                'name'=>'STEM',
-                'description'=>'STEM Description',
+                'name' => 'STEM',
+                'description' => 'STEM Description',
             ],
             [
-                'name'=>'Innovation',
-                'description'=>'Innovation Description',
+                'name' => 'Innovation',
+                'description' => 'Innovation Description',
             ],
         ];
 
         foreach ($centers as $center) {
-
-            \App\Models\Center::factory()->create(
-                [
-                    'name' => $center['name'],
-                    'description' => $center['description'],
-                ]
-            );
+            \App\Models\Center::factory()->create([
+                'name' => $center['name'],
+                'description' => $center['description'],
+            ]);
         }
-        $fund_types =[
+        $fund_types = [
             [
-                'name'=>'External',
-                'description'=>'External Description',
+                'name' => 'External',
+                'description' => 'External Description',
             ],
             [
-                'name'=>'Internal',
-                'description'=>'Internal Description',
+                'name' => 'Internal',
+                'description' => 'Internal Description',
             ],
-           
         ];
 
         foreach ($fund_types as $fund_type) {
-
-            \App\Models\FundType::factory()->create(
-                [
-                    'name' => $fund_type['name'],
-                    'description' => $fund_type['description'],
-                ]
-            );
+            \App\Models\FundType::factory()->create([
+                'name' => $fund_type['name'],
+                'description' => $fund_type['description'],
+            ]);
         }
-        $equipment_types =[
+        $equipment_types = [
             [
-                'name'=>'Consumables',
-                'description'=>'Consumables Description',
+                'name' => 'Consumables',
+                'description' => 'Consumables Description',
             ],
             [
-                'name'=>'Permanent',
-                'description'=>'Permanent Description',
+                'name' => 'Permanent',
+                'description' => 'Permanent Description',
             ],
-           
         ];
 
         foreach ($equipment_types as $equip_type) {
+            \App\Models\EquipmentType::factory()->create([
+                'name' => $equip_type['name'],
+                'description' => $equip_type['description'],
+            ]);
+        }
 
-            \App\Models\EquipmentType::factory()->create(
-                [
-                    'name' => $equip_type['name'],
-                    'description' => $equip_type['description'],
-                ]
-            );
+        $countries = [
+            ['name' => 'Afghanistan'],
+            ['name' => 'Albania'],
+            ['name' => 'Algeria'],
+            ['name' => 'Andorra'],
+            ['name' => 'Angola'],
+            ['name' => 'Antigua and Barbuda'],
+            ['name' => 'Argentina'],
+            ['name' => 'Armenia'],
+            ['name' => 'Australia'],
+            ['name' => 'Austria'],
+            ['name' => 'Azerbaijan'],
+            ['name' => 'The Bahamas'],
+            ['name' => 'Bahrain'],
+            ['name' => 'Bangladesh'],
+            ['name' => 'Barbados'],
+            ['name' => 'Belarus'],
+            ['name' => 'Belgium'],
+            ['name' => 'Belize'],
+            ['name' => 'Benin'],
+            ['name' => 'Bhutan'],
+            ['name' => 'Bolivia'],
+            ['name' => 'Bosnia and Herzegovina'],
+            ['name' => 'Botswana'],
+            ['name' => 'Brazil'],
+            ['name' => 'Brunei'],
+            ['name' => 'Bulgaria'],
+            ['name' => 'Burkina Faso'],
+            ['name' => 'Burundi'],
+            ['name' => 'Cabo Verde'],
+            ['name' => 'Cambodia'],
+            ['name' => 'Cameroon'],
+            ['name' => 'Canada'],
+            ['name' => 'Central African Republic'],
+            ['name' => 'Chad'],
+            ['name' => 'Chile'],
+            ['name' => 'China'],
+            ['name' => 'Colombia'],
+            ['name' => 'Comoros'],
+            ['name' => 'Congo, Democratic Republic of the'],
+            ['name' => 'Congo, Republic of the'],
+            ['name' => 'Costa Rica'],
+            ['name' => 'Côte d’Ivoire'],
+            ['name' => 'Croatia'],
+            ['name' => 'Cuba'],
+            ['name' => 'Cyprus'],
+            ['name' => 'Czech Republic'],
+            ['name' => 'Denmark'],
+            ['name' => 'Djibouti'],
+            ['name' => 'Dominica'],
+            ['name' => 'Dominican Republic'],
+            ['name' => 'East Timor (Timor-Leste)'],
+            ['name' => 'Ecuador'],
+            ['name' => 'Egypt'],
+            ['name' => 'El Salvador'],
+            ['name' => 'Equatorial Guinea'],
+            ['name' => 'Eritrea'],
+            ['name' => 'Estonia'],
+            ['name' => 'Eswatini'],
+            ['name' => 'Ethiopia'],
+            ['name' => 'Fiji'],
+            ['name' => 'Finland'],
+            ['name' => 'France'],
+            ['name' => 'Gabon'],
+            ['name' => 'The Gambia'],
+            ['name' => 'Georgia'],
+            ['name' => 'Germany'],
+            ['name' => 'Ghana'],
+            ['name' => 'Greece'],
+            ['name' => 'Grenada'],
+            ['name' => 'Guatemala'],
+            ['name' => 'Guinea'],
+            ['name' => 'Guinea-Bissau'],
+            ['name' => 'Guyana'],
+            ['name' => 'Haiti'],
+            ['name' => 'Honduras'],
+            ['name' => 'Hungary'],
+            ['name' => 'Iceland'],
+            ['name' => 'India'],
+            ['name' => 'Indonesia'],
+            ['name' => 'Iran'],
+            ['name' => 'Iraq'],
+            ['name' => 'Ireland'],
+            ['name' => 'Israel'],
+            ['name' => 'Italy'],
+            ['name' => 'Jamaica'],
+            ['name' => 'Japan'],
+            ['name' => 'Jordan'],
+            ['name' => 'Kazakhstan'],
+            ['name' => 'Kenya'],
+            ['name' => 'Kiribati'],
+            ['name' => 'Korea, North'],
+            ['name' => 'Korea, South'],
+            ['name' => 'Kosovo'],
+            ['name' => 'Kuwait'],
+            ['name' => 'Kyrgyzstan'],
+            ['name' => 'Laos'],
+            ['name' => 'Latvia'],
+            ['name' => 'Lebanon'],
+            ['name' => 'Lesotho'],
+            ['name' => 'Liberia'],
+            ['name' => 'Libya'],
+            ['name' => 'Liechtenstein'],
+            ['name' => 'Lithuania'],
+            ['name' => 'Luxembourg'],
+            ['name' => 'Madagascar'],
+            ['name' => 'Malawi'],
+            ['name' => 'Malaysia'],
+            ['name' => 'Maldives'],
+            ['name' => 'Mali'],
+            ['name' => 'Malta'],
+            ['name' => 'Marshall Islands'],
+            ['name' => 'Mauritania'],
+            ['name' => 'Mauritius'],
+            ['name' => 'Mexico'],
+            ['name' => 'Micronesia, Federated States of'],
+            ['name' => 'Moldova'],
+            ['name' => 'Monaco'],
+            ['name' => 'Mongolia'],
+            ['name' => 'Montenegro'],
+            ['name' => 'Morocco'],
+            ['name' => 'Mozambique'],
+            ['name' => 'Myanmar (Burma)'],
+            ['name' => 'Namibia'],
+            ['name' => 'Nauru'],
+            ['name' => 'Nepal'],
+            ['name' => 'Netherlands'],
+            ['name' => 'New Zealand'],
+            ['name' => 'Nicaragua'],
+            ['name' => 'Niger'],
+            ['name' => 'Nigeria'],
+            ['name' => 'North Macedonia'],
+            ['name' => 'Norway'],
+            ['name' => 'Oman'],
+            ['name' => 'Pakistan'],
+            ['name' => 'Palau'],
+            ['name' => 'Panama'],
+            ['name' => 'Papua New Guinea'],
+            ['name' => 'Paraguay'],
+            ['name' => 'Peru'],
+            ['name' => 'Philippines'],
+            ['name' => 'Poland'],
+            ['name' => 'Portugal'],
+            ['name' => 'Qatar'],
+            ['name' => 'Romania'],
+            ['name' => 'Russia'],
+            ['name' => 'Rwanda'],
+            ['name' => 'Saint Kitts and Nevis'],
+            ['name' => 'Saint Lucia'],
+            ['name' => 'Saint Vincent and the Grenadines'],
+            ['name' => 'Samoa'],
+            ['name' => 'San Marino'],
+            ['name' => 'Sao Tome and Principe'],
+            ['name' => 'Saudi Arabia'],
+            ['name' => 'Senegal'],
+            ['name' => 'Serbia'],
+            ['name' => 'Seychelles'],
+            ['name' => 'Sierra Leone'],
+            ['name' => 'Singapore'],
+            ['name' => 'Slovakia'],
+            ['name' => 'Slovenia'],
+            ['name' => 'Solomon Islands'],
+            ['name' => 'Somalia'],
+            ['name' => 'South Africa'],
+            ['name' => 'Spain'],
+            ['name' => 'Sri Lanka'],
+            ['name' => 'Sudan'],
+            ['name' => 'Sudan, South'],
+            ['name' => 'Suriname'],
+            ['name' => 'Sweden'],
+            ['name' => 'Switzerland'],
+            ['name' => 'Syria'],
+            ['name' => 'Taiwan'],
+            ['name' => 'Tajikistan'],
+            ['name' => 'Tanzania'],
+            ['name' => 'Thailand'],
+            ['name' => 'Togo'],
+            ['name' => 'Tonga'],
+            ['name' => 'Trinidad and Tobago'],
+            ['name' => 'Tunisia'],
+            ['name' => 'Turkey'],
+            ['name' => 'Turkmenistan'],
+            ['name' => 'Tuvalu'],
+            ['name' => 'Uganda'],
+            ['name' => 'Ukraine'],
+            ['name' => 'United Arab Emirates'],
+            ['name' => 'United Kingdom'],
+            ['name' => 'United States'],
+            ['name' => 'Uruguay'],
+            ['name' => 'Uzbekistan'],
+            ['name' => 'Vanuatu'],
+            ['name' => 'Vatican City'],
+            ['name' => 'Venezuela'],
+            ['name' => 'Vietnam'],
+            ['name' => 'Yemen'],
+            ['name' => 'Zambia'],
+            ['name' => 'Zimbabwe'],
+        ];
+
+        foreach ($countries as $country) {
+            \App\Models\Country::factory()->create([
+                'name' => $country['name'],
+            ]);
+        }
+
+        $institutions =[
+            ['name'=>'Grade1-6'],
+            ['name'=>'Grade7-8'],
+            ['name'=>'Grade9-12'],
+            ['name'=>'TVET'],
+            ['name'=>'Diploma'],
+            ['name'=>'Degree'],
+            ['name'=>'Degree'],
+            ['name'=>'MSc'],
+            ['name'=>'above'],
+        ];
+         foreach ($institutions as $institution) {
+            \App\Models\Institution::factory()->create([
+                'name' => $institution['name'],
+            ]);
+        }
+        $institution_types =[
+            ['name'=>'Private'],
+            ['name'=>'Governmental'],
+            ['name'=>'Abroad'],
+        ];
+         foreach ($institution_types as $institution_type) {
+            \App\Models\InstitutionType::factory()->create([
+                'name' => $institution_type['name'],
+            ]);
         }
     }
 }

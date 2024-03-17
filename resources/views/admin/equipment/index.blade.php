@@ -173,6 +173,9 @@
                             if (equipment.equipment_type_id) {
                                 $('.equipment_type_select2').val(equipment.equipment_type.id).trigger('change');
                             }
+                            if (equipment.measurement_id) {
+                                $('.measurements_onn_add_select2').val(equipment.measurement.id).trigger('change');
+                            }
                             $('#update_modal').modal('show');
 
                         } else {
@@ -204,6 +207,9 @@
                             $('#show_modal #description').html(equipment.description);
                             if (equipment.lab_id) {
                                 $('#show_modal #lab_id').html(equipment.lab.name);
+                            }
+                            if (equipment.measurement_id) {
+                                $('#show_modal #measurement_id').html(equipment.measurement.name);
                             }
                             if (equipment.equipment_type_id) {
                                 $('#show_modal #equipment_type_id').html(equipment.equipment_type.name);

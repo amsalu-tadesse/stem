@@ -12,17 +12,10 @@ use Spatie\Activitylog\LogOptions;
 class Equipment extends Model
 {
     use HasFactory, SoftDeletes, LogsActivity, CreatedUpdatedBy;
-    protected $guarded = [
-        'id',
-    ];
+    protected $guarded = ['id'];
     public function getActivitylogOptions(): LogOptions
     {
-        return LogOptions::defaults()
-            ->logOnly([
-                'name',
-                'description',
-                'center_id',
-            ]);
+        return LogOptions::defaults()->logOnly(['name', 'description', 'center_id']);
     }
 
     public function lab()
@@ -32,5 +25,9 @@ class Equipment extends Model
     public function equipmentType()
     {
         return $this->belongsTo(EquipmentType::class, 'equipment_type_id');
+    }
+    public function measurement()
+    {
+        return $this->belongsTo(Measurement::class, 'measurement_id');
     }
 }

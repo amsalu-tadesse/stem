@@ -4,7 +4,7 @@ namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class StoreEquipmentRequest extends FormRequest
+class UpdateInstitutionRequest extends FormRequest
 {
     /**
      * Determine if the row is authorized to make this request.
@@ -23,13 +23,9 @@ class StoreEquipmentRequest extends FormRequest
     {
 
         return [
-            'name' => 'required',
-            'description' => '',
-            'lab_id' => '',
-            'equipment_type_id' => '',
-            'measurement_id' => '',
-            'count' => '',
-            'current_quantity' => '',
+            'name' => '',
+'description' => '',
+
         ];
     }
 }
