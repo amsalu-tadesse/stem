@@ -143,7 +143,7 @@
                             success: function(response) {
                                 // Clear existing table rows
                                 $('#studentMarkTable tbody').empty();
-
+                                table.clear().draw();
                                 // Initialize existingMarksMap
                                 var existingMarksMap = {};
 
