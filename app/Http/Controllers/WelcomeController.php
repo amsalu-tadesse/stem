@@ -18,12 +18,13 @@ class WelcomeController extends Controller
     public function index()
     {
         $visitors = Visitor::all();
+
         $site_admin = SiteAdmin::first();
         $institution_types = InstitutionType::all();
         $institutions = Institution::all();
         $countries = Country::all();
 
-       
+
         return view('welcome', compact('visitors', 'site_admin','institution_types','institutions','countries'));
     }
 

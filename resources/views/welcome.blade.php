@@ -165,7 +165,8 @@
                         <h2 class="text-info text-uppercase">Visitors</h2>
                     </div>
                     @php
-                        $visitorsByYear = $visitors->sortByDesc('appointment_date')->groupBy(function ($visitor) {
+                    $vis = $visitors;
+                        $visitorsByYear = $vis->sortByDesc('appointment_date')->groupBy(function ($visitor) {
                             return $visitor->appointment_date->format('Y');
                         });
                     @endphp
@@ -235,10 +236,10 @@
                                                         <td>{{ $institution->first()->institution->name }}</td>
                                                         <td>{{ $govCount }}</td>
                                                         <td>{{ $privateCount }}</td>
-                                                        
+
                                                         @foreach ($countrrry as $country)
                                                             @php
-                                                                
+
                                                                 $countryVisitors = $institution
                                                                     ->where('institutionType.name', 'Abroad')
                                                                     ->where('country_id', $country)
@@ -505,6 +506,17 @@
     </script>
 
     <script>
+
+    @php
+
+        $visitors = $visitors->map(function ($visitor) {
+            return [
+                'appointment_date' => $visitor->appointment_date->format('Y-m-d'),
+            //  'visiting_hr' => $visitor->visiting_hr,
+            ];
+        });
+
+    @endphp
         var visitors = @json($visitors);
 
         var datesForDisable = []
