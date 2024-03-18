@@ -52,6 +52,7 @@ class AcademicSessionController extends Controller
             ->with('course', 'instructor','labAssistant')
             ->get();
 
+
         $coursesNotInInstructorCourse = Course::whereDoesntHave('instructorCourses')->get();
 
         $lect = Lecturer::join('academic_levels', 'lecturers.academic_level_id', '=', 'academic_levels.id')
@@ -65,9 +66,10 @@ class AcademicSessionController extends Controller
         ->whereDoesntHave('instructorCourses')->select(['lecturers.name as name','lecturers.id as id'])
         ->get();
 
-        $existingMarks = StudentInstructorCourse::whereIn('instructor_course_id', $courses->pluck('id'))
+        $existingMarks = StudentInstructorCourse::whereIn('student_id', $students->pluck('id'))
         ->get()
-        ->groupBy('instructor_course_id');
+        ->groupBy('instructor_course_id','student_id');
+
 
         $student_not_add_in_this_as = Student::whereNull('academic_session')->get();
 
@@ -155,14 +157,13 @@ class AcademicSessionController extends Controller
     public function getStudent() {
         $academic_session_id = request()->academic_session;
         $course_id = request()->course_id;
-
         $students = AcademicSession::with('students.school')->find($academic_session_id);
         $courses = InstructorCourse::where('academic_session_id', $academic_session_id)
             ->with('course', 'instructor', 'labAssistant')
             ->where("course_id", $course_id)
             ->get();
 
-        $existingMarks = StudentInstructorCourse::whereIn('instructor_course_id', $courses->pluck('id'))
+            $existingMarks = StudentInstructorCourse::whereIn('instructor_course_id', $courses->pluck('id'))
             ->get()
             ->groupBy('instructor_course_id');
         $academic_session = AcademicSession::find($academic_session_id);
