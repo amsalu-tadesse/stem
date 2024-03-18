@@ -69,14 +69,16 @@ class EquipmentForLabDataTable extends DataTable
     public function query(Equipment $model): QueryBuilder
     {
         // return $model->newQuery();
-        return $model::leftjoin('labs', 'lab_id', '=', 'labs.id')->leftjoin('equipment_types', 'equipment_type_id', '=', 'equipment_types.id')->select([
+        return $model::leftjoin('labs', 'lab_id', '=', 'labs.id')->leftjoin('equipment_types', 'equipment_type_id', '=', 'equipment_types.id')->leftjoin('measurements','measurement_id','=','measurements.id')->select([
             'equipment.id',
             'equipment.created_at',
             'equipment.name',
             'equipment.count as countName',
+            'equipment.current_quantity',
             'equipment.description',
             'labs.id as labId',
             'labs.name as labName',
+            'measurements.name as measurementName',
             'equipment_types.name as typeName'
         ]);
     }
@@ -91,7 +93,7 @@ class EquipmentForLabDataTable extends DataTable
         return $this->builder()
             ->setTableId('equipment-on-lab-table')
             ->columns($this->getColumns())
-            ->orderBy(6)
+            ->orderBy(8)
             ->minifiedAjax()
             ->selectStyleSingle()
             ->ajax([
@@ -160,7 +162,9 @@ class EquipmentForLabDataTable extends DataTable
                 ->orderable(false),
             Column::make('name'),
             Column::make('labName')->title('lab'),
-            Column::make('countName')->title('Quantity'),
+            Column::make('countName')->title('Actual Amount'),
+            Column::make('current_quantity')->title('Current Amount'),
+            Column::make('measurementName')->title('measurement'),
             Column::make('typeName')->title('Type'),
             Column::computed('action')
                 ->exportable(false)

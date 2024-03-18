@@ -18,7 +18,7 @@ class WelcomeController extends Controller
     public function index()
     {
         $visitors = Visitor::all();
-
+        // dd($visitors);
         $site_admin = SiteAdmin::first();
         $institution_types = InstitutionType::all();
         $institutions = Institution::all();

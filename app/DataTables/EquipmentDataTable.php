@@ -40,6 +40,33 @@ class EquipmentDataTable extends DataTable
                 $sql = "labs.name like ?";
                 $user->whereRaw($sql, ["%{$keyword}%"]);
             })
+            ->addColumn('measurementName', function ($user) {
+                return $user?->measurementName;
+            })
+            ->orderColumn('measurementName', function ($query, $order) {
+                $query->orderBy('measurementName', $order);
+            })->filterColumn('measurementName', function ($user, $keyword) {
+                $sql = "measurements.name like ?";
+                $user->whereRaw($sql, ["%{$keyword}%"]);
+            })
+            ->addColumn('typeName', function ($user) {
+                return $user?->typeName;
+            })
+            ->orderColumn('typeName', function ($query, $order) {
+                $query->orderBy('typeName', $order);
+            })->filterColumn('typeName', function ($user, $keyword) {
+                $sql = "equipment_types.name like ?";
+                $user->whereRaw($sql, ["%{$keyword}%"]);
+            })
+            ->addColumn('countName', function ($user) {
+                return $user?->countName;
+            })
+            ->orderColumn('countName', function ($query, $order) {
+                $query->orderBy('countName', $order);
+            })->filterColumn('countName', function ($user, $keyword) {
+                $sql = "equipment.count like ?";
+                $user->whereRaw($sql, ["%{$keyword}%"]);
+            })
             // custom filter
             ->filter(function ($query) {
                 if (request()->has('lab_id') && request()->filled('lab_id')) {
@@ -67,7 +94,7 @@ class EquipmentDataTable extends DataTable
     public function query(Equipment $model): QueryBuilder
     {
         // return $model->newQuery();
-        return $model::leftjoin('labs', 'lab_id', '=', 'labs.id')->leftjoin('equipment_types', 'equipment_type_id', '=', 'equipment_types.id')->select([
+        return $model::leftjoin('labs', 'lab_id', '=', 'labs.id')->leftjoin('equipment_types', 'equipment_type_id', '=', 'equipment_types.id')->leftjoin('measurements','measurement_id','=','measurements.id')->select([
             'equipment.id',
             'equipment.created_at',
             'equipment.name',
@@ -76,6 +103,7 @@ class EquipmentDataTable extends DataTable
             'equipment.description',
             'labs.id as labId',
             'labs.name as labName',
+            'measurements.name as measurementName',
             'equipment_types.name as typeName'
         ]);
     }
@@ -90,7 +118,7 @@ class EquipmentDataTable extends DataTable
         return $this->builder()
             ->setTableId('equipment-table')
             ->columns($this->getColumns())
-            ->orderBy(7)
+            ->orderBy(8)
             ->minifiedAjax()
             ->selectStyleSingle()
             ->ajax([
@@ -159,10 +187,11 @@ class EquipmentDataTable extends DataTable
                 ->orderable(false),
             Column::make('name'),
             Column::make('labName')->title('lab'),
-            Column::make('countName')->title('Actual Quantity'),
-            Column::make('current_quantity'),
+            Column::make('countName')->title('Actual Amount'),
+            Column::make('current_quantity')->title('Current Amount'),
+            Column::make('measurementName')->title('Measurement'),
             Column::make('typeName')->title('Type'),
-            Column::computed('action')
+            Column::computed('action')->visible(false)
                 ->exportable(false)
                 ->printable(true)
                 ->addClass('text-center')

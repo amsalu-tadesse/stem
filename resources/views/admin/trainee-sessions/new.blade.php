@@ -119,9 +119,8 @@
                         <div class='col-md-5'>
                             <!-- <label for='quantity'>Quantity</label> -->
                             <input type="text" class="form-control quantity-input" name="quantity[]"
-                                placeholder="enter quantity">
+                                placeholder="enter amount">
                         </div>
-
 
                         <div class='col-md-1'>
                             <!-- <label for='remove' class="col-12">Remove Raw</label> -->
@@ -210,9 +209,30 @@
                     newRow.find('input, select').val('');
                     $("#equip").append(newRow);
 
+                    // Update the IDs of cloned elements to maintain uniqueness
                     var rowCount = $('.form-group.row').length - 1;
-                    if (rowCount > 0) {
-                        newRow.find('.equipment_id_select2').attr('id', 'equipment_id_' + rowCount);
+                    newRow.find('.equipment_id_select2').attr('id', 'equipment_id_' + rowCount);
+                });
+
+                var equipment = @json($equipment);
+                // Event listener for equipment selection made after cloning
+                $(document).on('change', '.equipment_id_select2', function() {
+                    // Get the selected equipment ID
+                    var selectedEquipmentId = $(this).val();
+
+                    // Find the equipment object from the fetched data based on the selected ID
+                    var selectedEquipment = equipment.find(function(equipment) {
+                        return equipment.id == selectedEquipmentId;
+                    });
+
+                    // If equipment is found and it has a measurement relation
+                    if (selectedEquipment && selectedEquipment.measurement) {
+                        // Get the measurement name from the measurement relation
+                        var measurementName = selectedEquipment.measurement.name;
+
+                        // Update the placeholder of the quantity input field with the measurement name
+                        $(this).closest('.form-group.row').find('.quantity-input').attr('placeholder',
+                            'Enter amounts in ' + measurementName);
                     }
                 });
 
@@ -223,7 +243,7 @@
             });
         </script>
         <script>
-             var labs = {!! json_encode($labs) !!}; // Assuming labs data is available
+            var labs = {!! json_encode($labs) !!}; // Assuming labs data is available
             var group_labs = {!! json_encode($group_labs) !!}; // Assuming group_labs data is available
             var groups = {!! json_encode($groups) !!}; // Assuming groups data is available
             $('#center_id').on('change', function() {

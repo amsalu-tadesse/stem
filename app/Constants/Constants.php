@@ -16,6 +16,8 @@ class Constants
     public const EXCEPTION_EMAIL_TITLE = 'Econsultation Exception';
     public const CRON_EXECUTION_TIME = 5;
     public const APP_NAME = "STEM";
+    public const INSIDE = "Inside";
+    public const OUTSIDE = "Outside";
 
 public static function PAGE_NUMBER()
 {
