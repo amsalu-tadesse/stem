@@ -2,17 +2,18 @@
 
 namespace App\DataTables;
 
-use App\Constants\Constants;
-use App\Models\Lecturer;
 use App\Models\School;
 use App\Models\Student;
-use Illuminate\Database\Eloquent\Builder as QueryBuilder;
-use Yajra\DataTables\EloquentDataTable;
-use Yajra\DataTables\Html\Builder as HtmlBuilder;
+use App\Models\Lecturer;
+use App\Constants\Constants;
+use function Termwind\render;
+use Yajra\DataTables\Html\Button;
 use Yajra\DataTables\Html\Column;
+use Yajra\DataTables\EloquentDataTable;
 use Yajra\DataTables\Services\DataTable;
 
-use function Termwind\render;
+use Yajra\DataTables\Html\Builder as HtmlBuilder;
+use Illuminate\Database\Eloquent\Builder as QueryBuilder;
 
 class StudentDataTable extends DataTable
 {
@@ -26,9 +27,16 @@ class StudentDataTable extends DataTable
     {
         $index_column = 0;
         return (new EloquentDataTable($query))
-            ->addColumn('no', function () use(&$index_column){
-                return ++$index_column;
+
+      
+            ->addColumn('no', function () use (&$index_column) {
+                return '<input class="form-check-input" type="checkbox" name="check" value="' . $index_column . '">' . ++$index_column; ;
             })
+
+                
+            // ->addColumn('no', function () use(&$index_column){
+            //     return ++$index_column;
+            // })
 
             //school Name
             ->addColumn('schoolname', function ($student) {
@@ -125,6 +133,28 @@ class StudentDataTable extends DataTable
                             'columns' => ':visible',
                         ],
                     ],
+
+                    Button::make('pdf')->text('Certficate')->action('
+                    function hi () {
+                        var checkedCheckboxes = $("input[name=\'check\']:checked");
+            
+                        if (checkedCheckboxes.length > 0) {
+                            console.log("Yes");
+
+                            var checkedValues = [];
+                            checkedCheckboxes.each(function() {
+                                checkedValues.push($(this).val());
+                            });
+            
+                            window.location = "'.route("admin.students.create").'";
+                        } else {
+                           
+                            console.log("No checkboxes are checked.");
+                        }
+                    }
+                    hi();
+                '),
+
                     'colvis',
                 ]
             )

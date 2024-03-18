@@ -88,6 +88,7 @@
                     <li><a href="#appointment">Make Appointment</a></li>
                     <li><a href="#visitors">Visitors</a></li>
                     <li><a href="#contact">Contact</a></li>
+                    <li><a href="{{ route('online-applicant') }}">Online Application</a></li>
                     <li><a href="{{ route('login') }}">Login</a></li>
                 </ul>
                 <i class="bi bi-list mobile-nav-toggle"></i>
@@ -240,7 +241,7 @@
                                                         
                                                         @foreach ($countrrry as  $country)
                                                             @php
-                                                                
+
                                                                 $countryVisitors = $institution
                                                                     ->where('institutionType.name', 'Abroad')
                                                                     ->where('country.name', $country)
