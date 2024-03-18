@@ -165,6 +165,8 @@ Route::middleware(['web', 'auth'])->group(function () {
             Route::post('/change-profile', [ProfileController::class, 'changeProfile'])->name('postProfile');
             Route::get('/dashboard', [DashboardController::class, 'dashboard'])->name('dashboard');
             Route::get('/analysis', [AnalysisController::class, 'visualize'])->name('analysis');
+            Route::get('/certificate', [StudentController::class, 'certificate'])->name('certificate');
+
 
 
 
