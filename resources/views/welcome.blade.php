@@ -166,8 +166,8 @@
                         <h2 class="text-info text-uppercase">Visitors</h2>
                     </div>
                     @php
-                    $vis = $visitors;
-                        $visitorsByYear = $vis->sortByDesc('appointment_date')->groupBy(function ($visitor) {
+
+                        $visitorsByYear = $visitors->sortByDesc('appointment_date')->groupBy(function ($visitor) {
                             return $visitor->appointment_date->format('Y');
                         });
                     @endphp
@@ -210,10 +210,10 @@
                                                     <th scope="col">Number/Gov</th>
                                                     <th scope="col">Number/Private</th>
                                                     <th scope="col">Sum</th>
-                                                    <th colspan="{{ count($countrrry) + 1 }}">Number/Abroad</th>
+                                                    <th colspan="{{ count($countrrry) + 2 }}">Number/Abroad</th>
                                                 </tr>
                                                 <tr>
-                                                    <th colspan="{{ count($countrrry) + 1}}"></th>
+                                                    <th colspan="5"></th>
                                                     @foreach ($countrrry as $country)
                                                     @if($country != 'Ethiopia')
                                                         <th style="width: 33.333%;">{{ $country }}</th>
@@ -373,7 +373,7 @@
 
                                     </div>
 
-                                    <button type="submit" id="sendMessage">Send Message</button>
+                                    <button type="submit" id="sendMessage">Submit</button>
                                 </div>
                             </div>
                         </div>

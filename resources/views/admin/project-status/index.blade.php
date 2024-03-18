@@ -8,7 +8,7 @@
                     <div>
                         @can('projectStatus: create')
                         <a href="{{route('admin.project-status.create') }}">
-                            <button type="button" class="btn btn-primary">Add New Project Status</button>
+                            <button type="button" class="btn btn-primary" required>Add New Project Status</button>
                         </a>
                         @endcan
                     </div>
@@ -101,9 +101,9 @@
 
         $(document).ready(function() {
             // Update record popup
-          
+
             $('#projectstatus-table').on('click', '#update_row', function() {
-               
+
                 var row_id = $(this).data('row_id');
                 var url = "{{ route('admin.project-status.edit', ':id') }}";
                 url = url.replace(':id', row_id);
