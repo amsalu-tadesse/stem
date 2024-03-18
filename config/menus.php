@@ -159,7 +159,7 @@ return [
     'menu_4'                 =>  [
         'name'                 => 'Setting',
         'menu_icon'           => 'fas fa-cog',
-        'permissions'           => ['school-level: list', 'school: list', 'academic-level: list', 'department: list', 'lecturer: list', 'student: list', 'course: list', 'academic-session: list', 'instructor-course:list', 'visitor: list','projectStatus: list','visitor: list'],
+        'permissions'           => ['school-level: list', 'school: list', 'academic-level: list', 'department: list', 'lecturer: list', 'student: list', 'course: list', 'academic-session: list', 'instructor-course:list', 'visitor: list','projectStatus: list','visitor: list', 'country: list'],
         'menu_item'            =>
         [
             [
@@ -193,17 +193,7 @@ return [
                 'title'      =>  'Visitos',
                 'url'        =>  'admin.visitors.index',
                 'permission'   => 'visitor: list'
-            ]
-
-        ],
-
-    ],
-    'menu_5'                 =>  [
-        'name'                 => 'Countries',
-        'menu_icon'           => 'fas fa-country',
-        'permissions'           => ['country: list'],
-        'menu_item'            =>
-        [
+            ],
             [
                 'title'      =>  'Countries',
                 'url'        =>  'admin.countries.index',
@@ -213,4 +203,5 @@ return [
         ],
 
     ],
+
 ];
