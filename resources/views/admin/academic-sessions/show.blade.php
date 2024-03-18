@@ -23,9 +23,6 @@
                             </tr>
                         </thead>
                         <tbody>
-                            <tr>
-
-                            </tr>
 
 
 
@@ -36,7 +33,10 @@
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
                     <button type="button" class="btn btn-primary save-marks-btn">Save Changes</button>
-
+                    <button class="btn btn-primary d-none loader" disabled type="button">
+                        <span class="spinner-border spinner-border-sm " role="status" aria-hidden="true"></span>
+                        Loading...
+                    </button>
                 </div>
             </div>
         </div>
@@ -114,48 +114,66 @@
             :labAssistantNotInInstructorCourse="$labAssistantNotInInstructorCourse" />
 
         @push('scripts')
+            <script></script>
             <script>
                 let academic = @json($academic_session);
                 let academic_session = academic.id
                 $(document).ready(function() {
+                    // Initialize DataTable with pagination
+                    var table = $("#studentMarkTable").DataTable({
+                        "paging": true, // Enable pagination
+                        "pageLength": 10, // Set number of records per page
+                        "searching": false, // Optional: Disable searching feature
+                        // Other DataTable options and configurations
+                    });
                     $('.add-mark-btn').click(function(event) {
-                        event.preventDefault(); // Prevent default link behavior
+                        event.preventDefault();
 
                         var courseId = $(this).data(
                             'instructor-course-id'); // Get the course ID from data attribute
-                        var url = '/admin/get-student-course'; // Replace this with your actual AJAX endpoint
+                        var url = '/admin/get-student-course';
 
                         $.ajax({
-                            type: 'POST', // Or 'GET' depending on your server setup
+                            type: 'POST',
                             url: url,
                             data: {
                                 course_id: courseId,
                                 academic_session: academic_session,
                             },
                             success: function(response) {
-                                console.log(response, "ggggggggggggggg");
                                 // Clear existing table rows
                                 $('#studentMarkTable tbody').empty();
+                                table.clear().draw();
+                                // Initialize existingMarksMap
+                                var existingMarksMap = {};
 
-                                // Iterate over each student
+                                // Iterate over each existing mark
+                                $.each(response.existing_marks, function(index, existingMarkArray) {
+                                    // Check if existingMarkArray is an array
+                                    if (Array.isArray(existingMarkArray)) {
+                                        // Iterate over each existing mark object in the array
+                                        existingMarkArray.forEach(function(existingMark) {
+                                            var studentId = existingMark.student_id;
+                                            if (!existingMarksMap[studentId]) {
+                                                existingMarksMap[studentId] = [];
+                                            }
+                                            existingMarksMap[studentId].push(
+                                                existingMark.mark);
+                                        });
+                                    } else {
+                                        console.error("existingMarkArray is not an array:",
+                                            existingMarkArray);
+                                    }
+                                });
+
+
                                 $.each(response.students.students, function(index, student) {
-                                    // Initialize markValues array
-                                    var markValues = [];
+                                    var studentId = student.id;
+                                    var markValues = existingMarksMap[studentId] || [];
+                                    var markValue = markValues.length > 0 ? markValues.join(
+                                        ', ') : '';
 
-                                    // Iterate over existing marks
-                                    $.each(response.existing_marks, function(studentId,
-                                        marksList) {
-                                        // Check if marks belong to the current student
-                                        if (studentId == student.id) {
-                                            // Add marks to markValues array
-                                            $.each(marksList, function(index, mark) {
-                                                markValues.push(mark.mark);
-                                            });
-                                        }
-                                    });
 
-                                    // Join markValues array to form a comma-separated string
-                                    var markValue = markValues.join(', ');
 
                                     // Construct HTML for the table row
                                     var rowHtml = '<tr>' +
@@ -171,15 +189,16 @@
                                         '</tr>';
 
                                     // Append the row to the table
-                                    $('#studentMarkTable tbody').append(rowHtml);
+                                    table.row.add($(rowHtml)).draw();
+
                                 });
                             },
-
-
-
                             error: function(xhr, status, error) {
                                 // Handle error
                                 console.error('AJAX request failed');
+                            },
+                            complete: function() {
+
                             }
                         });
                     });
@@ -201,7 +220,8 @@
 
                     $('.save-marks-btn').on('click', function() {
                         var courseId = $(this).data('course-id');
-
+                        $(".save-marks-btn").toggleClass("d-none");
+                        $(".loader").toggleClass("d-none");
                         console.log(courseId);
 
                         var marksData = [];
@@ -229,6 +249,8 @@
                                 console.log(response); // Handle success response
                             },
                             error: function(xhr, status, error) {
+                                $(".save-marks-btn").toggleClass("d-none");
+                                $(".loader").toggleClass("d-none");
                                 console.error(error); // Handle error
                             }
                         });
@@ -253,22 +275,8 @@
                             }*/
                         ]
                     });
-                    $('#studentMarkTable').DataTable({
-                        dom: 'lBfrtip',
-                        buttons: [{
-                                extend: 'collection',
-                                text: 'Export',
-                                buttons: ['excel', 'pdf', 'print']
-                            },
-                            /*{
-                                text: 'Add Student',
-                                action: function() {
-                                    openAddStudentModal();
-                                },
-                                className: 'btn btn-primary'
-                            }*/
-                        ]
-                    });
+
+
                     $('#courseTable').DataTable({
                         dom: 'lBfrtip',
                         buttons: [{
