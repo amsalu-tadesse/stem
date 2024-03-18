@@ -33,7 +33,6 @@
                         <label for='center'>Center</label>
                         <select name='center_id' class='centers_select2 select2 form-control' id='center_id'
                             data-dropdown-css-class='select2-blue'>
-                            <option value=''>Select center</option>
                             @foreach ($centers as $center)
                                 <option value='{{ $center->id }}'>
                                     {{ $center->name }}
@@ -242,45 +241,57 @@
                 });
             });
         </script>
+
         <script>
-            var labs = {!! json_encode($labs) !!}; // Assuming labs data is available
-            var group_labs = {!! json_encode($group_labs) !!}; // Assuming group_labs data is available
-            var groups = {!! json_encode($groups) !!}; // Assuming groups data is available
-            $('#center_id').on('change', function() {
-                var selectedCenter = $(this).val();
-                var groupSelect = $('#group_id');
-                groupSelect.empty();
+            $(document).ready(function() {
+                // Define the function to update group dropdown
+                function updateGroupDropdown(selectedCenter, labs, group_labs, groups) {
+                    var groupSelect = $('#group_id');
+                    groupSelect.empty();
 
-                if (selectedCenter !== "") {
-                    // Find lab IDs associated with the selected center
-                    var labIds = labs.filter(function(lab) {
-                        return lab.center_id == selectedCenter;
-                    }).map(function(lab) {
-                        return lab.id;
-                    });
+                    if (selectedCenter !== "") {
+                        // Find lab IDs associated with the selected center
+                        var labIds = labs.filter(function(lab) {
+                            return lab.center_id == selectedCenter;
+                        }).map(function(lab) {
+                            return lab.id;
+                        });
 
-                    // Find group IDs associated with the lab IDs
-                    var groupIds = [];
-                    group_labs.forEach(function(groupLab) {
-                        if (labIds.includes(groupLab.lab_id)) {
-                            groupIds.push(groupLab.group_id);
-                        }
-                    });
+                        // Find group IDs associated with the lab IDs
+                        var groupIds = [];
+                        group_labs.forEach(function(groupLab) {
+                            if (labIds.includes(groupLab.lab_id)) {
+                                groupIds.push(groupLab.group_id);
+                            }
+                        });
 
-                    // Filter groups based on group IDs
-                    var filteredGroups = groups.filter(function(group) {
-                        return groupIds.includes(group.id);
-                    });
+                        // Filter groups based on group IDs
+                        var filteredGroups = groups.filter(function(group) {
+                            return groupIds.includes(group.id);
+                        });
 
-                    // Populate group dropdown with filtered groups
-                    filteredGroups.forEach(function(group) {
-                        groupSelect.append($('<option>', {
-                            value: group.id,
-                            text: group.name
-                        }));
-                    });
-                    groupSelect.show();
+                        // Populate group dropdown with filtered groups
+                        filteredGroups.forEach(function(group) {
+                            groupSelect.append($('<option>', {
+                                value: group.id,
+                                text: group.name
+                            }));
+                        });
+                        groupSelect.show();
+                    }
                 }
+
+                // Call the function when the document is ready
+                var labs = {!! json_encode($labs) !!}; // Assuming labs data is available
+                var group_labs = {!! json_encode($group_labs) !!}; // Assuming group_labs data is available
+                var groups = {!! json_encode($groups) !!}; // Assuming groups data is available
+                updateGroupDropdown($('#center_id').val(), labs, group_labs, groups);
+
+                // Bind the function to the change event of the center dropdown
+                $('#center_id').on('change', function() {
+                    var selectedCenter = $(this).val();
+                    updateGroupDropdown(selectedCenter, labs, group_labs, groups);
+                });
             });
         </script>
     @endpush
