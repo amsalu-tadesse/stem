@@ -48,7 +48,6 @@ class AcademicSessionController extends Controller
     public function show(AcademicSession $academic_session)
     {
         $students = AcademicSession::with('students.school')->find($academic_session);
-
         $courses = InstructorCourse::where('academic_session_id', $academic_session->id)
             ->with('course', 'instructor','labAssistant')
             ->get();
@@ -71,7 +70,6 @@ class AcademicSessionController extends Controller
         ->groupBy('instructor_course_id');
 
         $student_not_add_in_this_as = Student::whereNull('academic_session')->get();
-
 
 
         return view('admin.academic-sessions.show', compact('students','existingMarks', 'courses', 'academic_session', 'coursesNotInInstructorCourse', 'lect','labAssistantNotInInstructorCourse','student_not_add_in_this_as'));

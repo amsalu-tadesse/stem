@@ -58,7 +58,7 @@ class DatabaseSeeder extends Seeder
             ]);
         }
 
-        $permissions = ['user', 'role', 'school-level', 'school', 'department', 'academic-level', 'lecturer', 'student', 'course', 'academic-session', 'instructor-course', 'visitor', 'center', 'lab', 'equipment', 'equipment-type', 'trainer', 'trainee', 'group', 'trainee-group', 'group-lab', 'trainee-session', 'trainee-session-equipment', 'fund-type', 'measurement', 'institution', 'institution-type','country','projectStatus'];
+        $permissions = ['applicant','user', 'role', 'school-level', 'school', 'department', 'academic-level', 'lecturer', 'student', 'course', 'academic-session', 'instructor-course', 'visitor', 'center', 'lab', 'equipment', 'equipment-type', 'trainer', 'trainee', 'group', 'trainee-group', 'group-lab', 'trainee-session', 'trainee-session-equipment', 'fund-type', 'measurement', 'institution', 'institution-type','country','projectStatus'];
         $permission_activities = [
             'list',
             'view',

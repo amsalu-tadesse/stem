@@ -133,7 +133,7 @@
                                 academic_session: academic_session,
                             },
                             success: function(response) {
-                                console.log(response);
+                                console.log(response, "ggggggggggggggg");
                                 // Clear existing table rows
                                 $('#studentMarkTable tbody').empty();
 
