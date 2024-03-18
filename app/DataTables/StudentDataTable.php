@@ -135,7 +135,7 @@ class StudentDataTable extends DataTable
                     ],
 
                     Button::make('pdf')->text('Certficate')->action('
-                    function hi () {
+                    function checking () {
                         var checkedCheckboxes = $("input[name=\'check\']:checked");
             
                         if (checkedCheckboxes.length > 0) {
@@ -146,13 +146,13 @@ class StudentDataTable extends DataTable
                                 checkedValues.push($(this).val());
                             });
             
-                            window.location = "'.route("admin.students.create").'";
+                            window.location.href="/admin/certificate?values=" + checkedValues.join(",");
                         } else {
                            
                             console.log("No checkboxes are checked.");
                         }
                     }
-                    hi();
+                    checking();
                 '),
 
                     'colvis',
