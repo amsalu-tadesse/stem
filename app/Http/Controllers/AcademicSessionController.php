@@ -48,10 +48,10 @@ class AcademicSessionController extends Controller
     public function show(AcademicSession $academic_session)
     {
         $students = AcademicSession::with('students.school')->find($academic_session);
-
         $courses = InstructorCourse::where('academic_session_id', $academic_session->id)
             ->with('course', 'instructor','labAssistant')
             ->get();
+
 
         $coursesNotInInstructorCourse = Course::whereDoesntHave('instructorCourses')->get();
 
@@ -66,12 +66,12 @@ class AcademicSessionController extends Controller
         ->whereDoesntHave('instructorCourses')->select(['lecturers.name as name','lecturers.id as id'])
         ->get();
 
-        $existingMarks = StudentInstructorCourse::whereIn('instructor_course_id', $courses->pluck('id'))
+        $existingMarks = StudentInstructorCourse::whereIn('student_id', $students->pluck('id'))
         ->get()
-        ->groupBy('instructor_course_id');
+        ->groupBy('instructor_course_id','student_id');
+
 
         $student_not_add_in_this_as = Student::whereNull('academic_session')->get();
-
 
 
         return view('admin.academic-sessions.show', compact('students','existingMarks', 'courses', 'academic_session', 'coursesNotInInstructorCourse', 'lect','labAssistantNotInInstructorCourse','student_not_add_in_this_as'));
@@ -157,14 +157,13 @@ class AcademicSessionController extends Controller
     public function getStudent() {
         $academic_session_id = request()->academic_session;
         $course_id = request()->course_id;
-
         $students = AcademicSession::with('students.school')->find($academic_session_id);
         $courses = InstructorCourse::where('academic_session_id', $academic_session_id)
             ->with('course', 'instructor', 'labAssistant')
             ->where("course_id", $course_id)
             ->get();
 
-        $existingMarks = StudentInstructorCourse::whereIn('instructor_course_id', $courses->pluck('id'))
+            $existingMarks = StudentInstructorCourse::whereIn('instructor_course_id', $courses->pluck('id'))
             ->get()
             ->groupBy('instructor_course_id');
         $academic_session = AcademicSession::find($academic_session_id);

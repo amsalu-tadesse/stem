@@ -72,8 +72,15 @@
                             <x-partials.input-form title="Number of Visitors" name="visitor_count" type="number" />
                             <span class="text-danger error" id="visitor_count_error"></span>
                         </div>
+                        <div class="form-group p-2">
+                            <x-partials.textarea-input-form title="Description" name="description" type="text" />
+                            <span class="text-danger error" id="visitor_count_error"></span>
+                        </div>
                         <input type="hidden" name="selected_date" id="create_selected_date">
                         <input type="hidden" name="selected_day_range" id="create_selected_day_range">
+                        <input type="hidden" name="created_from" id="created_from"
+                         value="{{ request()->query('redirect') }}">
+
                     </div>
                 </div>
                 <div class="modal-footer justify-content-between p-2">

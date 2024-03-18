@@ -62,14 +62,14 @@ return [
                 'url'        =>  'admin.instructor-courses.index',
                 'permission'   => 'instructor-course: list'
             ],
-           
+
         ],
 
     ],
     'menu_3'                 =>  [
         'name'                 => 'Innovation and incubation',
         'menu_icon'           => 'fas fa-lightbulb',
-        'permissions'           => [ 'center: list', 'trainee: list', 'group: list', 'trainee-group: list','group-lab: list','equipment-type: list','trainee-session: list','trainee-session-equipment: list','trainer: list','fund-type: list','measurement: list'],
+        'permissions'           => ['applicant: list', 'center: list', 'trainee: list', 'group: list', 'trainee-group: list','group-lab: list','equipment-type: list','trainee-session: list','trainee-session-equipment: list','trainer: list','fund-type: list','measurement: list'],
         'menu_item'            =>
         [
             [
@@ -106,6 +106,11 @@ return [
                 'title'      =>  'Groups',
                 'url'        =>  'admin.groups.index',
                 'permission'   => 'group: list'
+            ],
+            [
+                'title'      =>  'Applicant',
+                'url'        =>  'admin.applicantList',
+                'permission'   => 'applicant: list'
             ],
             // [
             //     'title'      =>  'Trainee Groups',
@@ -147,14 +152,14 @@ return [
             //     'url'        =>  'admin.trainee-session-equipment.index',
             //     'permission'   => 'trainee-session-equipment: list'
             // ],
-           
+
         ],
 
     ],
     'menu_4'                 =>  [
         'name'                 => 'Setting',
         'menu_icon'           => 'fas fa-cog',
-        'permissions'           => ['school-level: list', 'school: list', 'academic-level: list', 'department: list', 'lecturer: list', 'student: list', 'course: list', 'academic-session: list', 'instructor-course:list', 'visitor: list','projectStatus: list'],
+        'permissions'           => ['school-level: list', 'school: list', 'academic-level: list', 'department: list', 'lecturer: list', 'student: list', 'course: list', 'academic-session: list', 'instructor-course:list', 'visitor: list','projectStatus: list','visitor: list'],
         'menu_item'            =>
         [
             [
@@ -183,6 +188,11 @@ return [
                 'title'      =>  'Project Status',
                 'url'        =>  'admin.project-status.index',
                 'permission'   => 'projectStatus: list'
+            ],
+            [
+                'title'      =>  'Visitos',
+                'url'        =>  'admin.visitors.index',
+                'permission'   => 'visitor: list'
             ]
 
         ],

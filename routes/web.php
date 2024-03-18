@@ -46,6 +46,7 @@ use App\Http\Controllers\TraineeGroupController;
 use App\Http\Controllers\TraineeSessionController;
 use App\Http\Controllers\TraineeSessionEquipmentController;
 use App\Http\Controllers\TrainerController;
+use App\Http\Controllers\OnlineApplicantController;
 use App\Http\Controllers\VisitorController;
 use App\Http\Controllers\WelcomeController;
 use App\Http\Controllers\FundTypeController;
@@ -96,7 +97,8 @@ Route::resource('subscriptions', SubscriptionController::class);
 Route::get('/', [WelcomeController::class, 'index'])->name('welcome');
 Route::post('visitors', [VisitorController::class, 'store'])->name('visitors.store');
 
-
+Route::get('/online-applicant', [OnlineApplicantController::class, 'index'])->name('online-applicant');
+Route::POST('/application-submit', [OnlineApplicantController::class, 'store'])->name('application-submit');
 Route::resource('contact-us', ContactUsController::class)->only('store');
 Route::middleware(['web', 'auth'])->group(function () {
     Route::get('/logout', [AuthController::class, 'logout'])->name('logout');
@@ -120,6 +122,8 @@ Route::middleware(['web', 'auth'])->group(function () {
             Route::resource('academic-sessions', AcademicSessionController::class);
             Route::post('/save-marks', [AcademicSessionController::class,"saveMarks"]);
             Route::post('/get-student-course', [AcademicSessionController::class,"getStudent"]);
+            Route::get('/applicant-list', [OnlineApplicantController::class,"applicantList"])->name('applicantList');
+            Route::get('/download-attachment/{id}', [OnlineApplicantController::class,"downloadAttachment"])->name('download.attachment');
             Route::resource('visitors', VisitorController::class)->except('store');
             Route::resource('instructor-courses', InstructorCourseController::class);
 

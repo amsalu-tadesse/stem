@@ -14,9 +14,12 @@ return new class extends Migration
         Schema::create('visitors', function (Blueprint $table) {
             $table->id();
             $table->string('visitor_count');
+            $table->string('actual_visitor')->nullable();
+            $table->string('created_from')->nullable();
             $table->string('responsible_person');
             $table->string('phone');
             $table->string('email');
+            $table->string('description')->nullable();
             $table->string('visiting_hr');
             $table->date('appointment_date');
             $table->foreignId('institution_id')->nullable()->constrained('institutions');
