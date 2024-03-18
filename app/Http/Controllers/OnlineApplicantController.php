@@ -48,7 +48,7 @@ class OnlineApplicantController extends Controller
         ];
 
         OnlineApplication::create($formData);
-        return response()->json(['message' => 'Data inserted successfully'], 200);
+        return response()->json(['message' => 'Information sent successfully'], 200);
     }
 
     public function applicantList(){

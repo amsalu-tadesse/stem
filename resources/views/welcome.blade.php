@@ -236,14 +236,14 @@
                                                             ->sum('visitor_count');
                                                         $localTotal = $govCount + $privateCount;
                                                     @endphp
-                                                   
+
                                                     <tr>
                                                         <td>{{ $loop->iteration }}</td>
                                                         <td>{{ $institution->first()->institution->name }}</td>
                                                         <td>{{ $govCount }}</td>
                                                         <td>{{ $privateCount }}</td>
                                                         <td>{{ $localTotal  }}</td>
-                                                        
+
                                                         @foreach ($countrrry as  $country)
                                                             @php
 
@@ -253,14 +253,14 @@
                                                                     ->where('country.name', $country)
                                                                     ->sum('visitor_count');
 
-                                                               
+
                                                                 echo '<td>' . $countryVisitors . '</td>';
 
-                                                              
+
                                                                }
-                                                             
-                                                                
-                                                               
+
+
+
                                                             @endphp
                                                         @endforeach
                                                         <td>{{ $abroadCount }}</td>
@@ -463,7 +463,7 @@
             </div>
         </div>
     </footer><!-- End Footer -->
-    
+
 
     <x-partials.visitor-modal :institutions="$institutions" :institution_types="$institution_types" :countries="$countries" />
 
@@ -515,7 +515,7 @@
 
 
         });
-        
+
     </script>
     @php
     $visitors = $visitors->map(function ($visitor){
@@ -523,20 +523,11 @@
             'appointment_date' => $visitor->appointment_date->format('Y-m-d'),
             'visiting_hr' => $visitor->visiting_hr
         ];
-    }) 
+    })
     @endphp
     <script>
 
-    @php
 
-        $visitors = $visitors->map(function ($visitor) {
-            return [
-                'appointment_date' => $visitor->appointment_date->format('Y-m-d'),
-            //  'visiting_hr' => $visitor->visiting_hr,
-            ];
-        });
-
-    @endphp
         var visitors = @json($visitors);
 
         var datesForDisable = []

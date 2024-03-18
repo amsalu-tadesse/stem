@@ -135,7 +135,7 @@
                                         </div>
                                         <div class="form-group col-md-4">
                                             <label for="name">Applicant Phone Number</label>
-                                            <input type="number" class="form-control" name="applicant_phone_number"
+                                            <input type="text" class="form-control" name="applicant_phone_number"
                                                 id="applicant_phone_number">
                                             <span class="text-danger error" id="applicant_phone_number_error"></span>
                                             @error('applicant_phone_number')
