@@ -60,7 +60,7 @@
                             class="btn btn-success p-2 my-2">2-4
                             (Morning)</button>
                         <button id="time_4-6" onclick="makeAppointment(this, 4, 6)"
-                            class="btn btn-success p-2 my-2">4-6
+                            class="btn btn-success p-2 my-2">4-69
                             (Morning)</button>
                         <button id="time_7-9" onclick="makeAppointment(this, 7, 9)"
                             class="btn btn-success p-2 my-2">7-9

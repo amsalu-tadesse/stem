@@ -6,7 +6,8 @@ use App\Models\Visitor;
 use App\Http\Requests\StoreVisitorRequest;
 use App\Http\Requests\UpdateVisitorRequest;
 use App\Traits\ModelAuthorizable;
-
+use App\DataTables\VisitorDataTable;
+use App\Constants\Constants;
 
 class VisitorController extends Controller
 {
@@ -15,9 +16,9 @@ class VisitorController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(VisitorDataTable $dataTable)
     {
-        return view('admin.visitors.index');
+        return $dataTable->render('admin.visitors.index');
     }
 
     /**
@@ -36,20 +37,25 @@ class VisitorController extends Controller
         $entries = $visitors->where('visiting_hr', $request->visiting_hr)->count();
         $date_entries = $visitors->whereIn('visiting_hr', ['2-4', '4-6', '7-9', '9-11'])->count();
 
-
         //check for past date appointment
-        if ($request->appointment_date < now()->format('Y-m-d')) { 
-            return response()->json(array("success" => false), 200);
+        if ($request->appointment_date < now()->format('Y-m-d')) {
+            return response()->json(['success' => false], 200);
         }
 
         //check for appointment time range repetition
         if ($entries > 0 || $date_entries >= 4) {
-            return response()->json(array("success" => false), 200);
+            return response()->json(['success' => false], 200);
+        }
+        $visitor = Visitor::create($request->validated());
+        if ($visitor->created_from) {
+            $visitor->created_from = 'Inside';
+            $visitor->save();
+        } else {
+            $visitor->created_from = 'Outside';
+            $visitor->save();
         }
 
-        Visitor::create($request->validated());
-
-        return response()->json(array("success" => true), 200);
+        return response()->json(['success' => true], 200);
     }
 
     /**
@@ -57,7 +63,13 @@ class VisitorController extends Controller
      */
     public function show(Visitor $visitor)
     {
-        //
+        if (request()->ajax()) {
+            $visitor->load('institution:id,name')->load('institutionType:id,name')->load('country:id,name');
+            $response = [];
+            $response['success'] = 1;
+            $response['visitor'] = $visitor;
+            return response()->json($response);
+        }
     }
 
     /**
@@ -65,7 +77,12 @@ class VisitorController extends Controller
      */
     public function edit(Visitor $visitor)
     {
-        //
+        if (request()->ajax()) {
+            $response = [];
+            $response['success'] = 1;
+            $response['visitor'] = $visitor;
+            return response()->json($response);
+        }
     }
 
     /**
@@ -73,7 +90,8 @@ class VisitorController extends Controller
      */
     public function update(UpdateVisitorRequest $request, Visitor $visitor)
     {
-        //
+        $visitor->update($request->validated());
+        return response()->json(['success' => true], 200);
     }
 
     /**
@@ -81,6 +99,10 @@ class VisitorController extends Controller
      */
     public function destroy(Visitor $visitor)
     {
-        //
+        if (!$visitor->exists()) {
+            return redirect()->route('admin.visitors.index')->with('error', 'Unautorized!');
+        }
+        $visitor->delete();
+        return response()->json(['success' => true], 200);
     }
 }

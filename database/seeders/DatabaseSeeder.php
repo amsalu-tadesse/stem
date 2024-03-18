@@ -978,7 +978,6 @@ class DatabaseSeeder extends Seeder
             ['name'=>'TVET'],
             ['name'=>'Diploma'],
             ['name'=>'Degree'],
-            ['name'=>'Degree'],
             ['name'=>'MSc'],
             ['name'=>'above'],
         ];
