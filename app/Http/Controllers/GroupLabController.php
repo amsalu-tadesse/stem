@@ -46,7 +46,7 @@ class GroupLabController extends Controller
         $validatedGroupData = request()->input('selectedCheckboxes');
 
         if ($lab_id !== null && $lab_id !== '') {
-            GroupLab::whereIn('group_id', $validatedGroupData)->delete();
+          //  GroupLab::whereIn('group_id', $validatedGroupData)->delete();
 
             foreach ($validatedGroupData as $groupId) {
                 GroupLab::updateOrInsert(

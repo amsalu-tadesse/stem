@@ -257,13 +257,20 @@
                             return lab.id;
                         });
 
+
+
                         // Find group IDs associated with the lab IDs
                         var groupIds = [];
                         group_labs.forEach(function(groupLab) {
+
+                            console.log(groupLab);
+
                             if (labIds.includes(groupLab.lab_id)) {
                                 groupIds.push(groupLab.group_id);
                             }
                         });
+
+
 
                         // Filter groups based on group IDs
                         var filteredGroups = groups.filter(function(group) {
@@ -287,6 +294,8 @@
                 var groups = {!! json_encode($groups) !!}; // Assuming groups data is available
                 updateGroupDropdown($('#center_id').val(), labs, group_labs, groups);
 
+                console.log("blwo");
+                console.log(group_labs);
                 // Bind the function to the change event of the center dropdown
                 $('#center_id').on('change', function() {
                     var selectedCenter = $(this).val();

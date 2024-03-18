@@ -48,7 +48,7 @@ class TraineeSessionController extends Controller
         $equipment = Equipment::all();
         $equipment->load('measurement:id,name');
 
-        // dd($equipment);
+        //dd($group_labs);
 
         // dd($centers, $groups,$labs, $group_labs);
         return view('admin.trainee-sessions.new', compact('equipment', 'centers', 'groups', 'fund_types', 'labs', 'group_labs'));
@@ -110,12 +110,12 @@ class TraineeSessionController extends Controller
         $trainee_session = TraineeSession::with('traineeSessionEquipment')->find($trainee_session->id);
         $trainee_session->load('center:id,name')->load('group:id,name')->load('fundType:id,name');
         $equipment = Equipment::whereIn('id', TraineeSessionEquipment::where('trainee_session_id', $trainee_session->id)->pluck('equipment_id'))->get();
-        
+
         $response = [];
         $response['success'] = 1;
         $response['trainee_session'] = $trainee_session;
         $response['equipment'] = $equipment;
-        
+
         return response()->json($response);
     }
 }
