@@ -154,7 +154,7 @@ return [
     'menu_4'                 =>  [
         'name'                 => 'Setting',
         'menu_icon'           => 'fas fa-cog',
-        'permissions'           => ['school-level: list', 'school: list', 'academic-level: list', 'department: list', 'lecturer: list', 'student: list', 'course: list', 'academic-session: list', 'instructor-course:list', 'visitor: list','projectStatus: list'],
+        'permissions'           => ['school-level: list', 'school: list', 'academic-level: list', 'department: list', 'lecturer: list', 'student: list', 'course: list', 'academic-session: list', 'instructor-course:list', 'visitor: list','projectStatus: list','visitor: list'],
         'menu_item'            =>
         [
             [
@@ -183,6 +183,11 @@ return [
                 'title'      =>  'Project Status',
                 'url'        =>  'admin.project-status.index',
                 'permission'   => 'projectStatus: list'
+            ],
+            [
+                'title'      =>  'Visitos',
+                'url'        =>  'admin.visitors.index',
+                'permission'   => 'visitor: list'
             ]
 
         ],

@@ -25,9 +25,12 @@ class StoreVisitorRequest extends FormRequest
             'institution_id' => '',
             'institution_type_id' => '',
             'country_id' => '',
+            'created_from' => '',
+            'actual_visitor' => '',
             'visitor_count' => 'required|numeric|max:5000',
             'responsible_person' => 'required|string',
             'phone' => 'required',
+            'description' => '',
             'email' => 'required|email',
             'visiting_hr' => 'required|string',
             'appointment_date' => ['required', 'date','date_format:Y-m-d']

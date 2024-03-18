@@ -11,7 +11,7 @@ class UpdateVisitorRequest extends FormRequest
      */
     public function authorize(): bool
     {
-        return false;
+        return true;
     }
 
     /**
@@ -25,12 +25,15 @@ class UpdateVisitorRequest extends FormRequest
             'institution_id' => '',
             'institution_type_id' => '',
             'country_id' => '',
-            'visitor_count' => '|numeric|max:5000',
-            'responsible_person' => '|string',
+            'created_from' => '',
+            'actual_visitor' => 'required',
+            'visitor_count' => '',
+            'responsible_person' => '',
             'phone' => '',
-            'email' => '|email',
-            'visiting_hr' => '|string',
-            'appointment_date' => ['', 'date', 'date_format:Y-m-d'],
+            'description' => '',
+            'email' => '',
+            'visiting_hr' => '',
+            'appointment_date' => ''
         ];
     }
 }

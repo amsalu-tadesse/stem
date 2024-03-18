@@ -226,32 +226,39 @@
                                                         $privateCount = $institution
                                                             ->where('institutionType.name', 'Private')
                                                             ->sum('visitor_count');
+                                                        $abroadCount = $institution
+                                                            ->where('institutionType.name', 'Abroad')
+                                                            ->sum('visitor_count');
+                                                        $localTotal = $govCount + $privateCount;
                                                     @endphp
-                                                    @php
-                                                        $total = 0;
-                                                    @endphp
+                                                   
                                                     <tr>
                                                         <td>{{ $loop->iteration }}</td>
                                                         <td>{{ $institution->first()->institution->name }}</td>
                                                         <td>{{ $govCount }}</td>
                                                         <td>{{ $privateCount }}</td>
                                                         
-                                                        @foreach ($countrrry as $country)
+                                                        @foreach ($countrrry as  $country)
                                                             @php
                                                                 
                                                                 $countryVisitors = $institution
                                                                     ->where('institutionType.name', 'Abroad')
-                                                                    ->where('country_id', $country)
+                                                                    ->where('country.name', $country)
                                                                     ->sum('visitor_count');
 
                                                                 // Output the visitor count for this country
+                                                                if($country == 'Ethiopia'){
+                                                                echo '<td>' . $localTotal . '</td>';
+
+                                                                }else{
                                                                 echo '<td>' . $countryVisitors . '</td>';
 
-                                                                // Add the country's visitor count to the total
-                                                                $total += $countryVisitors;
+                                                                }
+                                                                
+                                                               
                                                             @endphp
                                                         @endforeach
-                                                        <td>{{ $total }}</td>
+                                                        <td>{{ $abroadCount }}</td>
                                                         <!-- Total visitor count for this institution -->
                                                     </tr>
                                                 @endforeach
@@ -589,7 +596,7 @@
         });
 
         function makeAppointment(elemnet, start_time, end_time) {
-            $('#organization_name,#institution_id, #institution_type_id, #country_id, #responsible_person, #phone_number, #email, #visitor_count')
+            $('#organization_name,#institution_id, #institution_type_id, #country_id, #responsible_person, #phone_number, #email, #visitor_count , #description')
                 .val('');
             $('#visitor_create_modal').modal('toggle');
             $('#create_selected_date').val($('#selected_date').val());
@@ -598,7 +605,7 @@
 
         $('#visitor_create_modal #visitor_create_form').on('submit', function(e) {
             e.preventDefault();
-            $('#institution_id_error, #institution_type_id_error, #country_id_error, #responsible_person_error, #phone_error, #email_error, #visitor_count_error, #appointment_date_error')
+            $('#institution_id_error, #institution_type_id_error, #country_id_error, #responsible_person_error, #phone_error, #email_error, #visitor_count_error, #appointment_date_error , #description_error')
                 .text('');
 
             var institution_id = $('#visitor_create_modal #institution_id').val();
@@ -611,6 +618,8 @@
             var visitor_count = $('#visitor_create_modal #visitor_count').val();
             var create_selected_day_range = $('#visitor_create_modal #create_selected_day_range').val();
             var create_selected_date = $('#visitor_create_modal #create_selected_date').val();
+            var description = $('#visitor_create_modal #description').val();
+            var created_from = $('#visitor_create_modal #created_from').val();
 
 
             console.log('submiteed');
@@ -627,7 +636,9 @@
                     'phone': phone_number,
                     'email': email,
                     'visiting_hr': create_selected_day_range,
-                    'appointment_date': create_selected_date
+                    'appointment_date': create_selected_date,
+                    'description': description,
+                    'created_from': created_from
                 },
                 dataType: "json",
                 success: function(response) {

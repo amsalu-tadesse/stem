@@ -46,6 +46,9 @@ class TraineeSessionController extends Controller
         $labs = Lab::all();
         $group_labs = GroupLab::all();
         $equipment = Equipment::all();
+        $equipment->load('measurement:id,name');
+
+        // dd($equipment);
 
         // dd($centers, $groups,$labs, $group_labs);
         return view('admin.trainee-sessions.new', compact('equipment', 'centers', 'groups', 'fund_types', 'labs', 'group_labs'));
