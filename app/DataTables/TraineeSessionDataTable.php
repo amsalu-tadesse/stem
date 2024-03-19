@@ -35,6 +35,10 @@ class TraineeSessionDataTable extends DataTable
                     return '<span class="badge badge-success">Active</span>';
                 }
             })
+
+            ->addColumn('project_status', function ($academic_session){
+                return '<button onclick="changeProjectStatus(this, '.$academic_session->id.')"><span class="badge badge-primary">Project Status</span></button>'; 
+            })
             ->addColumn('action', function ($trainee_session) {
                 return view('components.action-buttons', [
                     'row_id' => $trainee_session->id,
@@ -44,7 +48,7 @@ class TraineeSessionDataTable extends DataTable
                     'permission_view' => 'trainee-session: view',
                 ]);
             })
-            ->rawColumns(['no','status', 'action']);
+            ->rawColumns(['no','status', 'project_status', 'action']);
     }
 
     /**
@@ -144,7 +148,7 @@ class TraineeSessionDataTable extends DataTable
             Column::make('start_date'),
             Column::make('end_date'),
             Column::make('status'),
-
+            Column::make('project_status'),
             Column::computed('action')
                 ->exportable(false)
                 ->printable(true)
