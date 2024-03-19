@@ -215,8 +215,8 @@
                                                 <tr>
                                                     <th colspan="5"></th>
                                                     @foreach ($countrrry as $country)
-                                                    @if($country != 'Ethiopia')
-                                                        <th style="width: 33.333%;">{{ $country }}</th>
+                                                        @if ($country != 'Ethiopia')
+                                                            <th style="width: 33.333%;">{{ $country }}</th>
                                                         @endif
                                                     @endforeach
                                                     <th scope="col">Total</th>
@@ -239,27 +239,22 @@
 
                                                     <tr>
                                                         <td>{{ $loop->iteration }}</td>
-                                                        <td>{{ $institution->first()->institution->name }}</td>
+                                                        <td>{{ $institution->first()->institution?->name }}</td>
                                                         <td>{{ $govCount }}</td>
                                                         <td>{{ $privateCount }}</td>
-                                                        <td>{{ $localTotal  }}</td>
+                                                        <td>{{ $localTotal }}</td>
 
-                                                        @foreach ($countrrry as  $country)
+                                                        @foreach ($countrrry as $country)
                                                             @php
 
-                                                               if($country != 'Ethiopia'){
-   $countryVisitors = $institution
-                                                                    ->where('institutionType.name', 'Abroad')
-                                                                    ->where('country.name', $country)
-                                                                    ->sum('visitor_count');
+                                                                if ($country != 'Ethiopia') {
+                                                                    $countryVisitors = $institution
+                                                                        ->where('institutionType.name', 'Abroad')
+                                                                        ->where('country.name', $country)
+                                                                        ->sum('visitor_count');
 
-
-                                                                echo '<td>' . $countryVisitors . '</td>';
-
-
-                                                               }
-
-
+                                                                    echo '<td>' . $countryVisitors . '</td>';
+                                                                }
 
                                                             @endphp
                                                         @endforeach
@@ -515,26 +510,23 @@
 
 
         });
-
     </script>
     @php
-    $visitors = $visitors->map(function ($visitor){
-        return [
-            'appointment_date' => $visitor->appointment_date->format('Y-m-d'),
-            'visiting_hr' => $visitor->visiting_hr
-        ];
-    })
+        $visitors = $visitors->map(function ($visitor) {
+            return [
+                'appointment_date' => $visitor->appointment_date->format('Y-m-d'),
+                'visiting_hr' => $visitor->visiting_hr,
+            ];
+        });
     @endphp
     <script>
-
-
         var visitors = @json($visitors);
 
         var datesForDisable = []
 
         visitors.forEach(visitor => {
             var current_date = visitor.appointment_date;
-            console.log("Current Date => "+current_date);
+            console.log("Current Date => " + current_date);
             var counter = 0;
             visitors.forEach(visitor_child => {
                 if (visitor_child.appointment_date == current_date) {
@@ -582,7 +574,7 @@
                 false);
             $('#time_9-11').removeClass('btn-secondary').addClass('btn-success').text('9-11').prop('disabled',
                 false);
-console.log(visitors);
+            console.log(visitors);
             visitors.forEach(visitor => {
 
                 console.log(selected_date, visitor, visitor.appointment_date);
@@ -743,5 +735,3 @@ console.log(visitors);
 
 
 </html>
-
-

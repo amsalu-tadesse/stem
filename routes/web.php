@@ -37,6 +37,7 @@ use App\Http\Controllers\GroupLabController;
 use App\Http\Controllers\LecturerController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\SchoolController;
+use App\Http\Controllers\MakeAppointment;
 use App\Http\Controllers\SchoolLevelController;
 use App\Http\Controllers\StudentController;
 use App\Http\Controllers\InstructorCourseController;
@@ -111,7 +112,7 @@ Route::middleware(['web', 'auth'])->group(function () {
             Route::resource('helps', HelpController::class);
             Route::resource('emails', EmailController::class);
             Route::resource('regions', RegionController::class);
-
+            Route::get('/make-appointment',[MakeAppointment::class,"index"])->name('make-appointment.index');
             Route::resource('school-levels', SchoolLevelController::class);
             Route::resource('schools', SchoolController::class);
             Route::resource('academic-levels', AcademicLevelController::class);
