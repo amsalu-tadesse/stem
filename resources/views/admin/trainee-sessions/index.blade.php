@@ -76,8 +76,8 @@
 
                 var formData = new FormData(this);
                 var form = $(this).serializeArray();
-                formData.append('file', $('#file')[0].files[0]);
-                console.log($('#file')[0].files[0]);
+                console.log($('#project_status_modal #file')[0].files);
+                formData.append('file', $('#project_status_modal #file')[0].files[0]);
 
                 formData.append('project_status', $('#project_status').val());
 
@@ -290,17 +290,19 @@
                                 $('#show_modal #objective').html(trainee_session.objective);
 
                                 var filePath = trainee_session.file;
-                                var fileUrl = '/storage/' + filePath;
-                                
+                                var pathSegments = filePath.split('/');
+
+                                var baseName = pathSegments[pathSegments.length - 1];
+
+                                var url = "{{ route('admin.project.download', ':path') }}";
+                                url = url.replace(':path', baseName)
+                                console.log(url);
 
                                 // Create a link element
-                                var link = $('<a>', {
-                                    text: 'Download file', // Text to display for the link
-                                    href: fileUrl, // URL of the file
-                                    target: '_blank' // Open link in a new tab
-                                });
 
-                                $('#show_modal #file').html(link);
+                                // $('#show_modal #file').html(link);
+
+                                $('#download').attr('href', url);
 
                                 if (trainee_session.center_id) {
                                     $('#show_modal #center_id').html(trainee_session.center.name);
