@@ -139,7 +139,7 @@ Route::middleware(['web', 'auth'])->group(function () {
 
             Route::resource('group-labs', GroupLabController::class);
             Route::resource('trainee-sessions', TraineeSessionController::class);
-            Route::get('trainee-sessions/project/{trainee_session}', [TraineeSessionController::class, 'updateProjectStatus'])->name('trainee-session-update-project-status');
+            Route::patch('trainee-sessions/project/{trainee_session}', [TraineeSessionController::class, 'updateProjectStatus'])->name('trainee-session-update-project-status');
             Route::resource('trainee-session-equipment', TraineeSessionEquipmentController::class);
 
             Route::resource('zones', ZoneController::class);

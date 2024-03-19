@@ -9,8 +9,9 @@ class Visitor extends Model
 {
     use HasFactory;
     protected $guarded = ['id'];
+
     protected $casts = [
-        'appointment_date' => 'date',
+        'appointment_date' => 'date:Y-m-d',
     ];
 
     public function institution()
