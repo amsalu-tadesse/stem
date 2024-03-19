@@ -110,19 +110,19 @@ class StudentController extends Controller
             'yourPosition' => 'Stem Head', // Replace with the actual position
             'institution' => 'AASTU' // Replace with the actual position
         ];
-
+        $stores[]=$data;
         // Return the PDF as a response
-        $pdf = App::make('dompdf.wrapper');
-        $pdf->loadHTML(View::make('admin.certificate.index', $data)->render());
-    
-        
-            // Generate the PDF
-            
-      return $pdf->stream( $studentObj ->name .' certificate.pdf');
+       
       }
-  
+      
 
-   
+      $pdf = App::make('dompdf.wrapper');
+      $pdf->loadHTML(View::make('admin.certificate.index',compact('stores'))->render());
+  
+      
+          // Generate the PDF
+          
+    return $pdf->stream( ' certificate.pdf');
 
 
     }
