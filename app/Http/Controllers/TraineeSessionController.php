@@ -12,10 +12,13 @@ use App\Models\Group;
 use App\Models\FundType;
 use App\Models\Lab;
 use App\Models\GroupLab;
+use App\Models\ProjectStatus;
 use App\Models\TraineeSessionEquipment;
 use App\Models\User;
 use App\Traits\ModelAuthorizable;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Validator;
+use Symfony\Component\HttpFoundation\Request;
 
 class TraineeSessionController extends Controller
 {
@@ -32,7 +35,9 @@ class TraineeSessionController extends Controller
         $group_labs = GroupLab::all();
         $equipment = Equipment::all();
 
-        return $dataTable->render('admin.trainee-sessions.index', compact('equipment','centers','groups','fund_types','labs','group_labs','equipment'));
+        $project_statuses = TraineeSession::all();
+
+        return $dataTable->render('admin.trainee-sessions.index', compact('equipment','centers','groups','fund_types','labs','group_labs','equipment', 'project_statuses'));
     }
 
     /**
@@ -178,5 +183,22 @@ class TraineeSessionController extends Controller
         }
         $trainee_session->delete();
         return response()->json(['success' => true], 200);
+    }
+
+
+    public function updateProjectStatus(TraineeSession $trainee_session) {
+        $validator = Validator::make(request()->all(), [
+            'project_status_id' => 'required|exists:project_status,id',
+        ]);
+    
+        if ($validator->fails()) {
+            return response()->json(['errors' => $validator->errors()], 422);
+        }
+
+        $validated_data = $validator->validated();
+
+        $trainee_session->update(['project_status' => $validated_data['project_status_id']]);
+
+        return response()->json(['success' => true, 'status' => ProjectStatus::find($validated_data['project_status_id'])], 200);
     }
 }

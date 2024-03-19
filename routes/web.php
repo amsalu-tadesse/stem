@@ -121,6 +121,7 @@ Route::middleware(['web', 'auth'])->group(function () {
             Route::resource('students', StudentController::class);
             Route::resource('courses', CourseController::class);
             Route::resource('academic-sessions', AcademicSessionController::class);
+
             Route::post('/save-marks', [AcademicSessionController::class,"saveMarks"]);
             Route::post('/get-student-course', [AcademicSessionController::class,"getStudent"]);
             Route::get('/applicant-list', [OnlineApplicantController::class,"applicantList"])->name('applicantList');
@@ -139,6 +140,7 @@ Route::middleware(['web', 'auth'])->group(function () {
 
             Route::resource('group-labs', GroupLabController::class);
             Route::resource('trainee-sessions', TraineeSessionController::class);
+            Route::get('trainee-sessions/project/{trainee_session}', [TraineeSessionController::class, 'updateProjectStatus'])->name('trainee-session-update-project-status');
             Route::resource('trainee-session-equipment', TraineeSessionEquipmentController::class);
 
             Route::resource('zones', ZoneController::class);
