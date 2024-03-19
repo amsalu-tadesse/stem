@@ -94,11 +94,12 @@ class StudentController extends Controller
 
       $integers = array_map('intval', explode(',',$selectedCheckboxes));
 
-      $result = array_map(function ($element) {
-        return $element + 1;
-    }, $integers);
-
-      $student = Student::findMany($result);
+ 
+    //   $result = array_map(function ($element) {
+    //     return $element + 1;
+    // }, $integers);
+   
+      $student = Student::findMany($integers);
       foreach ($student as $studentObj){
 
         $data = [
@@ -115,6 +116,7 @@ class StudentController extends Controller
        
       }
       
+    
 
       $pdf = App::make('dompdf.wrapper');
       $pdf->loadHTML(View::make('admin.certificate.index',compact('stores'))->render());
