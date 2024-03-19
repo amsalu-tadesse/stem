@@ -248,7 +248,7 @@
                                                             @php
 
                                                                if($country != 'Ethiopia'){
-   $countryVisitors = $institution
+                                                                   $countryVisitors = $institution
                                                                     ->where('institutionType.name', 'Abroad')
                                                                     ->where('country.name', $country)
                                                                     ->sum('visitor_count');
