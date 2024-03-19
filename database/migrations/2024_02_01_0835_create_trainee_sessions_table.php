@@ -16,6 +16,7 @@ return new class extends Migration
             $table->string('name');
             $table->string('academic_year');
             $table->string('objective')->nullable();
+            $table->string('file')->nullable();
             $table->datetime('start_date');
             $table->datetime('end_date');
             $table->integer('status')->default(0);

@@ -227,31 +227,45 @@
                                                     @php
                                                         $govCount = $institution
                                                             ->where('institutionType.name', 'Governmental')
-                                                            ->sum('visitor_count');
+                                                            ->sum('actual_visitor');
                                                         $privateCount = $institution
                                                             ->where('institutionType.name', 'Private')
-                                                            ->sum('visitor_count');
+                                                            ->sum('actual_visitor');
                                                         $abroadCount = $institution
                                                             ->where('institutionType.name', 'Abroad')
-                                                            ->sum('visitor_count');
+                                                            ->sum('actual_visitor');
                                                         $localTotal = $govCount + $privateCount;
                                                     @endphp
-
+                                                 @if($govCount != 0 || $privateCount != 0 || $localTotal != 0 || $abroadCount != 0)
                                                     <tr>
+                                                        
                                                         <td>{{ $loop->iteration }}</td>
                                                         <td>{{ $institution->first()->institution->name }}</td>
-                                                        <td>{{ $govCount }}</td>
-                                                        <td>{{ $privateCount }}</td>
-                                                        <td>{{ $localTotal  }}</td>
+                                                        <td>
+                                                           
+                                                            {{ $govCount }}
+                                                            
+                                                        </td>
+                                                        <td>
+                                                           
+                                                            {{ $privateCount }}
+                                                            
+                                                        </td>
+                                                        <td>
+                                                           
+                                                            {{ $localTotal  }}
+                                                            
+                                                        </td>
+                                                     
 
                                                         @foreach ($countrrry as  $country)
                                                             @php
 
                                                                if($country != 'Ethiopia'){
-   $countryVisitors = $institution
+                                                                   $countryVisitors = $institution
                                                                     ->where('institutionType.name', 'Abroad')
                                                                     ->where('country.name', $country)
-                                                                    ->sum('visitor_count');
+                                                                    ->sum('actual_visitor');
 
 
                                                                 echo '<td>' . $countryVisitors . '</td>';
@@ -264,8 +278,10 @@
                                                             @endphp
                                                         @endforeach
                                                         <td>{{ $abroadCount }}</td>
+                                                           
                                                         <!-- Total visitor count for this institution -->
                                                     </tr>
+                                                    @endif
                                                 @endforeach
                                             </tbody>
                                         </table>

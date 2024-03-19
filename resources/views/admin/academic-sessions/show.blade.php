@@ -94,9 +94,9 @@
                         @foreach ($courses as $course)
                             <tr id="">
                                 <td>{{ $loop->iteration }}</td>
-                                <td>{{ $course->course->name }}</td>
-                                <td>{{ $course->instructor->name }}</td>
-                                <td>{{ $course->labAssistant->name }}</td>
+                                <td>{{ $course->course?->name }}</td>
+                                <td>{{ $course->instructor?->name }}</td>
+                                <td>{{ $course->labAssistant?->name }}</td>
                                 <td>
                                     <a href="#" class="btn btn-primary btn-sm add-mark-btn" data-toggle="modal"
                                         data-target="#addMarkModal" data-instructor-course-id="{{ $course->id }}">Add
