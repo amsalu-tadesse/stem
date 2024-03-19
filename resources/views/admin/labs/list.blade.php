@@ -233,7 +233,8 @@
                     if (data.success) {
                         console.log(data);
                         $('#add_equipment_modal').modal('toggle');
-                        window.LaravelDataTables['equipment-on-lab-table'].ajax.reload();
+                        // window.LaravelDataTables['equipment-on-lab-table'].ajax.reload();
+                        window.location.reload();
                         toastr.success('You have successfuly add a Equipment.')
                         $('#add_equipment_form_modal :input').val('');
                     }

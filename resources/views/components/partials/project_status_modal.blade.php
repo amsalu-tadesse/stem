@@ -11,27 +11,36 @@
                     <span aria-hidden="true">&times;</span>
                 </button>
             </div>
-            <form id="project_status_form">
+            <form id="project_status_form" method="POST" enctype="multipart/form-data">
+                @method('patch')
                 @csrf
                 <div class="modal-body">
                     <!-- /.card-body -->
                     <!-- row -->
                     <div class="card-body row">
-                        <div class="form-group">
-                            <label>Project Status</label>
-                            <div class="select2-blue">
-                                <select name="project_status_id" class="project_status_select2 select2"
-                                    data-placeholder="Pick zone" data-dropdown-css-class="select2-blue"
-                                    style="width: 100%;" id="project_status">
-                                    <option value="">Select Project Status</option>
-                                    @foreach ($project_statuses as $status)
-                                        <option class="{{ $status->id }}" value="{{ $status->id }}">
-                                            {{ $status->name }}
-                                        </option>
-                                    @endforeach
-                                </select>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label>Project Status</label>
+                                <div class="select2-blue">
+                                    <select name="project_status" class="project_status_select2 select2"
+                                        data-placeholder="Pick Project Status" data-dropdown-css-class="select2-blue"
+                                        style="width: 100%;" id="project_status">
+                                        <option value="">Select Project Status</option>
+                                        @foreach ($project_statuses as $status)
+                                            <option class="{{ $status->id }}" value="{{ $status->id }}">
+                                                {{ $status->name }}
+                                            </option>
+                                        @endforeach
+                                    </select>
+                                </div>
+                                <span class="text-danger error" id="project_status_error"></span>
                             </div>
-                            <span class="text-danger error" id="status_id_error"></span>
+                            <div class="form-group">
+                                <label for="file">Choose a file:</label>
+                                <input type="file" name="file" id="file" />
+                                
+                            </div>
+
                         </div>
                     </div>
                 </div>

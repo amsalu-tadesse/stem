@@ -29,7 +29,6 @@
     <!-- /#updateModal -->
     <x-partials.trainee_group_modal :groups="$groups" :trainees="$trainees" />
     <x-show-modals.trainee_group_show_modal />
-    <x-partials.project_status_modal :project_statuses="$project_statuses" />
 
     <!-- /#updateModal -->
     <!-- /.content -->
@@ -41,34 +40,7 @@
         $('.trainees_select2').select2();
     </script>
     <script>
-    let triggered_button = null;
-    function changeProjectStatus(e, trainee_session_id) {
-        triggered_button = $(e);
-        $('#project_status_modal #trainee_session_id').val(trainee_session_id);
-        $('.project_status_select2').val(null).trigger('change');
-        $('#project_status_modal').modal('show');
-    }
-
-    $('#project_status_form').on('submit', function(e) {
-        e.preventDefault();
-        var url = "{{ route('admin.trainee-session-update-project-status', ':id') }}";
-        url = url.replace(':id', $('#project_status_modal #trainee_session_id').val());
-
-        var form = (this).serialize();
-
-        $.ajax({
-            type: "GET",
-            url: url,
-            data: form,
-            dataType: "json",
-            success: function (response) {
-                $('span', triggered_button).text(response.status.name);
-                $('#project_status_modal').modal('hide');
-            }
-        });
-
-
-    });
+  
         //delete row
         function delete_row(element, row_id) {
             var url = "{{ route('admin.trainee-groups.destroy', ':id') }}";
