@@ -101,22 +101,30 @@ class StudentController extends Controller
    
       $student = Student::findMany($integers);
       foreach ($student as $studentObj){
+        $academic_sessions = AcademicSession::find($studentObj->academic_session);
+
+        $date = $academic_sessions->end_date;
+
+        //To get the Date Only not the time
+        $parts = explode(" ", $date);
+
+        $onlyDate = $parts[0];
 
         $data = [
             'studentName' => $studentObj->name, // Replace with the actual student name
-            'startDate' => '2023-01-01', // Replace with the actual start date
-            'endDate' => '2023-12-31', // Replace with the actual end date
+            'startDate' => $academic_sessions->start_date, // Replace with the actual start date
+            'endDate' => $onlyDate, // Replace with the actual end date
             'issuedDate' => date('Y-m-d'), // Current date
             'yourName' => 'Yonas Tesfaye', // Replace with the actual name
             'yourPosition' => 'Stem Head', // Replace with the actual position
             'institution' => 'AASTU' // Replace with the actual position
         ];
+ 
+
         $stores[]=$data;
         // Return the PDF as a response
        
       }
-      
-    
 
       $pdf = App::make('dompdf.wrapper');
       $pdf->loadHTML(View::make('admin.certificate.index',compact('stores'))->render());
