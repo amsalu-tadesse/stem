@@ -48,22 +48,24 @@
   </style>
 </head>
 <body>
+  @foreach($stores as $store)
   <div class="container">
     <img src="/var/www/stem/public/img/stem/stem-logo.png"    class="logo">
     <h1>Certificate of Completion</h1>
 
     <p>This certifies that</p>
-    <h2>{{ $studentName }}</h2>
+    <h2>{{ $store['studentName'] }}</h2>
 
     <p>has successfully completed the STEM Training Program</p>
-    <p>From: {{ $endDate }} to {{ $issuedDate }}</p>
+    <p>From: {{ $store['endDate'] }} to {{ $store['issuedDate'] }}</p>
 
     <div class="signature">
       <p></p>
-      <p>{{ $yourName }}</p>
-      <p>{{ $yourPosition }}</p>
-      <p>{{ $institution }}</p>
+      <p>{{ $store['yourName'] }}</p>
+      <p>{{ $store['yourPosition'] }}</p>
+      <p>{{ $store['institution'] }}</p>
     </div>
   </div>
+  @endforeach
 </body>
 </html>
