@@ -29,15 +29,15 @@ return [
 
 
     'menu_2'                 =>  [
-        'name'                 => 'Stem',
+        'name'                 => 'STEM',
         'menu_icon'           => 'fas fa-book',
-        'permissions'           => ['school-level: list', 'school: list', 'academic-level: list', 'department: list', 'lecturer: list', 'student: list', 'course: list', 'academic-session: list', 'instructor-course:list', 'visitor: list', 'payroll: list', ],
+        'permissions'           => ['school-level: list', 'school: list', 'academic-level: list', 'department: list', 'lecturer: list', 'student: list', 'course: list', 'academic-session: list', 'instructor-course:list'],
         'menu_item'            =>
         [
             [
                 'title'      =>  'Academic Sessions',
                 'url'        =>  'admin.academic-sessions.index',
-                'permission'   => 'course: list'
+                'permission'   => 'academic-session: list'
             ],
             [
                 'title'      =>  'Students',
@@ -62,6 +62,27 @@ return [
                 'url'        =>  'admin.instructor-courses.index',
                 'permission'   => 'instructor-course: list'
             ],
+            [
+                'title'      =>  'School Levels',
+                'url'        =>  'admin.school-levels.index',
+                'permission'   => 'school-level: list'
+            ],
+
+            [
+                'title'      =>  'Schools',
+                'url'        =>  'admin.schools.index',
+                'permission'   => 'school: list'
+            ],
+            [
+                'title'      =>  'Academic Levels',
+                'url'        =>  'admin.academic-levels.index',
+                'permission'   => 'academic-level: list'
+            ],
+            [
+                'title'      =>  'Departments',
+                'url'        =>  'admin.departments.index',
+                'permission'   => 'department: list'
+            ],
 
         ],
 
@@ -69,7 +90,7 @@ return [
     'menu_3'                 =>  [
         'name'                 => 'Innov & Incub.',
         'menu_icon'           => 'fas fa-lightbulb',
-        'permissions'           => ['applicant: list', 'center: list', 'trainee: list', 'group: list', 'trainee-group: list','group-lab: list','equipment-type: list','trainee-session: list','trainee-session-equipment: list','trainer: list','fund-type: list','measurement: list','visitor: list'],
+        'permissions'           => [ 'center: list', 'trainee: list', 'group: list', 'equipment-type: list','trainee-session-equipment: list','trainer: list','fund-type: list','measurement: list','projectStatus: list'],
         'menu_item'            =>
         [
             [
@@ -107,22 +128,8 @@ return [
                 'url'        =>  'admin.groups.index',
                 'permission'   => 'group: list'
             ],
-            [
-                'title'      =>  'Applicant',
-                'url'        =>  'admin.applicantList',
-                'permission'   => 'applicant: list'
-            ],
 
-            // [
-            //     'title'      =>  'Trainee Groups',
-            //     'url'        =>  'admin.trainee-groups.index',
-            //     'permission'   => 'trainee-group: list'
-            // ],
-            // [
-            //     'title'      =>  'Group Lab',
-            //     'url'        =>  'admin.group-labs.index',
-            //     'permission'   => 'group-lab: list'
-            // ],
+
             [
                 'title'      =>  'Projects',
                 'url'        =>  'admin.trainee-sessions.index',
@@ -133,11 +140,40 @@ return [
                 'url'        =>  'admin.fund-types.index',
                 'permission'   => 'fund-type: list'
             ],
+
+            [
+                'title'      =>  'Project Status',
+                'url'        =>  'admin.project-status.index',
+                'permission'   => 'projectStatus: list'
+            ],
             [
                 'title'      =>  'Measurements',
                 'url'        =>  'admin.measurements.index',
                 'permission'   => 'measurement: list'
+            ]
+
+        ],
+
+    ],
+
+
+    'menu_4'                 =>  [
+        'name'                 => 'Museum',
+        'menu_icon'           => 'fas fa-cog',
+        'permissions'           => [  'country: list', 'visitor: list','institution: list','institution-type: list'],
+        'menu_item'            =>
+        [
+            [
+                'title'      =>  'Visitos',
+                'url'        =>  'admin.visitors.index',
+                'permission'   => 'visitor: list'
             ],
+            [
+                'title'      =>  'Countries List',
+                'url'        =>  'admin.countries.index',
+                'permission'   => 'country: list'
+            ],
+
             [
                 'title'      =>  'Institutions',
                 'url'        =>  'admin.institutions.index',
@@ -148,58 +184,22 @@ return [
                 'url'        =>  'admin.institution-types.index',
                 'permission'   => 'institution-type: list'
             ],
-            [
-                'title'      =>  'Visitos',
-                'url'        =>  'admin.visitors.index',
-                'permission'   => 'visitor: list'
-            ],
-            // [
-            //     'title'      =>  'Trainee Session Equipment',
-            //     'url'        =>  'admin.trainee-session-equipment.index',
-            //     'permission'   => 'trainee-session-equipment: list'
-            // ],
 
         ],
 
     ],
-    'menu_4'                 =>  [
-        'name'                 => 'Setting',
+
+    'menu_5'                 =>  [
+        'name'                 => 'Applicants',
         'menu_icon'           => 'fas fa-cog',
-        'permissions'           => ['school-level: list', 'school: list', 'academic-level: list', 'department: list', 'lecturer: list', 'student: list', 'course: list', 'academic-session: list', 'instructor-course:list','projectStatus: list', 'country: list'],
+        'permissions'           => [  'lecturer: list', 'student: list', 'course: list', 'academic-session: list', 'instructor-course:list','country: list'],
         'menu_item'            =>
         [
-            [
-                'title'      =>  'School Levels',
-                'url'        =>  'admin.school-levels.index',
-                'permission'   => 'school-level: list'
-            ],
 
             [
-                'title'      =>  'Schools',
-                'url'        =>  'admin.schools.index',
-                'permission'   => 'school: list'
-            ],
-
-            [
-                'title'      =>  'Academic Levels',
-                'url'        =>  'admin.academic-levels.index',
-                'permission'   => 'academic-level: list'
-            ],
-            [
-                'title'      =>  'Departments',
-                'url'        =>  'admin.departments.index',
-                'permission'   => 'department: list'
-            ],
-            [
-                'title'      =>  'Project Status',
-                'url'        =>  'admin.project-status.index',
-                'permission'   => 'projectStatus: list'
-            ],
-
-            [
-                'title'      =>  'Countries',
-                'url'        =>  'admin.countries.index',
-                'permission'   => 'country: list'
+                'title'      =>  'Applicants List',
+                'url'        =>  'admin.applicantList',
+                'permission'   => 'applicant: list'
             ],
 
         ],
