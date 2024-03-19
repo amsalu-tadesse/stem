@@ -61,7 +61,7 @@
                         <div class="inner">
                             <h3>{{ $trainee }}</h3>
 
-                            <p>Innovation and Incubation Trainee</p>
+                            <p>Innov & Incub Trainee</p>
                         </div>
                         <div class="icon">
                             <i class="ion ion-pie-graph"></i>
@@ -79,7 +79,7 @@
                         <div class="inner">
                             <h3>{{ $trainers }}</h3>
 
-                            <p>Innovation and Incubation Traineer</p>
+                            <p>Innov & Incub Traineer</p>
 
                         </div>
                         <div class="icon">
@@ -95,7 +95,7 @@
                     <div class="small-box" style="background-color: rgb(0, 238, 255)">
                         <div class="inner">
                             <h3>{{ $projects }}</h3>
-                            <p>Innovation and Incubation Projects</p>
+                            <p>Innov & Incub Projects</p>
 
                         </div>
                         <div class="icon">
@@ -111,7 +111,7 @@
                     <div class="small-box" style="background-color: rgb(212, 21, 126)">
                         <div class="inner">
                             <h3>{{ $labs }}</h3>
-                            <p>Innovation and Incubation Labs</p>
+                            <p>Innov & Incub Labs</p>
 
                         </div>
                         <div class="icon">
