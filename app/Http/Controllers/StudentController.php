@@ -94,11 +94,11 @@ class StudentController extends Controller
 
       $integers = array_map('intval', explode(',',$selectedCheckboxes));
 
- 
+
     //   $result = array_map(function ($element) {
     //     return $element + 1;
     // }, $integers);
-   
+
       $student = Student::findMany($integers);
       foreach ($student as $studentObj){
 
@@ -113,17 +113,20 @@ class StudentController extends Controller
         ];
         $stores[]=$data;
         // Return the PDF as a response
-       
+
       }
-      
-    
+
+
+
 
       $pdf = App::make('dompdf.wrapper');
+      $pdf->setOptions(['fontDir' => public_path('fonts/')]);
+      $pdf->setOptions(['defaultFont' => 'washrab']);
       $pdf->loadHTML(View::make('admin.certificate.index',compact('stores'))->render());
-  
-      
+
+
           // Generate the PDF
-          
+
     return $pdf->stream( ' certificate.pdf');
 
 

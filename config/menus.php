@@ -160,7 +160,7 @@ return [
     'menu_4'                 =>  [
         'name'                 => 'Museum',
         'menu_icon'           => 'fas fa-cog',
-        'permissions'           => [  'country: list', 'visitor: list','institution: list','institution-type: list'],
+        'permissions'           => ['make-appointment: create','country: list', 'visitor: list','institution: list','institution-type: list'],
         'menu_item'            =>
         [
             [
@@ -169,11 +169,15 @@ return [
                 'permission'   => 'visitor: list'
             ],
             [
+                'title'      =>  'Make Appointment',
+                'url'        =>  'admin.make-appointment.index',
+                'permission'   => 'make-appointment: create'
+            ],
+            [
                 'title'      =>  'Countries List',
                 'url'        =>  'admin.countries.index',
                 'permission'   => 'country: list'
             ],
-
             [
                 'title'      =>  'Institutions',
                 'url'        =>  'admin.institutions.index',
