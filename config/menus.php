@@ -164,7 +164,7 @@ return [
         'menu_item'            =>
         [
             [
-                'title'      =>  'Visitos',
+                'title'      =>  'Visitors',
                 'url'        =>  'admin.visitors.index',
                 'permission'   => 'visitor: list'
             ],

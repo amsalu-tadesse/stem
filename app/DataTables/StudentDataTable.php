@@ -29,10 +29,13 @@ class StudentDataTable extends DataTable
         return (new EloquentDataTable($query))
 
       
-            ->addColumn('no', function () use (&$index_column) {
-                return '<input class="form-check-input" type="checkbox" name="check" value="' . $index_column . '">' . ++$index_column; ;
+            // ->addColumn('no', function () use (&$index_column) {
+            //     return '<input class="form-check-input" type="checkbox" name="check" value="' . $index_column . '">' . ++$index_column; ;
+            // })
+  ->addColumn('no', function ($student) use (&$index_column){
+      return '<input class="form-check-input" type="checkbox" name="check" value="' . $student?->id. '">' . ++$index_column; ;
+                return ;
             })
-
                 
             // ->addColumn('no', function () use(&$index_column){
             //     return ++$index_column;

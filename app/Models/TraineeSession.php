@@ -35,4 +35,9 @@ class TraineeSession extends Model
     {
         return $this->belongsTo(FundType::class, 'fund_type_id');
     }
+
+    public function projectStatus()
+    {
+        return $this->belongsTo(ProjectStatus::class, 'project_status');
+    }
 }

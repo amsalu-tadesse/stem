@@ -73,6 +73,12 @@
                             <p name='fund_type_id' id='fund_type_id'></p>
                         </div>
                     </div>
+                    <div class='form-group row'>
+                        <label class='col-sm-2 col-form-label'>File Attachment</label>
+                        <div class='col-sm-10'>
+                            <p name='file' id='file'></p>
+                        </div>
+                    </div>
                 </div>
                 <!-- /.row -->
                 <!-- /.card-body -->

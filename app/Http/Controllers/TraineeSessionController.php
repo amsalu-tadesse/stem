@@ -35,9 +35,9 @@ class TraineeSessionController extends Controller
         $group_labs = GroupLab::all();
         $equipment = Equipment::all();
 
-        $project_statuses = TraineeSession::all();
+        $project_statuses = ProjectStatus::all();
 
-        return $dataTable->render('admin.trainee-sessions.index', compact('equipment','centers','groups','fund_types','labs','group_labs','equipment', 'project_statuses'));
+        return $dataTable->render('admin.trainee-sessions.index', compact('equipment', 'centers', 'groups', 'fund_types', 'labs', 'group_labs', 'equipment', 'project_statuses'));
     }
 
     /**
@@ -97,7 +97,7 @@ class TraineeSessionController extends Controller
     {
         if (request()->ajax()) {
             $equipment = Equipment::whereIn('id', TraineeSessionEquipment::where('trainee_session_id', $trainee_session->id)->pluck('equipment_id'))->get();
-             $trainee_session->load('center:id,name')->load('group:id,name')->load('fundType:id,name');
+            $trainee_session->load('center:id,name')->load('group:id,name')->load('fundType:id,name');
             $response = [];
             $response['success'] = 1;
             $response['trainee_session'] = $trainee_session;
@@ -109,22 +109,21 @@ class TraineeSessionController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-   public function edit(TraineeSession $trainee_session)
-{
-    if (request()->ajax()) {
-        $trainee_session = TraineeSession::with('traineeSessionEquipment')->find($trainee_session->id);
-        $trainee_session->load('center:id,name')->load('group:id,name')->load('fundType:id,name');
-        $equipment = Equipment::whereIn('id', TraineeSessionEquipment::where('trainee_session_id', $trainee_session->id)->pluck('equipment_id'))->get();
+    public function edit(TraineeSession $trainee_session)
+    {
+        if (request()->ajax()) {
+            $trainee_session = TraineeSession::with('traineeSessionEquipment')->find($trainee_session->id);
+            $trainee_session->load('center:id,name')->load('group:id,name')->load('fundType:id,name');
+            $equipment = Equipment::whereIn('id', TraineeSessionEquipment::where('trainee_session_id', $trainee_session->id)->pluck('equipment_id'))->get();
 
-        $response = [];
-        $response['success'] = 1;
-        $response['trainee_session'] = $trainee_session;
-        $response['equipment'] = $equipment;
+            $response = [];
+            $response['success'] = 1;
+            $response['trainee_session'] = $trainee_session;
+            $response['equipment'] = $equipment;
 
-        return response()->json($response);
+            return response()->json($response);
+        }
     }
-}
-
 
     /**
      * Update the specified resource in storage.
@@ -185,20 +184,30 @@ class TraineeSessionController extends Controller
         return response()->json(['success' => true], 200);
     }
 
-
-    public function updateProjectStatus(TraineeSession $trainee_session) {
+    public function updateProjectStatus(TraineeSession $trainee_session)
+    {
+        // dd(request()->all());
+        // Validate the request data including the file
         $validator = Validator::make(request()->all(), [
-            'project_status_id' => 'required|exists:project_status,id',
+            'project_status' => 'required|exists:project_statuses,id',
+            'file' => 'file', 
         ]);
-    
         if ($validator->fails()) {
             return response()->json(['errors' => $validator->errors()], 422);
         }
 
         $validated_data = $validator->validated();
 
-        $trainee_session->update(['project_status' => $validated_data['project_status_id']]);
+        // Process the file upload
+        $file = request()->file('file'); // Get the uploaded file
+        $file_path = $file->store('uploads'); // Store the file in the 'uploads' directory
 
-        return response()->json(['success' => true, 'status' => ProjectStatus::find($validated_data['project_status_id'])], 200);
+        // Update the trainee session with the project status and file path
+        $trainee_session->update([
+            'project_status' => $validated_data['project_status'],
+            'file' => $file_path,
+        ]);
+
+        return response()->json(['success' => true], 200);
     }
 }

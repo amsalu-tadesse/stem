@@ -49,6 +49,8 @@ class AuthController extends Controller
 
     public function loginUser(Request $request)
     {
+
+        // dd(request()->all());
         //  dd("This is Dampping");
         try {
             $validateUser = Validator::make(

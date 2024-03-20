@@ -1,71 +1,83 @@
 <!DOCTYPE html>
 <html>
+
 <head>
-  <title>Certificate of Completion</title>
-  <style>
-   body {
-      font-family: Arial, sans-serif;
-      margin: 0;
-      padding: 20px;
-    }
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>Certificate of Completion</title>
 
-    .container {
-      max-width: 800px;
-      margin: 0 auto;
-      border: 2px solid #000;
-      padding: 20px;
-      text-align: center;
-    }
+    <style>
+        @font-face {
+            font-family: 'washrab';
+            font-style: normal;
+            font-weight: normal;
+            src: url("{{ asset('fonts/washrab.ttf') }}") format('truetype');
+        }
 
-    h1 {
-      margin-top: 0;
-    }
+        body {
+            font-family: 'washrab';
+            margin: 0;
+            padding: 20px;
+        }
 
-    h2 {
-      margin-top: 30px;
-      margin-bottom: 10px;
-    }
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            border: 2px solid #000;
+            padding: 20px;
+            text-align: center;
+        }
 
-    p {
-      margin-top: 0;
-      margin-bottom: 10px;
-    }
+        h1 {
+            margin-top: 0;
+        }
 
-    .logo {
-      max-width: 200px;
-      margin-bottom: 20px;
-    }
+        h2 {
+            margin-top: 30px;
+            margin-bottom: 10px;
+        }
 
-    .signature {
-      text-align: right;
-      margin-top: 50px;
-    }
+        p {
+            margin-top: 0;
+            margin-bottom: 10px;
+        }
 
-    .signature p {
-      line-height: 1.5;
-      margin: 0;
-    }
-  </style>
+        .logo {
+            max-width: 200px;
+            margin-bottom: 20px;
+        }
+
+        .signature {
+            text-align: right;
+            margin-top: 50px;
+        }
+
+        .signature p {
+            line-height: 1.5;
+            margin: 0;
+        }
+    </style>
 </head>
+
 <body>
-  @foreach($stores as $store)
-  <div class="container">
-    <img src="/var/www/stem/public/img/stem/stem-logo.png"    class="logo">
-    <h1>Certificate of Completion</h1>
+    @foreach ($stores as $store)
+        <div class="container">
+            <img src="/var/www/stem/public/img/stem/stem-logo.png" class="logo">
+            <h1>Certificate of Completion</h1>
 
-    <p>This certifies that</p>
-    <h2>{{ $store['studentName'] }}</h2>
+            <p>This certifies that</p>
+            <div>{{ $store['studentName'] }}</div>
 
-    <p>has successfully completed the STEM Training Program</p>
-    <p>From: {{ $store['endDate'] }} to {{ $store['issuedDate'] }}</p>
+            <p>has successfully completed the STEM Training Program</p>
+            <p>From: {{ $store['endDate'] }} to {{ $store['issuedDate'] }}</p>
 
-    <div class="signature">
-      <p></p>
-      <p>{{ $store['yourName'] }}</p>
-      <p>{{ $store['yourPosition'] }}</p>
-      <p>{{ $store['institution'] }}</p>
-    </div>
-  </div>
-  @endforeach
+            <div class="signature">
+                <p></p>
+                <p>{{ $store['yourName'] }}</p>
+                <p>{{ $store['yourPosition'] }}</p>
+                <p>{{ $store['institution'] }}</p>
+            </div>
+        </div>
+    @endforeach
 </body>
+
 </html>

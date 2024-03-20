@@ -29,6 +29,8 @@
     <!-- /#updateModal -->
     <x-partials.trainee_session_modal :equipment="$equipment" :centers="$centers" :groups="$groups" :fund_types="$fund_types" />
     <x-show-modals.trainee_session_show_modal />
+    <x-partials.project_status_modal :project_statuses="$project_statuses" />
+
     <!-- /#updateModal -->
     <!-- /.content -->
     <!-- Custom Js contents -->
@@ -47,6 +49,7 @@
         </script>
         <script>
             $('.equipment_idd_select2').select2();
+            $('.project_status_select2').select2();
         </script>
         <script>
             $('.centers_select2').select2();
@@ -54,6 +57,61 @@
             $('.fund_types_select2').select2();
         </script>
         <script>
+            function changeProjectStatus(e, trainee_session_id, project_status) {
+                $('#project_status_modal #trainee_session_id').val(trainee_session_id);
+                let p_status = null;
+                if (project_status) {
+                    p_status = project_status;
+                }
+                $('.project_status_select2').val(p_status).trigger('change');
+                $('#project_status_modal').modal('show');
+            }
+
+            $('#project_status_form').on('submit', function(e) {
+                e.preventDefault();
+                var url = "{{ route('admin.trainee-session-update-project-status', ':id') }}";
+                url = url.replace(':id', $('#project_status_modal #trainee_session_id').val());
+
+                // var formData = $(this).serialize();
+
+                var formData = new FormData(this);
+                var form = $(this).serializeArray();
+                formData.append('file', $('#file')[0].files[0]);
+                console.log($('#file')[0].files[0]);
+
+                formData.append('project_status', $('#project_status').val());
+
+
+                console.log('this is formated data');
+                console.log(formData);
+
+
+
+                $.ajax({
+                    type: "POST",
+                    url: url,
+                    data: formData,
+                    processData: false, // Prevent jQuery from processing the data
+                    contentType: false, // Prevent jQuery from setting contentType
+                    dataType: "json",
+                    success: function(response) {
+                        $('#project_status_modal').modal('hide');
+                        window.LaravelDataTables['trainee-sessions-table'].ajax.reload();
+
+                    },
+                    error: function(error) {
+                        if (error.status == 422) { // when status code is 422, it's a validation issue
+                            console.log('validation error');
+                            $.each(error.responseJSON.errors, function(key, error) {
+                                console.log('validation error');
+                                $("#" + key + "_error").text(error);
+                            });
+                        }
+                    }
+                });
+
+
+            });
             //delete row
             function delete_row(element, row_id) {
                 var url = "{{ route('admin.trainee-sessions.destroy', ':id') }}";
@@ -230,6 +288,19 @@
                                 $('#show_modal #start_date').html(trainee_session.start_date);
                                 $('#show_modal #end_date').html(trainee_session.end_date);
                                 $('#show_modal #objective').html(trainee_session.objective);
+
+                                var filePath = trainee_session.file;
+                                var fileUrl = '/storage/' + filePath;
+                                
+
+                                // Create a link element
+                                var link = $('<a>', {
+                                    text: 'Download file', // Text to display for the link
+                                    href: fileUrl, // URL of the file
+                                    target: '_blank' // Open link in a new tab
+                                });
+
+                                $('#show_modal #file').html(link);
 
                                 if (trainee_session.center_id) {
                                     $('#show_modal #center_id').html(trainee_session.center.name);
