@@ -215,8 +215,8 @@
                                                 <tr>
                                                     <th colspan="5"></th>
                                                     @foreach ($countrrry as $country)
-                                                    @if($country != 'Ethiopia')
-                                                        <th style="width: 33.333%;">{{ $country }}</th>
+                                                        @if ($country != 'Ethiopia')
+                                                            <th style="width: 33.333%;">{{ $country }}</th>
                                                         @endif
                                                     @endforeach
                                                     <th scope="col">Total</th>
@@ -236,51 +236,46 @@
                                                             ->sum('actual_visitor');
                                                         $localTotal = $govCount + $privateCount;
                                                     @endphp
-                                                 @if($govCount != 0 || $privateCount != 0 || $localTotal != 0 || $abroadCount != 0)
-                                                    <tr>
-                                                        
-                                                        <td>{{ $loop->iteration }}</td>
-                                                        <td>{{ $institution->first()->institution->name }}</td>
-                                                        <td>
-                                                           
-                                                            {{ $govCount }}
-                                                            
-                                                        </td>
-                                                        <td>
-                                                           
-                                                            {{ $privateCount }}
-                                                            
-                                                        </td>
-                                                        <td>
-                                                           
-                                                            {{ $localTotal  }}
-                                                            
-                                                        </td>
-                                                     
+                                                    @if ($govCount != 0 || $privateCount != 0 || $localTotal != 0 || $abroadCount != 0)
+                                                        <tr>
 
-                                                        @foreach ($countrrry as  $country)
-                                                            @php
+                                                            <td>{{ $loop->iteration }}</td>
+                                                            <td>{{ $institution->first()->institution->name }}</td>
+                                                            <td>
 
-                                                               if($country != 'Ethiopia'){
-                                                                   $countryVisitors = $institution
-                                                                    ->where('institutionType.name', 'Abroad')
-                                                                    ->where('country.name', $country)
-                                                                    ->sum('actual_visitor');
+                                                                {{ $govCount }}
+
+                                                            </td>
+                                                            <td>
+
+                                                                {{ $privateCount }}
+
+                                                            </td>
+                                                            <td>
+
+                                                                {{ $localTotal }}
+
+                                                            </td>
 
 
-                                                                echo '<td>' . $countryVisitors . '</td>';
+                                                            @foreach ($countrrry as $country)
+                                                                @php
 
+                                                                    if ($country != 'Ethiopia') {
+                                                                        $countryVisitors = $institution
+                                                                            ->where('institutionType.name', 'Abroad')
+                                                                            ->where('country.name', $country)
+                                                                            ->sum('actual_visitor');
 
-                                                               }
+                                                                        echo '<td>' . $countryVisitors . '</td>';
+                                                                    }
 
+                                                                @endphp
+                                                            @endforeach
+                                                            <td>{{ $abroadCount }}</td>
 
-
-                                                            @endphp
-                                                        @endforeach
-                                                        <td>{{ $abroadCount }}</td>
-                                                           
-                                                        <!-- Total visitor count for this institution -->
-                                                    </tr>
+                                                            <!-- Total visitor count for this institution -->
+                                                        </tr>
                                                     @endif
                                                 @endforeach
                                             </tbody>
@@ -531,26 +526,23 @@
 
 
         });
-
     </script>
     @php
-    $visitors = $visitors->map(function ($visitor){
-        return [
-            'appointment_date' => $visitor->appointment_date->format('Y-m-d'),
-            'visiting_hr' => $visitor->visiting_hr
-        ];
-    })
+        $visitors = $visitors->map(function ($visitor) {
+            return [
+                'appointment_date' => $visitor->appointment_date->format('Y-m-d'),
+                'visiting_hr' => $visitor->visiting_hr,
+            ];
+        });
     @endphp
     <script>
-
-
         var visitors = @json($visitors);
 
         var datesForDisable = []
 
         visitors.forEach(visitor => {
             var current_date = visitor.appointment_date;
-            console.log("Current Date => "+current_date);
+            console.log("Current Date => " + current_date);
             var counter = 0;
             visitors.forEach(visitor_child => {
                 if (visitor_child.appointment_date == current_date) {
@@ -598,7 +590,7 @@
                 false);
             $('#time_9-11').removeClass('btn-secondary').addClass('btn-success').text('9-11').prop('disabled',
                 false);
-console.log(visitors);
+            console.log(visitors);
             visitors.forEach(visitor => {
 
                 console.log(selected_date, visitor, visitor.appointment_date);
@@ -759,5 +751,3 @@ console.log(visitors);
 
 
 </html>
-
-
