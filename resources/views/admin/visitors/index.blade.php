@@ -6,16 +6,17 @@
     <!-- /.content-Main -->
     <div class='card'>
         <div class='card-header'>
-             <div class="row mx-2 align-items-center">
+            <div class="row mx-2 align-items-center">
                 <div class="col-md-4">
                     <div class="form-group">
                         <div class="select2-blue">
                             <select name="created_from" id='created_from' class="form-control select2"
-                                data-dropdown-css-class="select2-blue"
-                                style="width: 100%;" tabindex="-1" aria-hidden="true">
+                                data-dropdown-css-class="select2-blue" style="width: 100%;" tabindex="-1"
+                                aria-hidden="true">
                                 <option value="">--All Visitors--</option>
                                 <option value="outside">Outside</option>
                                 <option value="inside">Inside</option>
+                                <option value="reserved">Reserved</option>
                             </select>
                         </div>
                     </div>
