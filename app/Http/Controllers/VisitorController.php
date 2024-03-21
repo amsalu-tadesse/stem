@@ -33,6 +33,7 @@ class VisitorController extends Controller
      */
     public function store(StoreVisitorRequest $request)
     {
+
         $visitors = Visitor::where('appointment_date', $request->appointment_date);
         $entries = $visitors->where('visiting_hr', $request->visiting_hr)->count();
         $date_entries = $visitors->whereIn('visiting_hr', ['2-4', '4-6', '7-9', '9-11'])->count();
@@ -48,9 +49,16 @@ class VisitorController extends Controller
         }
         $visitor = Visitor::create($request->validated());
         if ($visitor->created_from) {
-            $visitor->created_from = 'Inside';
-            $visitor->save();
-        } else {
+            if(request()->input('created_from')=="reserved"){
+                $visitor->created_from = 'reserved';
+                $visitor->save();
+            }
+            if(request()->input('created_from')=="Inside"){
+                $visitor->created_from = 'Inside';
+                $visitor->save();
+            }
+        }
+        else {
             $visitor->created_from = 'Outside';
             $visitor->save();
         }

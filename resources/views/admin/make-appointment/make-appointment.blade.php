@@ -118,8 +118,6 @@
                             </div>
                             <input type="hidden" name="selected_date" id="create_selected_date">
                             <input type="hidden" name="selected_day_range" id="create_selected_day_range">
-                            <input type="hidden" name="created_from" id="created_from"
-                                value="{{ request()->query('redirect') }}">
 
                         </div>
                     </div>
@@ -312,7 +310,7 @@
                 var create_selected_day_range = $('#create_selected_day_range').val();
                 var create_selected_date = $('#create_selected_date').val();
                 var description = $('#description').val();
-                var created_from = $('#created_from').val();
+                var created_from = 'reserved';
 
 
                 console.log('submiteed');
@@ -331,7 +329,8 @@
                         'visiting_hr': create_selected_day_range,
                         'appointment_date': create_selected_date,
                         'description': description,
-                        'created_from': created_from
+                        'created_from': created_from,
+
                     },
                     dataType: "json",
                     success: function(response) {

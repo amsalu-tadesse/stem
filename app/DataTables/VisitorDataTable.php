@@ -72,7 +72,10 @@ class VisitorDataTable extends DataTable
             ->addColumn('created_from', function ($visitor) {
                 if ($visitor->created_from == 'Outside') {
                     return "<span class='badge badge-warning'>Outside</span>";
-                } else {
+                } else if ($visitor->created_from == 'reserved') {
+                    return "<span class='badge badge-warning'>Reserved</span>";
+                }
+                 else {
                     return "<span class='badge badge-success'>Inside</span>";
                 }
             })
