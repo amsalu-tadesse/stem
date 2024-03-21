@@ -28,15 +28,32 @@ class StudentDataTable extends DataTable
         $index_column = 0;
         return (new EloquentDataTable($query))
 
-      
+
             // ->addColumn('no', function () use (&$index_column) {
             //     return '<input class="form-check-input" type="checkbox" name="check" value="' . $index_column . '">' . ++$index_column; ;
             // })
-  ->addColumn('no', function ($student) use (&$index_column){
-      return '<input class="form-check-input" type="checkbox" name="check" value="' . $student?->id. '">' . ++$index_column; ;
-                return ;
+            ->addColumn('no', function ($student) use (&$index_column){
+                $marks = Student::join("student_instructor_courses", "student_instructor_courses.student_id", "=", "students.id")
+                ->where("students.id", $student->id)
+                ->pluck("student_instructor_courses.mark")
+                ->toArray();
+
+            $mark = array_sum($marks);
+
+                $checkbox = '<input class="form-check-input';
+                if ($mark < 50) {
+                    $checkbox .= ' border-danger'; // Add border-danger class for checkbox with mark less than 50
+                }
+                $checkbox .= '" type="checkbox" name="check" value="' . $student->id . '"';
+                if ($mark < 50) {
+                    $checkbox .= ' disabled';
+                }
+                $checkbox .= '>';
+                $checkbox .= '<label class="form-check-label" for="check' . $student->id . '">' . ++$index_column . '</label>';
+
+                return $checkbox;
             })
-                
+
             // ->addColumn('no', function () use(&$index_column){
             //     return ++$index_column;
             // })
@@ -93,7 +110,7 @@ class StudentDataTable extends DataTable
             ->orderBy(7)
             // ->minifiedAjax()
             ->ajax([
-                'url' => route('admin.students.index'), 
+                'url' => route('admin.students.index'),
                 'data' => 'function(d) {
                     d.school_filter = $("#school_filter").val();
                 }',
@@ -140,7 +157,7 @@ class StudentDataTable extends DataTable
                     Button::make('pdf')->text('Certficate')->action('
                     function checking () {
                         var checkedCheckboxes = $("input[name=\'check\']:checked");
-            
+
                         if (checkedCheckboxes.length > 0) {
                             console.log("Yes");
 
@@ -148,10 +165,10 @@ class StudentDataTable extends DataTable
                             checkedCheckboxes.each(function() {
                                 checkedValues.push($(this).val());
                             });
-            
+
                             window.location.href="/admin/certificate?values=" + checkedValues.join(",");
                         } else {
-                           
+
                             console.log("No checkboxes are checked.");
                         }
                     }
