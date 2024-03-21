@@ -18,6 +18,8 @@ class WelcomeController extends Controller
     public function index()
     {
         $visitors = Visitor::all();
+        $actual_visitors = Visitor::where('actual_visitor','>',0)->get();
+// 
         // dd($visitors);
         $site_admin = SiteAdmin::first();
         $institution_types = InstitutionType::all();
@@ -25,7 +27,7 @@ class WelcomeController extends Controller
         $countries = Country::all();
 
 
-        return view('welcome', compact('visitors', 'site_admin','institution_types','institutions','countries'));
+        return view('welcome', compact('visitors', 'site_admin','institution_types','institutions','countries','actual_visitors'));
     }
 
     // /**

@@ -167,7 +167,7 @@
                     </div>
                     @php
 
-                        $visitorsByYear = $visitors->sortByDesc('appointment_date')->groupBy(function ($visitor) {
+                        $visitorsByYear = $actual_visitors->sortByDesc('appointment_date')->groupBy(function ($visitor) {
                             return $visitor->appointment_date->format('Y');
                         });
                     @endphp
