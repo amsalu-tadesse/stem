@@ -79,56 +79,48 @@ class StudentController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Student $student)
-    {
-        if (!$student->exists()) {
-            return redirect()->route('admin.students.index')->with('error', 'Unautorized!');
-        }
-        $student->delete();
-        return response()->json(array("success" => true), 200);
-    }
-
     public function certificate(Request $request){
-      // Prepare the data to be passed to the view
-      $selectedCheckboxes = $request->input('values');
+        // Prepare the data to be passed to the view
+        $selectedCheckboxes = $request->input('values');
+        $integers = array_map('intval', explode(',',$selectedCheckboxes));
+        $students = Student::findMany($integers);
+        $stores = [];
 
-      $integers = array_map('intval', explode(',',$selectedCheckboxes));
+        foreach ($students as $studentObj) {
+            $marks = Student::join("student_instructor_courses", "student_instructor_courses.student_id", "=", "students.id")
+                ->where("students.id", $studentObj->id)
+                ->pluck("student_instructor_courses.mark")
+                ->toArray();
 
+            $sum = array_sum($marks);
 
-    //   $result = array_map(function ($element) {
-    //     return $element + 1;
-    // }, $integers);
+            if ($sum >= 50) {
+                $data = [
+                    'studentName' => $studentObj->name,
+                    'startDate' => '2023-01-01',
+                    'endDate' => '2023-12-31',
+                    'issuedDate' => date('Y-m-d'),
+                    'yourName' => 'Yonas Tesfaye',
+                    'yourPosition' => 'Stem Head',
+                    'institution' => 'AASTU'
+                ];
+                $stores[] = $data;
+            }
+        }
 
-      $student = Student::findMany($integers);
-      foreach ($student as $studentObj){
+        // If there are students eligible for certificates, generate and download the PDF
+        if (!empty($stores)) {
+            $pdf = App::make('dompdf.wrapper');
+            $pdf->setOptions(['fontDir' => public_path('fonts/')]);
+            $pdf->setOptions(['defaultFont' => 'washrab']);
+            $pdf->loadHTML(View::make('admin.certificate.index', compact('stores'))->render());
+            return $pdf->download('certificate.pdf');
+        } else {
+            return back(); // No students eligible for certificates, return back
+        }
+    }
 
-        $data = [
-            'studentName' => $studentObj->name, // Replace with the actual student name
-            'startDate' => '2023-01-01', // Replace with the actual start date
-            'endDate' => '2023-12-31', // Replace with the actual end date
-            'issuedDate' => date('Y-m-d'), // Current date
-            'yourName' => 'Yonas Tesfaye', // Replace with the actual name
-            'yourPosition' => 'Stem Head', // Replace with the actual position
-            'institution' => 'AASTU' // Replace with the actual position
-        ];
-        $stores[]=$data;
-        // Return the PDF as a response
-
-      }
-
-
-
-
-      $pdf = App::make('dompdf.wrapper');
-      $pdf->setOptions(['fontDir' => public_path('fonts/')]);
-      $pdf->setOptions(['defaultFont' => 'washrab']);
-      $pdf->loadHTML(View::make('admin.certificate.index',compact('stores'))->render());
-
-
-          // Generate the PDF
-
-    return $pdf->stream( ' certificate.pdf');
 
 
     }
-}
+

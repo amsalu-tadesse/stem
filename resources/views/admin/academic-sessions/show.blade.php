@@ -181,16 +181,27 @@
                                         '<td>' + student.name + '</td>' +
                                         '<td>' +
                                         '<input type="text" name="marks[' + student.id +
-                                        ']" class="form-control" ' +
+                                        ']" class="form-control mark-input" ' +
                                         'data-student-id="' + student.id +
                                         '" placeholder="Enter Mark" ' +
-                                        'value="' + markValue + '">' +
+                                        'value="' + markValue +
+                                        '" pattern="100(?:\.0{1,2})?|(\d{0,2}(?:\.\d{0,2})?)" title="Enter mark 0 and 100">' +
                                         '</td>' +
                                         '</tr>';
 
                                     // Append the row to the table
                                     table.row.add($(rowHtml)).draw();
 
+                                });
+
+
+                                $('.mark-input').on('input', function() {
+
+                                    var value = parseFloat($(this).val());
+
+                                    if (isNaN(value) || value < 0 || value > 100) {
+                                        $(this).val('');
+                                    }
                                 });
                             },
                             error: function(xhr, status, error) {
@@ -228,7 +239,7 @@
 
                         $('#studentMarkTable tbody tr').each(function() {
                             var studentId = $(this).find('input[type="text"]').data('student-id');
-                            var mark = $(this).find('input[type="text"]').val();
+                            var mark = parseFloat($(this).find('input[type="text"]').val());
 
                             marksData.push({
                                 studentId: studentId,
@@ -375,6 +386,21 @@
             th,
             td {
                 border: 1px solid black;
+            }
+
+            .mark-input {
+                border: 1px solid;
+                box-shadow: none;
+            }
+
+            .valid {
+                border-color: green;
+                box-shadow: 0 0 5px green;
+            }
+
+            .invalid {
+                border-color: red;
+                box-shadow: 0 0 5px red;
             }
         </style>
 

@@ -31,4 +31,9 @@ class Student extends Model
     {
         return $this->belongsTo(AcademicSession::class, 'academic_session');
     }
+
+    public function StudentInstructorCourse()
+    {
+        return $this->hasMany(StudentInstructorCourse::class, 'student_id');
+    }
 }
