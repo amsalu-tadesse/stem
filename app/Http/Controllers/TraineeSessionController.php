@@ -17,6 +17,7 @@ use App\Models\TraineeSessionEquipment;
 use App\Models\User;
 use App\Traits\ModelAuthorizable;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Validator;
 use Symfony\Component\HttpFoundation\Request;
 
@@ -200,7 +201,7 @@ class TraineeSessionController extends Controller
 
         // Process the file upload
         $file = request()->file('file'); // Get the uploaded file
-        $file_path = $file->store('uploads'); // Store the file in the 'uploads' directory
+        $file_path = $file->store('public/uploads'); // Store the file in the 'uploads' directory
 
         // Update the trainee session with the project status and file path
         $trainee_session->update([
@@ -209,5 +210,20 @@ class TraineeSessionController extends Controller
         ]);
 
         return response()->json(['success' => true], 200);
+    }
+
+    public function download($filename)
+    {
+        $file_path = 'public/uploads/' . $filename;
+
+        if (Storage::exists($file_path))
+        {
+            $file_name = basename($file_path);
+            $mime_type = Storage::mimeType($file_path);
+            // dd(storage_path('app/'. $file_path));
+            return response()->download(storage_path('app/'. $file_path), $file_name, ['Content-Type' => $mime_type]);
+        }
+    
+        abort(404, 'File Not Found!');
     }
 }

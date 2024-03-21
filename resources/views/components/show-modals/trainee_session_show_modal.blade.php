@@ -77,6 +77,7 @@
                         <label class='col-sm-2 col-form-label'>File Attachment</label>
                         <div class='col-sm-10'>
                             <p name='file' id='file'></p>
+                            <a id="download">Download</a>
                         </div>
                     </div>
                 </div>
